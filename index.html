@@ -3761,6 +3761,7 @@ textarea.field {
     <div class="footer-bottom">
       <span>© 2026 Tenda Mangangá. Todos os direitos reservados.</span>
       <span>Feito com 💛 • Peça direto pelo nosso site</span>
+      <a href="#admin" class="footer-admin-link" style="color:rgba(247,241,230,.35);font-size:12px;text-decoration:none">Admin</a>
     </div>
   </div>
 </footer>
@@ -4020,10 +4021,34 @@ textarea.field {
   },
 
   mapEmbedUrl: "https://www.google.com/maps?q=Rua+Professor+Joca+Vieira+909+Teresina&output=embed"
-};</script>
+};
+
+// ===== Overrides salvos pela Área Admin (localStorage) =====
+// Estrutura: { texts: { slogan, hoursDisplay, whatsapp, ... }, fields aninhados autorizados }
+(function () {
+  try {
+    const raw = localStorage.getItem("mng_admin_site");
+    if (!raw) return;
+    const ov = JSON.parse(raw);
+    if (!ov || typeof ov !== "object") return;
+
+    const texts = ov.texts || {};
+    if (typeof texts.brand === "object") Object.assign(SITE.brand, texts.brand);
+    if (typeof texts.contact === "object") Object.assign(SITE.contact, texts.contact);
+    if (typeof texts.delivery === "object") Object.assign(SITE.delivery, texts.delivery);
+    if (typeof texts.hours === "object") {
+      if (typeof texts.hours.display === "string") SITE.hours.display = texts.hours.display;
+      if (typeof texts.hours.note === "string") SITE.hours.note = texts.hours.note;
+    }
+    if (typeof texts.note === "string") SITE.note = texts.note;
+    if (typeof texts.address === "object") Object.assign(SITE.address, texts.address);
+
+    if (ov.tabTitle && typeof ov.tabTitle === "string") document.title = ov.tabTitle;
+  } catch (e) { /* ignora */ }
+})();</script>
 <script>// Cardápio oficial — Tenda Mangangá (Leste)
 // Dados importados de cardapio-tenda-manganga (Firebase) em 2026-08-28.
-const CATEGORIES = [
+let CATEGORIES = [
   { id: "entradas", name: "Entradas", emoji: "🥟" },
   { id: "combos-whisky", name: "Combos Whisky", emoji: "🥃" },
   { id: "sobremesas", name: "Sobremesas", emoji: "🍮" },
@@ -4050,7 +4075,7 @@ const CATEGORIES = [
   { id: "aperitivos", name: "Aperitivos", emoji: "🍸" },
 ];
 
-const PRODUCTS = [
+let PRODUCTS = [
   { id: "p1", cat: "entradas", name: "Mini pastéis de queijo", desc: "06 mini pastéis de queijo servidos com geleia de abacaxi picante.", price: 24.99, img: "assets/photos/pastel.jpg", emoji: "🥟" },
   { id: "p2", cat: "entradas", name: "Mini pastéis de carne de sol com queijo", desc: "06 mini pastéis de carne de sol com queijo coalho servidos com geleia de abacaxi picante.", price: 26.99, img: "assets/photos/pastel-carne.jpg", emoji: "🥟" },
   { id: "p3", cat: "entradas", name: "Queijo coalho com melaço", desc: "250 g de queijo coalho grelhado servido com melaço de cana.", price: 34.90, img: "assets/photos/queijo-coalho.jpg", emoji: "🥟", popular: true },
@@ -4251,7 +4276,25 @@ const PRODUCTS = [
   { id: "p198", cat: "whisky", name: "Ballantine's (08 anos)", desc: "", price: 11.99, img: "assets/photos/ballantines.jpg", emoji: "🥃" },
   { id: "p199", cat: "whisky", name: "Buchanan's De Luxe (12 Anos)", desc: "", price: 22.99, img: "assets/photos/buchanans.jpg", emoji: "🥃" },
 ];
+
+// ===== Overrides salvos pela Área Admin (localStorage) =====
+// Estrutura: { products: { p1: { name, price, ... } }, categories: { entradas: { name } } }
+(function () {
+  try {
+    const raw = localStorage.getItem("mng_admin_overrides");
+    if (!raw) return;
+    const ov = JSON.parse(raw);
+    if (!ov || typeof ov !== "object") return;
+    if (ov.products && typeof ov.products === "object") {
+      PRODUCTS = PRODUCTS.map((p) => (ov.products[p.id] ? { ...p, ...ov.products[p.id] } : p));
+    }
+    if (ov.categories && typeof ov.categories === "object") {
+      CATEGORIES = CATEGORIES.map((c) => (ov.categories[c.id] ? { ...c, ...ov.categories[c.id] } : c));
+    }
+  } catch (e) { /* ignora */ }
+})();
 </script>
+<script>const MENU_PHOTOS = ["acai.jpg","agua-coco.jpg","agua-mineral.jpg","aipim.jpg","alcatra.jpg","amstel.jpg","anticol.jpg","aperitivo.jpg","arroz.jpg","bacalhau.jpg","balao-de-dois.jpg","ballantines.jpg","batata-frita.jpg","batida.jpg","black-white.jpg","bolinha.jpg","brahma.jpg","brigadeiro.jpg","buchada.jpg","buchanans.jpg","budweiser.jpg","cachaca-crystal.jpg","caipirinha.jpg","calabresa-acebolada.jpg","caldinho.jpg","camarao-crocante.jpg","camarao.jpg","camaroada.jpg","carne-de-sol.jpg","carne-sol-file.jpg","carneiro.jpg","cerveja-escura.jpg","cerveja-ipa.jpg","cerveja-pilsen.jpg","chivas.jpg","churrasco-misto.jpg","coca-cola.jpg","coracao-frango.jpg","corona.jpg","costela.jpg","coxinha.jpg","croquete.jpg","cuba-libre.jpg","dose-cachaca.jpg","escondidinho-camarao.jpg","escondidinho-carne.jpg","espetinho.jpg","espeto-carnes.jpg","espumante.jpg","fanta.jpg","feijao-tropeiro.jpg","feijoada-tradicional.jpg","feijoada.jpg","fernet.jpg","file-mignon.jpg","file-peixe.jpg","fraldinha.jpg","frango-assado.jpg","frango-passarinho.jpg","galinha.jpg","gin.jpg","guarana.jpg","heineken-long-neck.jpg","heineken-zero.jpg","heineken.jpg","jack-daniels.jpg","jwb.jpg","lagoa-azul.jpg","lasanha.jpg","licor.jpg","limonada.jpg","lingua.jpg","linguica.jpg","margarita.jpg","milanesa.jpg","misto-grelhado.jpg","mocoto.jpg","mojito.jpg","moqueca.jpg","moscatel.jpg","old-parr.jpg","original.jpg","panelada.jpg","pao-alho.jpg","parmegiana.jpg","pastel-carne.jpg","pastel-queijo.jpg","pastel.jpg","peixada.jpg","peixe-frito.jpg","pepsi.jpg","picanha.jpg","pizza-4queijos.jpg","pizza-atum.jpg","pizza-bacon.jpg","pizza-calabresa.jpg","pizza-camarao.jpg","pizza-doce.jpg","pizza-especial.jpg","pizza-frango.jpg","pizza-margherita.jpg","pizza-mucarela.jpg","pizza-portuguesa.jpg","polvo.jpg","prosecco.jpg","pudim.jpg","pure-batata.jpg","queijo-coalho.jpg","rabada.jpg","red-bull.jpg","red-label.jpg","risoto-camarao.jpg","rum.jpg","salada.jpg","sarapatel.jpg","sex-on-the-beach.jpg","skol.jpg","spaten.jpg","sprite.jpg","stella.jpg","suco-abacaxi.jpg","suco-acerola.jpg","suco-caju.jpg","suco-goiaba.jpg","suco-laranja.jpg","suco-manga.jpg","suco-soja.jpg","tabua.jpg","tequila.jpg","torresmo.jpg","torta-chocolate.jpg","vinho-branco.jpg","vinho-tinto.jpg","vodka.jpg","whisky-tradicional.jpg","whisky.jpg"];</script>
 <script>const PROMOTIONS = [];</script>
 <script>const REVIEWS = [];</script>
 <script>const FAQ = {
@@ -5795,6 +5838,480 @@ const PRODUCTS = [
   }
 
   document.addEventListener("DOMContentLoaded", init);
+})();</script>
+<script>/* =============================================================
+   Área Administrativa — Tenda Mangangá (Leste)
+   Acesso: adicione "#admin" ao final da URL da página.
+
+   O que dá para fazer:
+   - Editar nome, descrição, preço, emoji e FOTO de cada prato.
+   - Escolher a foto pela galeria das imagens já disponíveis,
+     ou colar uma URL externa (com prévia ao vivo).
+   - Editar categorias (nome/emoji).
+   - Editar textos do site (slogan, aviso, WhatsApp, horários...).
+   - Exportar as alterações para publicar no repositório.
+   ============================================================= */
+
+(function () {
+  const MG = window.MG || {};
+  const U = MG.utils || {};
+  const $ = (s) => document.querySelector(s);
+  const es = (s) => U.escapeHtml ? U.escapeHtml(s) : String(s || "");
+
+  const LS_PRODUCTS = "mng_admin_overrides";
+  const LS_SITE = "mng_admin_site";
+  const SESSION_PASS = "mng_admin_logged";
+  const PASS = "mng123";
+
+  const root = document.createElement("div");
+  root.id = "adminRoot";
+  root.style.cssText =
+    "position:fixed;inset:0;z-index:99999;overflow:auto;-webkit-overflow-scrolling:touch;" +
+    "background:#0f0d0b;font-family:var(--font-body,Inter),system-ui,sans-serif;color:#f7f1e6;" +
+    "display:none;";
+  document.body.appendChild(root);
+
+  let tab = "products";
+  let searchTerm = "";
+  let catFilter = "";
+  let imgSel = null;
+
+  function lsGet(key, fallback) {
+    try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch (e) { return fallback; }
+  }
+  function lsSet(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+  function money(v) { return (v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); }
+
+  function allProducts() {
+    const ov = lsGet(LS_PRODUCTS, {}).products || {};
+    return PRODUCTS.map((p) => (ov[p.id] ? { ...p, ...ov[p.id] } : p))
+      .concat(
+        Object.keys(ov)
+          .filter((id) => !PRODUCTS.some((p) => p.id === id))
+          .map((id) => ov[id])
+      );
+  }
+  function allCategories() {
+    const ov = lsGet(LS_PRODUCTS, {}).categories || {};
+    return CATEGORIES.map((c) => (ov[c.id] ? { ...c, ...ov[c.id] } : c));
+  }
+  function saveOverrides({ products, categories }) {
+    const cur = lsGet(LS_PRODUCTS, {});
+    if (products) cur.products = { ...(cur.products || {}), ...products };
+    if (categories) cur.categories = { ...(cur.categories || {}), ...categories };
+    lsSet(LS_PRODUCTS, cur);
+  }
+
+  // ---------------- RENDER ----------------
+  function open() {
+    root.style.display = "block";
+    document.body.style.overflow = "hidden";
+    if (sessionStorage.getItem(SESSION_PASS) === "1") render();
+    else renderLogin();
+    window.scrollTo(0, 0);
+  }
+  function close() {
+    root.style.display = "none";
+    document.body.style.overflow = "";
+    if (location.hash === "#admin") history.replaceState(null, "", location.pathname + location.search);
+  }
+
+  function shell(inner) {
+    root.innerHTML =
+      '<div style="max-width:1080px;margin:0 auto;padding:22px 16px 60px">' +
+      "<div style='display:flex;align-items:center;gap:14px;flex-wrap:wrap'>" +
+      "<div style='font-size:22px'>🔐</div>" +
+      "<div style='flex:1;min-width:180px'><b style='font-family:var(--font-display,Sora),system-ui,sans-serif;font-size:17px'>Painel da Tenda Mangangá</b>" +
+      "<div style='color:#a89f8f;font-size:12.5px'>As alterações aparecem aqui no seu navegador. Depois, use a aba <b>Exportar</b> para publicar.</div></div>" +
+      "<button onclick='window.__mngAdminLogout()' style='background:transparent;border:1px solid rgba(255,255,255,.16);color:#f7f1e6;padding:9px 14px;border-radius:12px;cursor:pointer'>Sair</button>" +
+      "<button onclick='window.__mngAdminClose()' style='background:transparent;border:1px solid rgba(255,255,255,.16);color:#f7f1e6;padding:9px 14px;border-radius:12px;cursor:pointer'>✕ Fechar</button>" +
+      "</div>" +
+      "<div style='display:flex;gap:8px;margin:18px 0 6px;flex-wrap:wrap'>" +
+      [["products", "🍔 Produtos"], ["categories", "🗂️ Categorias"], ["texts", "✍️ Textos"], ["export", "📤 Exportar"]]
+        .map(([k, n]) => "<button onclick='window.__mngAdminTab(\"" + k + "\")' style='padding:10px 16px;border-radius:12px;cursor:pointer;border:1px solid " + (tab === k ? "transparent" : "rgba(255,255,255,.14)") + ";background:" + (tab === k ? "#f2b33e" : "rgba(255,255,255,.05)") + ";color:" + (tab === k ? "#1a1408" : "#f7f1e6") + ";font-weight:600'>" + n + "</button>").join("") +
+      "</div>" +
+      "<div id='mngAdminBody'>" + inner + "</div>" +
+      "</div>";
+  }
+
+  function toast(msg) {
+    const t = document.createElement("div");
+    t.textContent = msg;
+    t.style.cssText = "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100000;background:#f2b33e;color:#1a1408;padding:12px 20px;border-radius:12px;font-weight:700;font-size:14px;box-shadow:0 12px 32px rgba(0,0,0,.5)";
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2200);
+  }
+
+  // ---------------- LOGIN ----------------
+  function renderLogin() {
+    root.innerHTML =
+      "<div style='max-width:400px;margin:80px auto;padding:24px;border:1px solid rgba(255,255,255,.1);border-radius:20px;text-align:center'>" +
+      "<div style='font-size:52px'>🔐</div>" +
+      "<h2 style='font-family:var(--font-display,Sora),system-ui;margin:10px 0 4px'>Área Administrativa</h2>" +
+      "<p style='color:#a89f8f;font-size:13.5px'>Acesso exclusivo do restaurante.<br><small>Senha padrão: <b>mng123</b></small></p>" +
+      "<input id='mngAdminPass' type='password' placeholder='Senha' style='width:100%;padding:14px;margin:14px 0;border-radius:12px;border:1.5px solid rgba(255,255,255,.18);background:#1b1712;color:#f7f1e6;font-size:15px' onkeydown='if(event.key===\"Enter\")window.__mngAdminLogin()'>" +
+      "<button onclick='window.__mngAdminLogin()' style='width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#f8c25c,#e78e2f);color:#1a1408;font-weight:800;cursor:pointer;font-size:15px'>Entrar →</button>" +
+      "</div>";
+    const i = $("#mngAdminPass");
+    if (i) setTimeout(() => i.focus(), 50);
+  }
+  function login() {
+    const v = $("#mngAdminPass");
+    if (!v) return;
+    if (v.value === PASS) {
+      sessionStorage.setItem(SESSION_PASS, "1");
+      render();
+      toast("Bem-vindo, chefe! 👨‍💼");
+    } else toast("Senha incorreta ⚠️");
+  }
+
+  // ---------------- PRODUTOS ----------------
+  function productRow(p) {
+    const c = allCategories().find((x) => x.id === p.cat);
+    return (
+      '<div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.03);margin-bottom:8px;flex-wrap:wrap">' +
+      '<div style="width:52px;height:52px;border-radius:12px;overflow:hidden;flex:0 0 52px;background:#1b1712"><img src="' + es(p.img || "") + '" style="width:100%;height:100%;object-fit:cover" onerror="this.style.opacity=.15"></div>' +
+      '<div style="flex:1;min-width:200px"><b style="font-size:14px">' + es(p.name) + "</b>" +
+      '<div style="color:#a89f8f;font-size:12px">' + es((c ? c.emoji + " " + c.name : p.cat)) + " · " + money(p.price) + (p.popular ? " · 🔥" : "") + (p.active === false ? " · <span style='color:#ff6b6b'>oculto</span>" : "") + "</div></div>" +
+      "<div style='display:flex;gap:8px;flex-wrap:wrap'>" +
+      "<button onclick='window.__mngAdminEdit(\"" + p.id + "\")' style='background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e;padding:8px 14px;border-radius:11px;cursor:pointer;font-weight:600'>Editar</button>" +
+      (p.active === false
+        ? "<button onclick='window.__mngAdminToggle(\"" + p.id + "\")' style='background:rgba(62,207,142,.14);border:1px solid rgba(62,207,142,.4);color:#3ecf8e;padding:8px 14px;border-radius:11px;cursor:pointer;font-weight:600'>Mostrar</button>"
+        : "<button onclick='window.__mngAdminToggle(\"" + p.id + "\")' style='background:transparent;border:1px solid rgba(255,255,255,.16);color:#f7f1e6;padding:8px 14px;border-radius:11px;cursor:pointer'>Ocultar</button>") +
+      "</div></div>"
+    );
+  }
+  function productsTpl() {
+    const list = allProducts().filter((p) => {
+      const okCat = !catFilter || p.cat === catFilter;
+      const q = searchTerm.trim().toLowerCase();
+      const okQ = !q || p.name.toLowerCase().includes(q) || (p.desc || "").toLowerCase().includes(q);
+      return okCat && okQ;
+    });
+    const cats = allCategories();
+    return (
+      "<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px'>" +
+      "<input placeholder='🔎 Buscar prato...' value='" + es(searchTerm) + "' oninput='window.__mngAdminSearch(this.value)' style='flex:1;min-width:180px;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6'>" +
+      "<select onchange='window.__mngAdminCat(this.value)' style='padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6'>" +
+      "<option value=''>Todas as categorias</option>" +
+      cats.map(function (c) { return "<option value='" + c.id + "'" + (catFilter === c.id ? " selected" : "") + ">" + c.emoji + " " + es(c.name) + "</option>"; }).join("") +
+      "</select>" +
+      "<button onclick='window.__mngAdminNew()' style='background:linear-gradient(135deg,#f8c25c,#e78e2f);border:none;color:#1a1408;padding:12px 18px;border-radius:12px;cursor:pointer;font-weight:800'>＋ Novo prato</button>" +
+      "</div>" +
+      "<div style='color:#a89f8f;font-size:12.5px;margin-bottom:10px'>" + list.length + " prato(s)" + " · clique em <b>Editar</b> para trocar nome, preço ou foto.</div>" +
+      list.map(productRow).join("") ||
+      "<div style='text-align:center;padding:40px;color:#a89f8f'>Nenhum prato encontrado.</div>"
+    );
+  }
+
+  function photoPicker(current) {
+    const files = (typeof MENU_PHOTOS !== "undefined" && MENU_PHOTOS) || [];
+    const cur = current || "";
+    imgSel = { value: cur };
+    return (
+      "<div style='display:flex;gap:14px;flex-wrap:wrap;margin-top:6px'>" +
+      "<div style='flex:1;min-width:250px'>" +
+      "<label style='font-size:12.5px;color:#a89f8f'>Foto do prato (URL)</label>" +
+      "<input id='mngAdminNewImg' value='" + es(cur) + "' oninput='window.__mngAdminImgTyped(this.value)' placeholder='assets/photos/... ou https://...' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'>" +
+      "<label style='font-size:12.5px;color:#a89f8f;display:block;margin-top:12px'>ou escolha na galeria (" + files.length + " fotos)</label>" +
+      "<div style='display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px;margin-top:6px;max-height:170px;overflow:auto;padding:4px;border:1px solid rgba(255,255,255,.08);border-radius:12px' id='mngAdminGallery'>" +
+      files.map(function (f) {
+        var src = "assets/photos/" + f;
+        var sel = src === cur;
+        return (
+          "<button onclick='window.__mngAdminImgPick(\"" + f + "\")' title='" + es(f) + "' style='padding:0;border-radius:9px;overflow:hidden;cursor:pointer;border:2px solid " + (sel ? "#f2b33e" : "transparent") + ";aspect-ratio:1;background:#1b1712'>" +
+          "<img src='" + src + "' style='width:100%;height:100%;object-fit:cover' loading='lazy' onerror='this.style.opacity=.12' data-f=\"" + es(f) + "\">" +
+          "</button>"
+        );
+      }).join("") +
+      "</div></div>" +
+      "<div style='flex:0 0 150px'>" +
+      "<label style='font-size:12.5px;color:#a89f8f'>Prévia</label>" +
+      "<div style='aspect-ratio:1;width:150px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#1b1712;margin-top:4px'>" +
+      "<img id='mngAdminPrev' src='" + es(cur || "") + "' style='width:100%;height:100%;object-fit:cover' onerror=\"this.style.opacity=.12\">" +
+      "</div></div></div>"
+    );
+  }
+
+  function renderEdit(id) {
+    const list = allProducts();
+    const p = list.find((x) => x.id === id) || { cat: catFilter || PRODUCTS[0]?.cat || "" };
+    const c = allCategories();
+    root.querySelector("#mngAdminBody").innerHTML =
+      "<div style='max-width:760px'>" +
+      "<a onclick='window.__mngAdminTab(\"products\")' style='cursor:pointer;color:#f2b33e;font-size:13px'>← Voltar para produtos</a>" +
+      "<h2 style='font-family:var(--font-display,Sora);font-size:20px;margin:10px 0 16px'>" + (PRODUCTS.some((x) => x.id === id) ? "✏️ Editar prato" : "＋ Novo prato") + "</h2>" +
+      "<div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px'>" +
+      "<div><label style='font-size:12.5px;color:#a89f8f'>Nome *</label><input id='mngAdminF-name' value='" + es(p.name || "") + "' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'></div>" +
+      "<div><label style='font-size:12.5px;color:#a89f8f'>Emoji</label><input id='mngAdminF-emoji' value='" + es(p.emoji || "🍽️") + "' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'></div>" +
+      "<div><label style='font-size:12.5px;color:#a89f8f'>Preço (R$) *</label><input id='mngAdminF-price' type='number' step='0.01' value='" + (p.price ?? "") + "' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'></div>" +
+      "<div><label style='font-size:12.5px;color:#a89f8f'>Preço antigo (riscado, opcional)</label><input id='mngAdminF-old' type='number' step='0.01' value='" + (p.oldPrice ?? "") + "' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'></div>" +
+      "<div><label style='font-size:12.5px;color:#a89f8f'>Categoria</label><select id='mngAdminF-cat' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'>" +
+      c.map(function (x) { return "<option value='" + x.id + "'" + (p.cat === x.id ? " selected" : "") + ">" + x.emoji + " " + es(x.name) + "</option>"; }).join("") +
+      "</select></div>" +
+      "<div><label style='font-size:12.5px;color:#a89f8f'>Status</label><select id='mngAdminF-active' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'>" +
+      "<option value='1'" + (p.active !== false ? " selected" : "") + ">Visível no cardápio</option>" +
+      "<option value='0'" + (p.active === false ? " selected" : "") + ">Oculto</option>" +
+      "</select></div>" +
+      "<div><label style='font-size:12.5px;color:#a89f8f'>Descrição</label><textarea id='mngAdminF-desc' rows='2' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px;resize:vertical'>" + es(p.desc || "") + "</textarea></div>" +
+      "<div style='grid-column:1/-1'>" +
+      "<label style='font-size:12.5px;color:#a89f8f;display:flex;align-items:center;gap:8px'><input type='checkbox' id='mngAdminF-pop' " + (p.popular ? "checked" : "") + " style='accent-color:#f2b33e;width:16px;height:16px'> Marcar como " + "Mais Vendido" + " 🔥</label>" +
+      "</div>" +
+      "</div>" +
+      photoPicker(p.img) +
+      "<div style='display:flex;gap:10px;margin-top:18px;flex-wrap:wrap'>" +
+      "<button onclick='window.__mngAdminSave(\"" + id + "\")' style='background:linear-gradient(135deg,#f8c25c,#e78e2f);border:none;color:#1a1408;padding:13px 22px;border-radius:12px;cursor:pointer;font-weight:800'>💾 Salvar prato</button>" +
+      (PRODUCTS.some((x) => x.id === id)
+        ? "<button onclick='window.__mngAdminReset(\"" + id + "\")' style='background:transparent;border:1px solid rgba(255,255,255,.18);color:#a89f8f;padding:13px 18px;border-radius:12px;cursor:pointer'>♻️ Restaurar original</button>"
+        : "") +
+      "</div></div>";
+    updatePrev();
+  }
+
+  function save(id) {
+    const name = ($("#mngAdminF-name").value || "").trim();
+    const price = parseFloat($("#mngAdminF-price").value);
+    if (!name) return toast("Informe o nome do prato ⚠️");
+    if (isNaN(price)) return toast("Informe um preço válido ⚠️");
+    const data = {
+      name,
+      emoji: ($("#mngAdminF-emoji").value || "🍽️").trim(),
+      price,
+      oldPrice: parseFloat($("#mngAdminF-old").value) || null,
+      cat: $("#mngAdminF-cat").value,
+      active: $("#mngAdminF-active").value === "1" ? true : false,
+      desc: ($("#mngAdminF-desc").value || "").trim(),
+      popular: $("#mngAdminF-pop").checked,
+      img: imgSel.value
+    };
+    const ov = lsGet(LS_PRODUCTS, {});
+    ov.products = ov.products || {};
+    if (!PRODUCTS.some((x) => x.id === id)) {
+      ov.products[id] = { id: id, custom: true, ...data };
+    } else {
+      ov.products[id] = { ...(ov.products[id] || {}), ...data };
+    }
+    lsSet(LS_PRODUCTS, ov);
+    toast("Prato salvo! 💾");
+    render();
+  }
+  function toggle(id) {
+    const list = allProducts();
+    const p = list.find((x) => x.id === id);
+    const ov = lsGet(LS_PRODUCTS, {});
+    ov.products = ov.products || {};
+    ov.products[id] = { ...(ov.products[id] || {}), active: p.active === false ? true : false };
+    lsSet(LS_PRODUCTS, ov);
+    render();
+  }
+  function reset(id) {
+    const ov = lsGet(LS_PRODUCTS, {});
+    ov.products = ov.products || {};
+    delete ov.products[id];
+    lsSet(LS_PRODUCTS, ov);
+    toast("Prato restaurado ao original ♻️");
+    render();
+  }
+
+  function updatePrev() {
+    const v = imgSel ? imgSel.value : "";
+    const pv = $("#mngAdminPrev");
+    if (pv) pv.src = v || "";
+  }
+
+  // ---------------- CATEGORIAS ----------------
+  function categoriesTpl() {
+    return allCategories()
+      .map(function (c, i) {
+        return (
+          "<div style='display:flex;gap:10px;align-items:center;padding:10px 14px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.03);margin-bottom:8px;flex-wrap:wrap'>" +
+          "<span style='font-size:20px'>" + es(c.emoji) + "</span>" +
+          "<input id='mngAdminCatName" + i + "' value='" + es(c.name) + "' style='flex:1;min-width:150px;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(255,255,255,.12);background:#1b1712;color:#f7f1e6'>" +
+          "<input id='mngAdminCatEmoji" + i + "' value='" + es(c.emoji) + "' style='width:70px;padding:10px 12px;border-radius:10px;border:1.5px solid rgba(255,255,255,.12);background:#1b1712;color:#f7f1e6;text-align:center'>" +
+          "<button onclick='window.__mngAdminCatSave(" + i + ",\"" + c.id + "\")' style='background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e;padding:9px 14px;border-radius:10px;cursor:pointer;font-weight:600'>Salvar</button>" +
+          "</div>"
+        );
+      })
+      .join("");
+  }
+  function catSave(idx, id) {
+    const name = ($("#mngAdminCatName" + idx).value || "").trim();
+    const emoji = ($("#mngAdminCatEmoji" + idx).value || "🍽️").trim();
+    if (!name) return toast("Nome da categoria não pode ficar vazio ⚠️");
+    const ov = lsGet(LS_PRODUCTS, {});
+    ov.categories = ov.categories || {};
+    ov.categories[id] = { ...(ov.categories[id] || {}), name, emoji };
+    lsSet(LS_PRODUCTS, ov);
+    toast("Categoria salva! 💾");
+    render();
+  }
+
+  // ---------------- TEXTOS ----------------
+  function textsTpl() {
+    const t = {
+      slogan: SITE.brand.slogan || "",
+      heroHighlight: SITE.brand.heroHighlight || "",
+      note: SITE.note || "",
+      whatsapp: SITE.contact.whatsapp || "",
+      phoneDisplay: SITE.contact.phoneDisplay || "",
+      whatsappMessage: SITE.contact.whatsappMessage || "",
+      hours: SITE.hours.display || "",
+      hoursNote: SITE.hours.note || "",
+      fee: SITE.delivery.fee ?? "",
+      freeAbove: SITE.delivery.freeAbove ?? "",
+      estimate: SITE.delivery.estimate || "",
+      address: SITE.address.street + ", " + SITE.address.number + " - " + SITE.address.district + ", " + SITE.address.city + " - " + SITE.address.state
+    };
+    const f = (id, label, val, extra) =>
+      "<div style='margin-bottom:12px'><label style='font-size:12.5px;color:#a89f8f'>" + label + "</label><input id='mngTxt-" + id + "' value='" + es(val) + "' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px' " + (extra || "") + "></div>";
+    return (
+      "<div style='max-width:760px'>" +
+      "<p style='color:#a89f8f;font-size:13px;margin-bottom:16px'>Os campos abaixo ajustam os textos exibidos no site. Deixe o que não quiser mudar.</p>" +
+      f("slogan", "Slogan (aparece no topo)", t.slogan) +
+      f("heroHighlight", "Frase do destaque", t.heroHighlight) +
+      "<div style='margin-bottom:12px'><label style='font-size:12.5px;color:#a89f8f'>Aviso geral (nota)</label><textarea id='mngTxt-note' rows='2' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'>" + es(t.note) + "</textarea></div>" +
+      f("whatsapp", "WhatsApp (somente números, ex: 5586999999999)", t.whatsapp) +
+      f("phoneDisplay", "Telefone exibido no site", t.phoneDisplay) +
+      f("whatsappMessage", "Mensagem automática do WhatsApp", t.whatsappMessage) +
+      f("hours", "Horário de funcionamento (linha exibida)", t.hours) +
+      f("hoursNote", "Observação de horário", t.hoursNote) +
+      "<div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px'>" +
+      f("fee", "Taxa de entrega (R$)", t.fee, "type='number' step='0.01'") +
+      f("freeAbove", "Entrega grátis acima de (R$)", t.freeAbove, "type='number' step='0.01'") +
+      f("estimate", "Tempo estimado de entrega", t.estimate) +
+      "</div>" +
+      f("address", "Endereço completo", t.address) +
+      "<button onclick='window.__mngAdminSaveTexts()' style='background:linear-gradient(135deg,#f8c25c,#e78e2f);border:none;color:#1a1408;padding:13px 22px;border-radius:12px;cursor:pointer;font-weight:800;margin-top:8px'>💾 Salvar textos</button>" +
+      "</div>"
+    );
+  }
+  function saveTexts() {
+    const get = (id) => ($("#mngTxt-" + id) ? $("#mngTxt-" + id).value : "");
+    const ov = lsGet(LS_SITE, {});
+    ov.texts = ov.texts || {};
+    ov.texts.brand = Object.assign(ov.texts.brand || {}, { slogan: get("slogan"), heroHighlight: get("heroHighlight") });
+    ov.texts.contact = Object.assign(ov.texts.contact || {}, {
+      whatsapp: get("whatsapp"), phoneDisplay: get("phoneDisplay"), whatsappMessage: get("whatsappMessage")
+    });
+    ov.texts.hours = Object.assign(ov.texts.hours || {}, { display: get("hours") || undefined, note: get("hoursNote") || undefined });
+    ov.texts.delivery = Object.assign(ov.texts.delivery || {}, {
+      fee: parseFloat(get("fee")) || ov.texts.delivery?.fee, freeAbove: parseFloat(get("freeAbove")) || ov.texts.delivery?.freeAbove, estimate: get("estimate")
+    });
+    ov.texts.note = get("note");
+    const addr = get("address").split(" - ");
+    ov.texts.address = Object.assign(ov.texts.address || {}, { street: addr[0] || "", number: addr[1] || "", district: addr[2] || "", city: addr[3] || "" });
+    lsSet(LS_SITE, ov);
+    toast("Textos salvos! 💾");
+    render();
+  }
+
+  // ---------------- EXPORTAR ----------------
+  function exportTpl() {
+    const ovP = lsGet(LS_PRODUCTS, {});
+    const ovS = lsGet(LS_SITE, {});
+    const hasP = Object.keys(ovP.products || {}).length || Object.keys(ovP.categories || {}).length;
+    const hasS = Object.keys(ovS).length;
+    const json = JSON.stringify({ products: ovP, site: ovS }, null, 2);
+    const dl = (name, content, type) => {
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([content], { type: type || "application/json" }));
+      a.download = name;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    };
+    return (
+      "<div style='max-width:760px'>" +
+      "<h3 style='font-family:var(--font-display,Sora)'>📤 Publicar alterações</h3>" +
+      "<p style='color:#a89f8f;font-size:13.5px;line-height:1.7'>As alterações do painel ficam salvas <b>neste navegador</b>. Para levá-las ao site publicado (GitHub Pages), baixe o arquivo abaixo e me envie, ou cole o conteúdo — assim eu atualizo o repositório.</p>" +
+      "<div style='display:flex;gap:10px;flex-wrap:wrap;margin:14px 0'>" +
+      "<button onclick='window.__mngAdminDownload(&quot;manganga-admin.json&quot;)' " + (hasP || hasS ? "" : "disabled style='opacity:.4'") + " style='background:linear-gradient(135deg,#f8c25c,#e78e2f);border:none;color:#1a1408;padding:13px 20px;border-radius:12px;cursor:pointer;font-weight:800'>⬇️ Baixar arquivo .json</button>" +
+      "<button onclick='window.__mngAdminCopy()' " + (hasP || hasS ? "" : "disabled style='opacity:.4'") + " style='background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e;padding:13px 20px;border-radius:12px;cursor:pointer;font-weight:700'>📋 Copiar tudo</button>" +
+      (hasP || hasS ? "<button onclick='window.__mngAdminClear()' style='background:transparent;border:1px solid rgba(255,107,107,.5);color:#ff6b6b;padding:13px 20px;border-radius:12px;cursor:pointer;font-weight:700'>🗑️ Zerar alterações</button>" : "") +
+      "</div>" +
+      (hasP || hasS
+        ? "<textarea id='mngExportTa' readonly rows='14' style='width:100%;padding:14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:#14110d;color:#a89f8f;font-family:Consolas,monospace;font-size:12.5px;box-sizing:border-box'>" + es(json) + "</textarea>"
+        : "<div style='text-align:center;padding:30px;border:1px dashed rgba(255,255,255,.14);border-radius:14px;color:#a89f8f;font-size:13.5px'>Você ainda não fez nenhuma alteração. Edite pratos, categorias ou textos e volte aqui.</div>") +
+      "</div>"
+    );
+  }
+  function download() {
+    const ovP = lsGet(LS_PRODUCTS, {});
+    const ovS = lsGet(LS_SITE, {});
+    const json = JSON.stringify({ products: ovP, site: ovS }, null, 2);
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([json], { type: "application/json" }));
+    a.download = "manganga-admin.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast("Arquivo baixado! 📥");
+  }
+  function copy() {
+    const ta = $("#mngExportTa");
+    if (!ta) return;
+    ta.select();
+    try { document.execCommand("copy"); toast("Copiado! 📋"); } catch (e) { toast("Falha ao copiar"); }
+  }
+  function clearAll() {
+    localStorage.removeItem(LS_PRODUCTS);
+    localStorage.removeItem(LS_SITE);
+    toast("Alterações zeradas ♻️");
+    location.reload();
+  }
+
+  // ---------------- RENDER PRINCIPAL ----------------
+  function render() {
+    let inner = "";
+    if (tab === "products") inner = productsTpl();
+    else if (tab === "categories") inner = '<div style="max-width:760px"><h2 style="font-family:var(--font-display,Sora);font-size:20px;margin-bottom:14px">🗂️ Categorias</h2><p style="color:#a89f8f;font-size:13px;margin-bottom:14px">Renomeie ou mude o emoji de cada categoria. Não é possível criar novas categorias por aqui (pode pedir no suporte).</p>' + categoriesTpl() + "</div>";
+    else if (tab === "texts") inner = textsTpl();
+    else if (tab === "export") inner = exportTpl();
+    else inner = productsTpl();
+    shell(inner);
+  }
+
+  // ---------------- EXPOR PARA O GLOBAL ----------------
+  window.__mngAdminLogin = login;
+  window.__mngAdminLogout = function () { sessionStorage.removeItem(SESSION_PASS); renderLogin(); };
+  window.__mngAdminClose = close;
+  window.__mngAdminTab = function (t) { tab = t; render(); };
+  window.__mngAdminSearch = function (v) { searchTerm = v; productsTplReactive(); };
+  window.__mngAdminCat = function (v) { catFilter = v; productsTplReactive(); };
+  window.__mngAdminEdit = function (id) { renderEdit(id); };
+  window.__mngAdminNew = function () { renderEdit("c_" + Date.now()); };
+  window.__mngAdminSave = save;
+  window.__mngAdminToggle = toggle;
+  window.__mngAdminReset = reset;
+  window.__mngAdminCatSave = catSave;
+  window.__mngAdminSaveTexts = saveTexts;
+  window.__mngAdminDownload = download;
+  window.__mngAdminCopy = copy;
+  window.__mngAdminClear = clearAll;
+  window.__mngAdminImgPick = function (f) {
+    imgSel.value = "assets/photos/" + f;
+    const inp = $("#mngAdminNewImg");
+    if (inp) inp.value = imgSel.value;
+    updatePrev();
+  };
+  window.__mngAdminImgTyped = function (v) {
+    imgSel.value = v;
+    updatePrev();
+  };
+
+  function productsTplReactive() {
+    const body = root.querySelector("#mngAdminBody");
+    if (body && tab === "products") body.innerHTML = productsTpl();
+  }
+
+  // ---------------- ENTRADA ----------------
+  function checkHash() {
+    if (location.hash === "#admin") open();
+  }
+  window.addEventListener("hashchange", function () {
+    if (location.hash === "#admin") open();
+  });
+  if (document.readyState !== "loading") checkHash();
+  else document.addEventListener("DOMContentLoaded", checkHash);
 })();</script>
 </body>
 </html>
