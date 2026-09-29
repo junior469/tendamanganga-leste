@@ -6332,7 +6332,53 @@ let PRODUCTS = [
   function lsGet(key, fallback) {
     try { return JSON.parse(localStorage.getItem(key)) || fallback; } catch (e) { return fallback; }
   }
-  function lsSet(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+  function lsSet(key, val) {
+    try {
+      localStorage.setItem(key, JSON.stringify(val));
+      return true;
+    } catch (e) {
+      toast("Armazenamento cheio! Use fotos menores ou apague algumas. ⚠️");
+      return false;
+    }
+  }
+
+  // redimensiona e recomprime a imagem antes de guardar no localStorage
+  function shrinkImage(file, maxW, quality) {
+    return new Promise(function (resolve, reject) {
+      if (!file || !/^image\//.test(file.type)) return reject(new Error("Arquivo não é uma imagem"));
+      var reader = new FileReader();
+      reader.onerror = function () { reject(new Error("Não consegui ler o arquivo")); };
+      reader.onload = function (ev) {
+        var img = new Image();
+        img.onerror = function () { reject(new Error("Imagem inválida ou corrompida")); };
+        img.onload = function () {
+          var w = img.naturalWidth || img.width;
+          var h = img.naturalHeight || img.height;
+          if (!w || !h) return reject(new Error("Imagem sem dimensões"));
+          var scale = Math.min(1, maxW / Math.max(w, h));
+          var cw = Math.max(1, Math.round(w * scale));
+          var ch = Math.max(1, Math.round(h * scale));
+          var cv = document.createElement("canvas");
+          cv.width = cw;
+          cv.height = ch;
+          var ctx = cv.getContext("2d");
+          ctx.fillStyle = "#000";
+          ctx.fillRect(0, 0, cw, ch);
+          ctx.drawImage(img, 0, 0, cw, ch);
+          var out;
+          try { out = cv.toDataURL("image/jpeg", quality); } catch (e) { return reject(e); }
+          if (!out || out.indexOf("data:image/jpeg") !== 0) return reject(new Error("Não consegui converter a imagem"));
+          resolve(out);
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  function kbLabel(dataUrl) {
+    var kb = Math.round((dataUrl.length * 3) / 4 / 1024);
+    return kb + " KB";
+  }
 
   function money(v) { return (v || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }); }
 
@@ -6390,12 +6436,12 @@ let PRODUCTS = [
       "</div>";
   }
 
-  function toast(msg) {
+  function toast(msg, type) {
     const t = document.createElement("div");
     t.textContent = msg;
-    t.style.cssText = "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100000;background:#f2b33e;color:#1a1408;padding:12px 20px;border-radius:12px;font-weight:700;font-size:14px;box-shadow:0 12px 32px rgba(0,0,0,.5)";
+    t.style.cssText = "position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:100000;background:" + (type === "error" ? "#c0392b" : "#f2b33e") + ";color:" + (type === "error" ? "#fff" : "#1a1408") + ";padding:12px 20px;border-radius:12px;font-weight:700;font-size:14px;box-shadow:0 12px 32px rgba(0,0,0,.5);max-width:90vw;text-align:center";
     document.body.appendChild(t);
-    setTimeout(() => t.remove(), 2200);
+    setTimeout(() => t.remove(), 3000);
   }
 
   // ---------------- LOGIN ----------------
@@ -6472,7 +6518,10 @@ let PRODUCTS = [
     return (
       "<div style='display:flex;gap:14px;flex-wrap:wrap;margin-top:6px'>" +
       "<div style='flex:1;min-width:250px'>" +
-      "<label style='font-size:12.5px;color:#a89f8f'>Foto do prato (URL)</label>" +
+      "<label style='font-size:12.5px;color:#a89f8f'>Enviar foto do celular ou computador</label>" +
+      "<input id='mngAdminImgUpload' type='file' accept='image/*' onchange='window.__mngAdminImgUpload(this)' style='width:100%;font-size:12.5px;color:#a89f8f;background:#1b1712;border:1.5px dashed rgba(242,179,62,.4);border-radius:12px;padding:12px;margin-top:4px;cursor:pointer'>" +
+      "<div id='mngAdminImgInfo' style='font-size:11.5px;color:#8a8172;margin-top:6px'>A foto é diminuída e comprimida automaticamente antes de salvar.</div>" +
+      "<label style='font-size:12.5px;color:#a89f8f;display:block;margin-top:14px'>Ou cole um link / caminho</label>" +
       "<input id='mngAdminNewImg' value='" + es(cur) + "' oninput='window.__mngAdminImgTyped(this.value)' placeholder='assets/photos/... ou https://...' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'>" +
       "<label style='font-size:12.5px;color:#a89f8f;display:block;margin-top:12px'>ou escolha na galeria (" + files.length + " fotos)</label>" +
       "<div style='display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:6px;margin-top:6px;max-height:170px;overflow:auto;padding:4px;border:1px solid rgba(255,255,255,.08);border-radius:12px' id='mngAdminGallery'>" +
@@ -6552,7 +6601,10 @@ let PRODUCTS = [
     } else {
       ov.products[id] = { ...(ov.products[id] || {}), ...data };
     }
-    lsSet(LS_PRODUCTS, ov);
+    if (!lsSet(LS_PRODUCTS, ov)) {
+      toast("Não coube no armazenamento. Tente uma foto menor. ⚠️", "error");
+      return;
+    }
     toast("Prato salvo! 💾");
     render();
   }
@@ -6732,6 +6784,7 @@ let PRODUCTS = [
       "<div style='max-width:760px'>" +
       "<h3 style='font-family:var(--font-display,Sora)'>📤 Publicar alterações</h3>" +
       "<p style='color:#a89f8f;font-size:13.5px;line-height:1.7'>As alterações do painel ficam salvas <b>neste navegador</b>. Para levá-las ao site publicado (GitHub Pages), baixe o arquivo abaixo e me envie, ou cole o conteúdo — assim eu atualizo o repositório.</p>" +
+      "<p style='color:#a89f8f;font-size:12.5px;line-height:1.7;background:rgba(242,179,62,.08);border-left:3px solid #f2b33e;padding:10px 12px;border-radius:0 10px 10px 0'>📸 Fotos enviadas pelo painel também vão dentro deste arquivo. Cada foto ocupa cerca de 80–150 KB do armazenamento do navegador (limite de ~5 MB), então da para colocar algumas dezenas de fotos novas.</p>" +
       "<div style='display:flex;gap:10px;flex-wrap:wrap;margin:14px 0'>" +
       "<button onclick='window.__mngAdminDownload(&quot;manganga-admin.json&quot;)' " + (hasP || hasS ? "" : "disabled style='opacity:.4'") + " style='background:linear-gradient(135deg,#f8c25c,#e78e2f);border:none;color:#1a1408;padding:13px 20px;border-radius:12px;cursor:pointer;font-weight:800'>⬇️ Baixar arquivo .json</button>" +
       "<button onclick='window.__mngAdminCopy()' " + (hasP || hasS ? "" : "disabled style='opacity:.4'") + " style='background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e;padding:13px 20px;border-radius:12px;cursor:pointer;font-weight:700'>📋 Copiar tudo</button>" +
@@ -6809,15 +6862,22 @@ let PRODUCTS = [
   window.__mngLogoUpload = function (el) {
     var file = el.files && el.files[0];
     if (!file) return;
-    var reader = new FileReader();
-    reader.onload = function (ev) {
-      logoSel.value = ev.target.result;
-      var inp = $("#mngLogoInput");
-      if (inp) inp.value = "(imagem enviada do computador)";
-      updateLogoPrev();
-      toast("Logo carregada! Não se esqueça de clicar em Salvar textos 💾");
-    };
-    reader.readAsDataURL(file);
+    var pv = $("#mngLogoPrev");
+    var old = pv ? pv.src : "";
+    if (pv) pv.style.opacity = 0.4;
+    shrinkImage(file, 512, 0.85)
+      .then(function (dataUrl) {
+        logoSel.value = dataUrl;
+        var inp = $("#mngLogoInput");
+        if (inp) inp.value = "(imagem enviada do computador)";
+        if (pv) pv.style.opacity = 1;
+        updateLogoPrev();
+        toast("Logo carregada! Não se esqueça de clicar em Salvar textos 💾");
+      })
+      .catch(function (err) {
+        if (pv) { pv.style.opacity = 1; pv.src = old; }
+        toast("Não consegui usar essa imagem: " + err.message, "error");
+      });
   };
   function updateLogoPrev() {
     var pv = $("#mngLogoPrev");
@@ -6831,7 +6891,28 @@ let PRODUCTS = [
   };
   window.__mngAdminImgTyped = function (v) {
     imgSel.value = v;
+    var info = $("#mngAdminImgInfo");
+    if (info) info.textContent = "A foto é diminuída e comprimida automaticamente antes de salvar.";
     updatePrev();
+  };
+  window.__mngAdminImgUpload = function (el) {
+    var file = el.files && el.files[0];
+    if (!file) return;
+    var info = $("#mngAdminImgInfo");
+    if (info) info.textContent = "Processando " + file.name + "...";
+    shrinkImage(file, 900, 0.72)
+      .then(function (dataUrl) {
+        imgSel.value = dataUrl;
+        var inp = $("#mngAdminNewImg");
+        if (inp) inp.value = "(foto enviada do dispositivo)";
+        if (info) info.textContent = "Foto carregada (" + kbLabel(dataUrl) + "). Clique em Salvar prato 💾";
+        updatePrev();
+        toast("Foto carregada do dispositivo! 📸");
+      })
+      .catch(function (err) {
+        if (info) info.textContent = "Falha: " + err.message;
+        toast("Não consegui usar essa imagem: " + err.message, "error");
+      });
   };
 
   function productsTplReactive() {
