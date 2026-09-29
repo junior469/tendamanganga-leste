@@ -64,8 +64,6 @@
   --font-display: "Sora", system-ui, var(--emoji-font);
   --font-body: "Inter", system-ui, var(--emoji-font);
   --nav-h: 64px;
-  --logo-h: 68px;
-  --header-h: calc(var(--nav-h) + var(--logo-h));
   --bottom-nav-h: 68px;
 }
 
@@ -152,7 +150,7 @@ textarea {
 
 section[id],
 div[id="qrcode"] {
-  scroll-margin-top: calc(var(--header-h) + 12px);
+  scroll-margin-top: calc(var(--nav-h) + 12px);
 }
 
 .section {
@@ -370,36 +368,14 @@ h3 {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 80;
-  height: var(--header-h);
+  height: var(--nav-h);
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
+  align-items: center;
   background: rgba(15, 13, 11, 0.82);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
-}
-
-/* Faixa da logo: ocupa a largura toda do topo, sem distorcer a imagem */
-.logo-banner {
-  height: var(--logo-h);
-  flex: 0 0 var(--logo-h);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #f8c25c, #e78e2f);
-  overflow: hidden;
-}
-.logo-banner .brand-mark {
-  width: auto;
-  height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  object-position: center;
-  flex: 0 1 auto;
 }
 
 .site-header.scrolled {
@@ -413,8 +389,6 @@ h3 {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  height: var(--nav-h);
-  flex: 0 0 var(--nav-h);
 }
 
 .brand {
@@ -427,12 +401,6 @@ h3 {
   width: 40px;
   height: 40px;
   flex-shrink: 0;
-}
-
-/* Na faixa do topo a imagem manda na altura; no resto, continua 40x40 */
-.brand .brand-mark {
-  width: 40px;
-  height: 40px;
 }
 
 .brand-name {
@@ -535,7 +503,7 @@ h3 {
   min-height: 100svh;
   display: flex;
   align-items: center;
-  padding: calc(var(--header-h) + 34px) 0 56px;
+  padding: calc(var(--nav-h) + 34px) 0 56px;
   overflow: hidden;
 }
 
@@ -927,7 +895,7 @@ h3 {
    ========================================================= */
 .tabs-wrap {
   position: sticky;
-  top: var(--header-h);
+  top: var(--nav-h);
   z-index: 30;
   background: rgba(15, 13, 11, 0.88);
   backdrop-filter: blur(12px);
@@ -2969,12 +2937,6 @@ textarea.field {
   .hero-chips { display: none; }
 }
 
-/* Faixa da logo: mais compacta no celular para nao comer a tela */
-@media (max-width: 640px) {
-  :root { --logo-h: 54px; }
-  .logo-banner { padding: 6px 12px; }
-}
-
 /* =========================================================
    SCROLL PROGRESS
    ========================================================= */
@@ -3655,11 +3617,9 @@ textarea.field {
 
 <!-- ============ HEADER ============ -->
 <header class="site-header" id="siteHeader">
-  <div class="logo-banner">
-    <img id="brandMark" src="assets/photos/logo-nova.jpg" alt="Logo Tenda Mangangá" class="brand-mark" width="700" height="233">
-  </div>
   <div class="container header-inner">
     <a href="#inicio" class="brand" aria-label="Tenda Mangangá — Início">
+      <img id="brandMark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJtZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmOGMyNWMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTI4YTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBkPSJNMjQgMiBMNDQgMTMuMiBWMzQuOCBMMjQgNDYgTDQgMzQuOCBWMTMuMiBaIiBmaWxsPSJ1cmwoI21nKSIvPgogIDxwYXRoIGQ9Ik0yNCA1LjQgTDQxIDE1LjIgVjMyLjggTDI0IDQyLjYgTDcgMzIuOCBWMTUuMiBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjAxLDEyMiwyMCwwLjQ1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="40" height="40">
       <span class="brand-name" id="brandName">Tenda Mangangá<span id="brandSub">Comidas regionais &amp; churrasco</span></span>
     </a>
     <nav class="nav-links" aria-label="Navegação principal">
@@ -4199,7 +4159,7 @@ textarea.field {
     heroHighlight: "Comidas regionais, churrascos e frutos do mar com o sabor de casa.",
     heroTrust: "Peça de forma rápida, fácil e segura pelo nosso site.",
     headerSub: "Comidas regionais & churrasco",
-    logo: "assets/photos/logo-nova.jpg",
+    logo: "",
     unit: "Leste"
   },
 
