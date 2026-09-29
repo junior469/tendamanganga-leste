@@ -3722,7 +3722,7 @@ textarea.field {
       <div class="footer-brand">
         <a href="#inicio" class="brand" aria-label="Tenda Mangangá">
           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJtZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmOGMyNWMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTI4YTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBkPSJNMjQgMiBMNDQgMTMuMiBWMzQuOCBMMjQgNDYgTDQgMzQuOCBWMTMuMiBaIiBmaWxsPSJ1cmwoI21nKSIvPgogIDxwYXRoIGQ9Ik0yNCA1LjQgTDQxIDE1LjIgVjMyLjggTDI0IDQyLjYgTDcgMzIuOCBWMTUuMiBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjAxLDEyMiwyMCwwLjQ1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="40" height="40">
-          <span class="brand-name">Tenda Mangangá<span>Comidas regionais &amp; churrasco</span></span>
+      <span class="brand-name" id="brandName">Tenda Mangangá<span id="brandSub">Comidas regionais &amp; churrasco</span></span>
         </a>
         <p id="footerSlogan">Comidas regionais, churrascos e frutos do mar.</p>
         <div class="footer-socials">
@@ -3950,6 +3950,7 @@ textarea.field {
     heroTitle: "TENDA MANGANGÁ",
     heroHighlight: "Comidas regionais, churrascos e frutos do mar com o sabor de casa.",
     heroTrust: "Peça de forma rápida, fácil e segura pelo nosso site.",
+    headerSub: "Comidas regionais & churrasco",
     unit: "Leste"
   },
 
@@ -4044,6 +4045,21 @@ textarea.field {
     if (typeof texts.address === "object") Object.assign(SITE.address, texts.address);
 
     if (ov.tabTitle && typeof ov.tabTitle === "string") document.title = ov.tabTitle;
+
+    // Logo do topo (faixa do cabeçalho)
+    const bn = document.getElementById("brandName");
+    if (bn) {
+      if (typeof texts.brandName === "string" && texts.brandName) bn.firstChild.nodeValue = texts.brandName;
+      if (typeof texts.brandSub === "string" && texts.brandSub) {
+        let sub = document.getElementById("brandSub");
+        if (!sub) {
+          sub = document.createElement("span");
+          sub.id = "brandSub";
+          bn.appendChild(sub);
+        }
+        sub.textContent = texts.brandSub;
+      }
+    }
   } catch (e) { /* ignora */ }
 })();</script>
 <script>// Cardápio oficial — Tenda Mangangá (Leste)
@@ -6180,6 +6196,8 @@ let PRODUCTS = [
   // ---------------- TEXTOS ----------------
   function textsTpl() {
     const t = {
+      brandName: SITE.brand.name || "Tenda Mangangá",
+      brandSub: SITE.brand.headerSub || "Comidas regionais & churrasco",
       slogan: SITE.brand.slogan || "",
       heroHighlight: SITE.brand.heroHighlight || "",
       note: SITE.note || "",
@@ -6198,7 +6216,12 @@ let PRODUCTS = [
     return (
       "<div style='max-width:760px'>" +
       "<p style='color:#a89f8f;font-size:13px;margin-bottom:16px'>Os campos abaixo ajustam os textos exibidos no site. Deixe o que não quiser mudar.</p>" +
-      f("slogan", "Slogan (aparece no topo)", t.slogan) +
+      "<div style='padding:14px 16px;border:1px solid rgba(242,179,62,.28);background:rgba(242,179,62,.07);border-radius:14px;margin-bottom:18px'>" +
+      "<div style='font-size:12px;color:#f2b33e;font-weight:700;margin-bottom:10px'>🏷️ NOME NA FAIXA DO TOPO (logo amarelo)</div>" +
+      f("brandName", "Nome do restaurante no topo", t.brandName) +
+      f("brandSub", "Frase pequena embaixo do nome", t.brandSub) +
+      "</div>" +
+      f("slogan", "Slogan (rodapé)", t.slogan) +
       f("heroHighlight", "Frase do destaque", t.heroHighlight) +
       "<div style='margin-bottom:12px'><label style='font-size:12.5px;color:#a89f8f'>Aviso geral (nota)</label><textarea id='mngTxt-note' rows='2' style='width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;margin-top:4px'>" + es(t.note) + "</textarea></div>" +
       f("whatsapp", "WhatsApp (somente números, ex: 5586999999999)", t.whatsapp) +
@@ -6221,6 +6244,8 @@ let PRODUCTS = [
     const ov = lsGet(LS_SITE, {});
     ov.texts = ov.texts || {};
     ov.texts.brand = Object.assign(ov.texts.brand || {}, { slogan: get("slogan"), heroHighlight: get("heroHighlight") });
+    ov.texts.brandName = get("brandName");
+    ov.texts.brandSub = get("brandSub");
     ov.texts.contact = Object.assign(ov.texts.contact || {}, {
       whatsapp: get("whatsapp"), phoneDisplay: get("phoneDisplay"), whatsappMessage: get("whatsappMessage")
     });
