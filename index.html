@@ -3585,6 +3585,570 @@ textarea.field {
 
 
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Tenda Mangangá",
+  "servesCuisine": "Comidas regionais, Churrascos, Frutos do Mar e Pizzas",
+  "priceRange": "$",
+  "telephone": "+55-11-99999-9999",
+  "image": "https://tendamanganga-leste.netlify.app/assets/og-image.png",
+  "url": "https://tendamanganga-leste.netlify.app/",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Rua das Palmeiras, 1234",
+    "addressLocality": "São Paulo",
+    "addressRegion": "SP",
+    "postalCode": "08450-000",
+    "addressCountry": "BR"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": -23.5558, "longitude": -46.6396 },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday","Sunday"], "opens": "17:00", "closes": "23:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "17:00", "closes": "00:00" }
+  ]
+}
+</script>
+</head>
+<body>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="container header-inner">
+    <a href="#inicio" class="brand" aria-label="Tenda Mangangá — Início">
+      <img id="brandMark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJtZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmOGMyNWMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTI4YTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBkPSJNMjQgMiBMNDQgMTMuMiBWMzQuOCBMMjQgNDYgTDQgMzQuOCBWMTMuMiBaIiBmaWxsPSJ1cmwoI21nKSIvPgogIDxwYXRoIGQ9Ik0yNCA1LjQgTDQxIDE1LjIgVjMyLjggTDI0IDQyLjYgTDcgMzIuOCBWMTUuMiBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjAxLDEyMiwyMCwwLjQ1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="40" height="40">
+      <span class="brand-name" id="brandName">Tenda Mangangá<span id="brandSub">Comidas regionais &amp; churrasco</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Navegação principal">
+      <a href="#inicio" data-nav="inicio">Início</a>
+      <a href="#cardapio" data-nav="cardapio">Cardápio</a>
+      <a href="#localizacao" data-nav="localizacao">Localização</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="btnOpenQr" aria-label="Abrir QR Code" title="QR Code">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 3h7v7H3V3zm2 2v3h3V5H5zm7-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm12-2h2v2h-2v2h2v2h-2v2h4v-4h-9v2h2v-2h2v-2h-2v2h-2v-4h2v2h2v-2zm2 4h2v2h-2v-2z"/></svg>
+      </button>
+      <button class="icon-btn cart-btn" id="btnOpenCart" aria-label="Abrir carrinho">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="container hero-inner">
+    <div class="hero-copy" data-reveal>
+      <span class="hero-chip">🔥 Comidas regionais · Churrasco · Frutos do mar</span>
+      <h1>Tenda <span class="grad">Mangangá</span></h1>
+      <p class="hero-sub">Comidas regionais, churrascos e frutos do mar com o sabor de casa.</p>
+      <p class="hero-trust">🔒 Peça de forma rápida, fácil e segura pelo nosso site.</p>
+      <div class="hero-actions">
+        <a href="#cardapio" class="btn btn-primary btn-lg">Ver cardápio</a>
+        <a href="#cardapio" class="btn btn-outline btn-lg" id="btnHeroOrder">Fazer pedido</a>
+      </div>
+      <div class="hero-perks">
+        <span class="perk">🥩 Carnes &amp; peixes selecionados</span>
+        <span class="perk">🛵 Entrega <b>45–60min</b></span>
+        <span class="perk">💳 Pix &amp; cartão</span>
+      </div>
+      <div class="stat-open" id="openStatusHero">
+        <span class="dot"></span><span id="openStatusHeroText">Carregando status...</span>
+      </div>
+    </div>
+    <div class="hero-stage" data-reveal style="--reveal-delay:.15s">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-card hero-panel" aria-label="Destaques da casa — carrossel">
+        <div class="hp-progress" id="heroProgress" aria-hidden="true"></div>
+        <div class="hc-head">
+          <span class="hc-kicker">À la carte · Escolha do chef</span>
+          <h3 class="hc-title">Destaques da casa</h3>
+        </div>
+        <div class="hc-list" id="heroCardList"></div>
+        <div class="hp-nav">
+          <button type="button" class="hp-btn" id="heroPrev" aria-label="Destaque anterior">‹</button>
+          <div class="hp-dots" id="heroDots" role="tablist" aria-label="Indicadores dos destaques"></div>
+          <button type="button" class="hp-btn" id="heroNext" aria-label="Próximo destaque">›</button>
+        </div>
+        <a href="#cardapio" class="hc-cta">Ver cardápio completo <span class="hc-arrow">→</span></a>
+      </div>
+      <div class="hero-chips">
+        <a class="hero-chip" href="#cardapio" data-tab-go="cervejas-600ml">Cervejas</a>
+        <a class="hero-chip" href="#cardapio" data-tab-go="porcoes">Porções</a>
+        <a class="hero-chip" href="#cardapio" data-tab-go="refeicoes-churrasco">Churrasco</a>
+        <a class="hero-chip" href="#cardapio" data-tab-go="refeicoes-peixes">Peixes</a>
+        <a class="hero-chip" href="#cardapio" data-tab-go="pizzas-tradicionais">Pizzas</a>
+        <a class="hero-chip" href="#cardapio" data-tab-go="drinks">Drinks</a>
+        <a class="hero-chip" href="#cardapio" data-tab-go="sucos">Sucos</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true">⌄</div>
+</section>
+
+<!-- ============ QR CODE ============ -->
+<section class="section qr-section" id="qrcode">
+  <div class="container">
+    <div class="qr-card" data-reveal>
+      <div>
+        <span class="kicker">Acesso rápido</span>
+        <h2>APONTE A CÂMERA E ACESSE NOSSO SITE</h2>
+        <p class="section-sub">Escaneie o QR Code e tenha acesso rápido ao nosso cardápio e faça seu pedido diretamente pelo nosso site.</p>
+        <div class="qr-steps">
+          <div class="qr-step"><b>1</b>Abra a câmera<br>do celular</div>
+          <div class="qr-step"><b>2</b>Escaneie<br>o QR Code</div>
+          <div class="qr-step"><b>3</b>Acesse e<br>faça seu pedido</div>
+        </div>
+        <div class="qr-actions">
+          <button class="btn btn-outline btn-sm" id="btnDownloadQr">⬇ Baixar QR Code</button>
+          <button class="btn btn-ghost btn-sm" id="btnShareQr">↗ Compartilhar link</button>
+          <button class="btn-link btn-sm" id="btnUseQr" style="align-self:center">Ver em tela cheia →</button>
+        </div>
+      </div>
+      <div class="qr-visual">
+        <div class="qr-box"><div class="qr-canvas" id="qrcodeBox"></div></div>
+        <span class="qr-caption">📲 aponte a câmera do seu celular</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARDÁPIO ============ -->
+<section class="section" id="cardapio">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <span class="kicker">Delícias da casa</span>
+      <h2>Cardápio Digital</h2>
+      <p class="section-sub" style="margin-inline:auto">Escolha uma categoria, adicione tudo que quiser e finalize seu pedido em segundos.</p>
+    </div>
+    <div class="menu-notice" id="menuNotice" data-reveal></div>
+    <div class="menu-search" data-reveal>
+      <span class="search-ic">🔍</span>
+      <input id="menuSearch" type="search" placeholder="Buscar no cardápio — ex.: picanha, cerveja, suco, porção..." autocomplete="off" aria-label="Buscar no cardápio">
+      <button type="button" class="search-clear hidden" id="searchClear" aria-label="Limpar busca">✕</button>
+    </div>
+  </div>
+  <div class="container">
+    <div class="cat-cards" id="catCards" role="tablist" aria-label="Grupos do cardápio"></div>
+    <div class="sub-tabs hidden" id="subTabs" role="tablist" aria-label="Seções do grupo"></div>
+    <div class="product-grid" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ============ PROMOÇÕES ============ -->
+<section class="section alt" id="promocoes">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="kicker">Imperdíveis</span>
+      <h2>Promoções</h2>
+      <p class="section-sub">Ofertas especiais por tempo limitado. Aproveite antes que acabe!</p>
+    </div>
+    <div class="scroll-row" id="promoRow" data-reveal></div>
+  </div>
+</section>
+
+<!-- ============ FAVORITOS ============ -->
+<section class="section" id="favoritos">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="kicker">Os queridinhos</span>
+      <h2>Os favoritos dos nossos clientes ❤️</h2>
+      <p class="section-sub">Os pedidos que mais saem por aqui. Rolou uma dúvida? Comece por esses!</p>
+    </div>
+    <div class="scroll-row" id="favoriteRow" data-reveal></div>
+  </div>
+</section>
+
+<!-- ============ COMO PEDIR ============ -->
+<section class="section alt" id="comoPedir">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <span class="kicker">Simples assim</span>
+      <h2>Como fazer seu pedido</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card" data-reveal style="--reveal-delay:.05s">
+        <div class="step-num">1</div>
+        <div><h3>Escolha seus favoritos</h3><p>Navegue pelo nosso cardápio digital e adicione tudo o que te der vontade.</p></div>
+      </div>
+      <div class="step-card" data-reveal style="--reveal-delay:.15s">
+        <div class="step-num">2</div>
+        <div><h3>Revise o carrinho</h3><p>Confira itens, quantidades e o valor total antes de finalizar.</p></div>
+      </div>
+      <div class="step-card" data-reveal style="--reveal-delay:.25s">
+        <div class="step-num">3</div>
+        <div><h3>Receba em casa</h3><p>Seu pedido vai direto para o nosso WhatsApp e chega quentinho até você.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AVALIAÇÕES ============ -->
+<section class="section" id="avaliacoes">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <span class="kicker">Na voz de quem provou</span>
+      <h2>O que nossos clientes dizem</h2>
+      <p class="section-sub" style="margin-inline:auto">⭐ 4,9 de nota média com base em avaliações reais</p>
+    </div>
+    <div class="review-grid" id="reviewGrid"></div>
+  </div>
+</section>
+
+<!-- ============ REDES SOCIAIS ============ -->
+<section class="section alt" id="redes">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <span class="kicker">Bora acompanhar</span>
+      <h2>Redes sociais</h2>
+      <p class="section-sub" style="margin-inline:auto">Fique por dentro de todas as novidades e promoções.</p>
+    </div>
+    <div class="social-grid" id="socialGrid"></div>
+  </div>
+</section>
+
+<!-- ============ LOCALIZAÇÃO ============ -->
+<section class="section" id="localizacao">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="kicker">Venha nos visitar</span>
+      <h2>Onde estamos</h2>
+    </div>
+    <div class="location-grid">
+      <div class="loc-card" data-reveal>
+        <div class="loc-row">
+          <div class="loc-ic">📍</div>
+          <div><b>Endereço</b><span id="locAddress">Carregando...</span></div>
+        </div>
+        <div class="loc-row">
+          <div class="loc-ic">⏰</div>
+          <div><b>Horário de funcionamento</b><span id="locHours">Carregando...</span></div>
+        </div>
+        <div class="loc-row">
+          <div class="loc-ic">📸</div>
+          <div><b>Instagram</b><span><a id="locPhone" href="#" target="_blank" rel="noopener">Carregando...</a></span></div>
+        </div>
+        <div class="loc-row">
+          <div class="loc-ic">🛵</div>
+          <div><b>Zona de entrega</b><span id="locDelivery">Carregando...</span></div>
+        </div>
+        <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:10px">
+          <a href="#" id="btnDirections" target="_blank" rel="noopener" class="btn btn-primary">Como chegar</a>
+          <a href="#" data-social="instagram" class="btn btn-ghost">Seguir no Instagram</a>
+        </div>
+      </div>
+      <div class="hours-card" data-reveal style="--reveal-delay:.1s">
+        <div class="hours-status" id="openStatusHours">
+          <span class="dot"></span><span id="openStatusHoursText">Carregando status...</span>
+        </div>
+        <h3 style="margin-bottom:12px">Horário de funcionamento</h3>
+        <ul class="hours-list" id="hoursList"></ul>
+        <p class="co-note" id="hoursNote" style="margin-top:12px"></p>
+      </div>
+    </div>
+    <div class="map-wrap" style="margin-top:22px" data-reveal>
+      <iframe id="mapFrame" title="Mapa — Tenda Mangangá" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTAGRAM ============ -->
+<section class="section alt" id="instagram">
+  <div class="container">
+    <div class="section-head center" data-reveal>
+      <span class="kicker">Fica de olho</span>
+      <h2>Siga a gente no Instagram</h2>
+      <p class="section-sub" style="margin-inline:auto">Novidades, promoções e aquela foto de dar água na boca todo dia.</p>
+    </div>
+    <div class="insta-grid" id="instaGrid" data-reveal></div>
+    <div class="instagram-cta" data-reveal>
+      <a href="#" data-social="instagram" class="btn btn-primary">Seguir no Instagram</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#inicio" class="brand" aria-label="Tenda Mangangá">
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJtZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmOGMyNWMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTI4YTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBkPSJNMjQgMiBMNDQgMTMuMiBWMzQuOCBMMjQgNDYgTDQgMzQuOCBWMTMuMiBaIiBmaWxsPSJ1cmwoI21nKSIvPgogIDxwYXRoIGQ9Ik0yNCA1LjQgTDQxIDE1LjIgVjMyLjggTDI0IDQyLjYgTDcgMzIuOCBWMTUuMiBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjAxLDEyMiwyMCwwLjQ1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="40" height="40">
+      <span class="brand-name" id="brandName">Tenda Mangangá<span id="brandSub">Comidas regionais &amp; churrasco</span></span>
+        </a>
+        <p id="footerSlogan">Comidas regionais, churrascos e frutos do mar.</p>
+        <div class="footer-socials">
+          <a href="#" data-social="instagram" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 16 16" fill="#fff"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.417.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.942a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-1.234 3.627A2.874 2.874 0 1 0 8 11.376a2.874 2.874 0 0 0-1.234-5.749zm0 1.436A1.439 1.439 0 1 1 6.327 8a1.439 1.439 0 0 1 1.439-1.437zM11.99 3.9a.758.758 0 1 1-1.516 0 .758.758 0 0 1 1.516 0z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#inicio">Início</a></li>
+          <li><a href="#cardapio">Cardápio</a></li>
+          <li><a href="#favoritos">Favoritos</a></li>
+          <li><a href="#localizacao">Localização</a></li>
+          <li><button class="btn-link" id="btnOpenQrFooter">QR Code</button></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="#" data-social="instagram" class="insta-line" data-ig-handle>@tendamanganga</a></li>
+          <li><span id="footerAddress">Rua Professor Joca Vieira, 909 — Jóquei</span></li>
+          <li><span>Teresina — PI</span></li>
+          <li><a href="#" data-social="instagram">Seguir no Instagram</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Atendimento</h4>
+        <ul>
+          <li><span id="footerHours">Carregando horários...</span></li>
+          <li><span id="footerDelivery">Entrega na sua região</span></li>
+          <li><a href="#localizacao">Como chegar (mapa)</a></li>
+          <li><button class="btn-link" id="btnPrivacy">Política de privacidade</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Tenda Mangangá. Todos os direitos reservados.</span>
+      <span>Feito com 💛 • Peça direto pelo nosso site</span>
+      <a href="#admin" class="footer-admin-link" style="color:rgba(247,241,230,.75);font-size:12px;text-decoration:none;opacity:.85">⚙ Admin</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MENU MOBILE ============ -->
+<nav class="mobile-nav" aria-label="Navegação mobile">
+  <button data-mobile="inicio" class="active"><span class="nav-em">🏠</span>Início</button>
+  <button data-mobile="cardapio"><span class="nav-em">📋</span>Cardápio</button>
+  <button id="mobileCart"><span class="nav-em">🛒</span>Carrinho<i class="nav-cart-badge hidden" id="mobileCartBadge">0</i></button>
+  <button data-mobile="localizacao"><span class="nav-em">📍</span>Localização</button>
+  <button data-mobile="instagram"><span class="nav-em">📸</span>Instagram</button>
+</nav>
+
+<!-- ============ INSTAGRAM FLOAT ============ -->
+<a href="#" data-social="instagram" class="insta-fab" id="waFab" aria-label="Seguir no Instagram">
+  <span class="wa-pulse"></span>
+  <svg viewBox="0 0 16 16" fill="#fff"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.417.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.942a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm3.628 4.659a.96.96 0 1 1 0-1.92.96.96 0 0 1 0 1.92zM8 4.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z"/></svg>
+  <span>@mangangathe</span>
+</a>
+
+<!-- ============ CHATBOT ============ -->
+<button class="chat-fab" id="chatFab" aria-label="Mangangá Assistente">
+  💬<span class="online-dot"></span>
+</button>
+<section class="chat-panel" id="chatPanel" aria-label="Chat Mangangá Assistente">
+  <header class="chat-head">
+    <div class="chat-avatar">M</div>
+    <div><strong>Mangangá Assistente</strong><small><span class="dot"></span> Online agora</small></div>
+    <button class="chat-close" id="chatClose" aria-label="Fechar chat">✕</button>
+  </header>
+  <div class="chat-msgs" id="chatMessages"></div>
+  <div class="chat-chips" id="chatChips"></div>
+  <form class="chat-input-form" id="chatForm">
+    <input id="chatInput" type="text" placeholder="Digite sua mensagem..." autocomplete="off" aria-label="Mensagem">
+    <button type="submit" class="chat-send" aria-label="Enviar mensagem">➤</button>
+  </form>
+</section>
+
+<!-- ============ OVERLAY ============ -->
+<div class="overlay" id="overlay"></div>
+
+<!-- ============ CARRINHO ============ -->
+<aside class="drawer" id="cartDrawer" aria-label="Carrinho de compras">
+  <div class="drawer-head">
+    <div><strong>Seu carrinho</strong><div class="count-label" id="cartCountLabel"></div></div>
+    <button class="icon-btn" id="cartClose" aria-label="Fechar carrinho">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <footer class="drawer-foot" id="cartFoot">
+    <div class="drawer-total-row">
+      <span>Total <span class="delivery-note" id="cartDeliveryNote"></span></span>
+      <span id="cartTotal">R$ 0,00</span>
+    </div>
+    <div class="drawer-actions">
+      <button class="btn btn-ghost btn-sm" id="cartClear">Limpar</button>
+      <button class="btn btn-primary" id="btnCheckout">Finalizar pedido</button>
+    </div>
+  </footer>
+</aside>
+
+<!-- ============ CHECKOUT ============ -->
+<div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Finalizar pedido">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div><strong>Finalizar pedido</strong><div class="count-label">Quase lá! Só precisamos dos seus dados.</div></div>
+      <button class="icon-btn" id="coClose" aria-label="Fechar checkout">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="checkout-grid">
+        <form id="checkoutForm" novalidate>
+          <div class="field-group" style="margin-bottom:20px">
+            <span class="field-label">Como você quer receber?</span>
+            <div class="option-pills" id="deliveryPills">
+              <label class="option-pill"><input type="radio" name="delivery" value="entrega" checked><span>🛵 Entrega</span></label>
+              <label class="option-pill"><input type="radio" name="delivery" value="retirada"><span>🏪 Retirada no local</span></label>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label class="field-label" for="coName">Nome</label>
+              <input class="field" id="coName" type="text" placeholder="Seu nome" required>
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="coPhone">Telefone / WhatsApp</label>
+              <input class="field" id="coPhone" type="tel" placeholder="(11) 99999-9999" required>
+            </div>
+          </div>
+          <div class="field-group" id="coAddressGroup">
+            <label class="field-label" for="coStreet">Endereço</label>
+            <input class="field" id="coStreet" type="text" placeholder="Rua, avenida..." required>
+          </div>
+          <div class="field-row">
+            <div class="field-group" id="coNumberGroup">
+              <label class="field-label" for="coNumber">Número</label>
+              <input class="field" id="coNumber" type="text" placeholder="123" required>
+            </div>
+            <div class="field-group" id="coBairroGroup">
+              <label class="field-label" for="coBairro">Bairro</label>
+              <input class="field" id="coBairro" type="text" placeholder="Seu bairro" required>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label class="field-label" for="coComplemento">Complemento</label>
+              <input class="field" id="coComplemento" type="text" placeholder="Apto, referência...">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="coNote">Observação do pedido</label>
+            <textarea class="field" id="coNote" placeholder="Sem cebola, mais molho, ponto da carne..."></textarea>
+          </div>
+          <div class="field-group" style="margin-bottom:20px; margin-top:18px">
+            <span class="field-label">Forma de pagamento</span>
+            <div class="option-pills" id="paymentPills">
+              <label class="option-pill"><input type="radio" name="payment" value="Pix" checked><span>Pix</span></label>
+              <label class="option-pill"><input type="radio" name="payment" value="Dinheiro"><span>Dinheiro</span></label>
+              <label class="option-pill"><input type="radio" name="payment" value="Cartão"><span>Cartão</span></label>
+              <label class="option-pill"><input type="radio" name="payment" value="Outro"><span>Outro</span></label>
+            </div>
+          </div>
+        </form>
+        <div class="co-summary">
+          <h4>Resumo do pedido <button type="button" id="coBackToCart">editar carrinho</button></h4>
+          <div class="co-items" id="coItems"></div>
+          <div class="co-row"><span>Subtotal</span> <b id="coSubtotal">R$ 0,00</b></div>
+          <div class="co-row"><span>Entrega</span> <b id="coDelivery">—</b></div>
+          <div class="co-row total"><span>Total</span> <b id="coTotal">R$ 0,00</b></div>
+          <p class="co-note" id="coFeeNote">* Preço da entrega calculado na confirmação do pedido.</p>
+          <button class="btn btn-primary btn-block co-submit" id="coSubmit">Confirmar pedido ✓</button>
+          <p class="co-note" style="text-align:center">Ao confirmar, seu pedido será enviado direto para o nosso WhatsApp 💬</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL QR ============ -->
+<div class="modal center" id="qrModal" role="dialog" aria-modal="true" aria-label="QR Code da Tenda Mangangá">
+  <div class="modal-box">
+    <div class="modal-head">
+      <strong>QR Code do site</strong>
+      <button class="icon-btn" id="qrModalClose" aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="qr-modal-content">
+        <div class="qr-box"><div id="qrcodeModal"></div></div>
+        <p>Escaneie para acessar nosso site e fazer seu pedido.</p>
+        <div class="qr-modal-actions">
+          <button class="btn btn-primary btn-block" id="btnShareQrModal">↗ Compartilhar</button>
+          <button class="btn btn-ghost btn-block" id="btnDownloadQrModal">⬇ Baixar QR Code</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL PRIVACIDADE ============ -->
+<div class="modal center" id="privacyModal" role="dialog" aria-modal="true" aria-label="Política de privacidade">
+  <div class="modal-box">
+    <div class="modal-head">
+      <strong>Política de privacidade</strong>
+      <button class="icon-btn" id="privacyClose" aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="privacy-content">
+        <p>Valorizamos sua privacidade. As informações fornecidas ao fazer um pedido — como nome, telefone e endereço de entrega — são utilizadas exclusivamente para processar e entregar o seu pedido.</p>
+        <p>Não compartilhamos seus dados com terceiros e não enviamos mensagens não solicitadas. Nossos canais de contato servem apenas para assuntos relacionados ao seu pedido.</p>
+        <p>Para dúvidas sobre seus dados, fale conosco pelo WhatsApp oficial da Tenda Mangangá.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOASTS ============ -->
+<div class="toast-root" id="toastRoot"></div>
+
+<!-- QR Code library -->
+
+
+
+
+<!-- Config & data -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- App -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Scripts do site -->
 <script>var QRCode;!function(){function a(a){this.mode=c.MODE_8BIT_BYTE,this.data=a,this.parsedData=[];for(var b=[],d=0,e=this.data.length;e>d;d++){var f=this.data.charCodeAt(d);f>65536?(b[0]=240|(1835008&f)>>>18,b[1]=128|(258048&f)>>>12,b[2]=128|(4032&f)>>>6,b[3]=128|63&f):f>2048?(b[0]=224|(61440&f)>>>12,b[1]=128|(4032&f)>>>6,b[2]=128|63&f):f>128?(b[0]=192|(1984&f)>>>6,b[1]=128|63&f):b[0]=f,this.parsedData=this.parsedData.concat(b)}this.parsedData.length!=this.data.length&&(this.parsedData.unshift(191),this.parsedData.unshift(187),this.parsedData.unshift(239))}function b(a,b){this.typeNumber=a,this.errorCorrectLevel=b,this.modules=null,this.moduleCount=0,this.dataCache=null,this.dataList=[]}function i(a,b){if(void 0==a.length)throw new Error(a.length+"/"+b);for(var c=0;c<a.length&&0==a[c];)c++;this.num=new Array(a.length-c+b);for(var d=0;d<a.length-c;d++)this.num[d]=a[d+c]}function j(a,b){this.totalCount=a,this.dataCount=b}function k(){this.buffer=[],this.length=0}function m(){return"undefined"!=typeof CanvasRenderingContext2D}function n(){var a=!1,b=navigator.userAgent;return/android/i.test(b)&&(a=!0,aMat=b.toString().match(/android ([0-9]\.[0-9])/i),aMat&&aMat[1]&&(a=parseFloat(aMat[1]))),a}function r(a,b){for(var c=1,e=s(a),f=0,g=l.length;g>=f;f++){var h=0;switch(b){case d.L:h=l[f][0];break;case d.M:h=l[f][1];break;case d.Q:h=l[f][2];break;case d.H:h=l[f][3]}if(h>=e)break;c++}if(c>l.length)throw new Error("Too long data");return c}function s(a){var b=encodeURI(a).toString().replace(/\%[0-9a-fA-F]{2}/g,"a");return b.length+(b.length!=a?3:0)}a.prototype={getLength:function(){return this.parsedData.length},write:function(a){for(var b=0,c=this.parsedData.length;c>b;b++)a.put(this.parsedData[b],8)}},b.prototype={addData:function(b){var c=new a(b);this.dataList.push(c),this.dataCache=null},isDark:function(a,b){if(0>a||this.moduleCount<=a||0>b||this.moduleCount<=b)throw new Error(a+","+b);return this.modules[a][b]},getModuleCount:function(){return this.moduleCount},make:function(){this.makeImpl(!1,this.getBestMaskPattern())},makeImpl:function(a,c){this.moduleCount=4*this.typeNumber+17,this.modules=new Array(this.moduleCount);for(var d=0;d<this.moduleCount;d++){this.modules[d]=new Array(this.moduleCount);for(var e=0;e<this.moduleCount;e++)this.modules[d][e]=null}this.setupPositionProbePattern(0,0),this.setupPositionProbePattern(this.moduleCount-7,0),this.setupPositionProbePattern(0,this.moduleCount-7),this.setupPositionAdjustPattern(),this.setupTimingPattern(),this.setupTypeInfo(a,c),this.typeNumber>=7&&this.setupTypeNumber(a),null==this.dataCache&&(this.dataCache=b.createData(this.typeNumber,this.errorCorrectLevel,this.dataList)),this.mapData(this.dataCache,c)},setupPositionProbePattern:function(a,b){for(var c=-1;7>=c;c++)if(!(-1>=a+c||this.moduleCount<=a+c))for(var d=-1;7>=d;d++)-1>=b+d||this.moduleCount<=b+d||(this.modules[a+c][b+d]=c>=0&&6>=c&&(0==d||6==d)||d>=0&&6>=d&&(0==c||6==c)||c>=2&&4>=c&&d>=2&&4>=d?!0:!1)},getBestMaskPattern:function(){for(var a=0,b=0,c=0;8>c;c++){this.makeImpl(!0,c);var d=f.getLostPoint(this);(0==c||a>d)&&(a=d,b=c)}return b},createMovieClip:function(a,b,c){var d=a.createEmptyMovieClip(b,c),e=1;this.make();for(var f=0;f<this.modules.length;f++)for(var g=f*e,h=0;h<this.modules[f].length;h++){var i=h*e,j=this.modules[f][h];j&&(d.beginFill(0,100),d.moveTo(i,g),d.lineTo(i+e,g),d.lineTo(i+e,g+e),d.lineTo(i,g+e),d.endFill())}return d},setupTimingPattern:function(){for(var a=8;a<this.moduleCount-8;a++)null==this.modules[a][6]&&(this.modules[a][6]=0==a%2);for(var b=8;b<this.moduleCount-8;b++)null==this.modules[6][b]&&(this.modules[6][b]=0==b%2)},setupPositionAdjustPattern:function(){for(var a=f.getPatternPosition(this.typeNumber),b=0;b<a.length;b++)for(var c=0;c<a.length;c++){var d=a[b],e=a[c];if(null==this.modules[d][e])for(var g=-2;2>=g;g++)for(var h=-2;2>=h;h++)this.modules[d+g][e+h]=-2==g||2==g||-2==h||2==h||0==g&&0==h?!0:!1}},setupTypeNumber:function(a){for(var b=f.getBCHTypeNumber(this.typeNumber),c=0;18>c;c++){var d=!a&&1==(1&b>>c);this.modules[Math.floor(c/3)][c%3+this.moduleCount-8-3]=d}for(var c=0;18>c;c++){var d=!a&&1==(1&b>>c);this.modules[c%3+this.moduleCount-8-3][Math.floor(c/3)]=d}},setupTypeInfo:function(a,b){for(var c=this.errorCorrectLevel<<3|b,d=f.getBCHTypeInfo(c),e=0;15>e;e++){var g=!a&&1==(1&d>>e);6>e?this.modules[e][8]=g:8>e?this.modules[e+1][8]=g:this.modules[this.moduleCount-15+e][8]=g}for(var e=0;15>e;e++){var g=!a&&1==(1&d>>e);8>e?this.modules[8][this.moduleCount-e-1]=g:9>e?this.modules[8][15-e-1+1]=g:this.modules[8][15-e-1]=g}this.modules[this.moduleCount-8][8]=!a},mapData:function(a,b){for(var c=-1,d=this.moduleCount-1,e=7,g=0,h=this.moduleCount-1;h>0;h-=2)for(6==h&&h--;;){for(var i=0;2>i;i++)if(null==this.modules[d][h-i]){var j=!1;g<a.length&&(j=1==(1&a[g]>>>e));var k=f.getMask(b,d,h-i);k&&(j=!j),this.modules[d][h-i]=j,e--,-1==e&&(g++,e=7)}if(d+=c,0>d||this.moduleCount<=d){d-=c,c=-c;break}}}},b.PAD0=236,b.PAD1=17,b.createData=function(a,c,d){for(var e=j.getRSBlocks(a,c),g=new k,h=0;h<d.length;h++){var i=d[h];g.put(i.mode,4),g.put(i.getLength(),f.getLengthInBits(i.mode,a)),i.write(g)}for(var l=0,h=0;h<e.length;h++)l+=e[h].dataCount;if(g.getLengthInBits()>8*l)throw new Error("code length overflow. ("+g.getLengthInBits()+">"+8*l+")");for(g.getLengthInBits()+4<=8*l&&g.put(0,4);0!=g.getLengthInBits()%8;)g.putBit(!1);for(;;){if(g.getLengthInBits()>=8*l)break;if(g.put(b.PAD0,8),g.getLengthInBits()>=8*l)break;g.put(b.PAD1,8)}return b.createBytes(g,e)},b.createBytes=function(a,b){for(var c=0,d=0,e=0,g=new Array(b.length),h=new Array(b.length),j=0;j<b.length;j++){var k=b[j].dataCount,l=b[j].totalCount-k;d=Math.max(d,k),e=Math.max(e,l),g[j]=new Array(k);for(var m=0;m<g[j].length;m++)g[j][m]=255&a.buffer[m+c];c+=k;var n=f.getErrorCorrectPolynomial(l),o=new i(g[j],n.getLength()-1),p=o.mod(n);h[j]=new Array(n.getLength()-1);for(var m=0;m<h[j].length;m++){var q=m+p.getLength()-h[j].length;h[j][m]=q>=0?p.get(q):0}}for(var r=0,m=0;m<b.length;m++)r+=b[m].totalCount;for(var s=new Array(r),t=0,m=0;d>m;m++)for(var j=0;j<b.length;j++)m<g[j].length&&(s[t++]=g[j][m]);for(var m=0;e>m;m++)for(var j=0;j<b.length;j++)m<h[j].length&&(s[t++]=h[j][m]);return s};for(var c={MODE_NUMBER:1,MODE_ALPHA_NUM:2,MODE_8BIT_BYTE:4,MODE_KANJI:8},d={L:1,M:0,Q:3,H:2},e={PATTERN000:0,PATTERN001:1,PATTERN010:2,PATTERN011:3,PATTERN100:4,PATTERN101:5,PATTERN110:6,PATTERN111:7},f={PATTERN_POSITION_TABLE:[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],G15:1335,G18:7973,G15_MASK:21522,getBCHTypeInfo:function(a){for(var b=a<<10;f.getBCHDigit(b)-f.getBCHDigit(f.G15)>=0;)b^=f.G15<<f.getBCHDigit(b)-f.getBCHDigit(f.G15);return(a<<10|b)^f.G15_MASK},getBCHTypeNumber:function(a){for(var b=a<<12;f.getBCHDigit(b)-f.getBCHDigit(f.G18)>=0;)b^=f.G18<<f.getBCHDigit(b)-f.getBCHDigit(f.G18);return a<<12|b},getBCHDigit:function(a){for(var b=0;0!=a;)b++,a>>>=1;return b},getPatternPosition:function(a){return f.PATTERN_POSITION_TABLE[a-1]},getMask:function(a,b,c){switch(a){case e.PATTERN000:return 0==(b+c)%2;case e.PATTERN001:return 0==b%2;case e.PATTERN010:return 0==c%3;case e.PATTERN011:return 0==(b+c)%3;case e.PATTERN100:return 0==(Math.floor(b/2)+Math.floor(c/3))%2;case e.PATTERN101:return 0==b*c%2+b*c%3;case e.PATTERN110:return 0==(b*c%2+b*c%3)%2;case e.PATTERN111:return 0==(b*c%3+(b+c)%2)%2;default:throw new Error("bad maskPattern:"+a)}},getErrorCorrectPolynomial:function(a){for(var b=new i([1],0),c=0;a>c;c++)b=b.multiply(new i([1,g.gexp(c)],0));return b},getLengthInBits:function(a,b){if(b>=1&&10>b)switch(a){case c.MODE_NUMBER:return 10;case c.MODE_ALPHA_NUM:return 9;case c.MODE_8BIT_BYTE:return 8;case c.MODE_KANJI:return 8;default:throw new Error("mode:"+a)}else if(27>b)switch(a){case c.MODE_NUMBER:return 12;case c.MODE_ALPHA_NUM:return 11;case c.MODE_8BIT_BYTE:return 16;case c.MODE_KANJI:return 10;default:throw new Error("mode:"+a)}else{if(!(41>b))throw new Error("type:"+b);switch(a){case c.MODE_NUMBER:return 14;case c.MODE_ALPHA_NUM:return 13;case c.MODE_8BIT_BYTE:return 16;case c.MODE_KANJI:return 12;default:throw new Error("mode:"+a)}}},getLostPoint:function(a){for(var b=a.getModuleCount(),c=0,d=0;b>d;d++)for(var e=0;b>e;e++){for(var f=0,g=a.isDark(d,e),h=-1;1>=h;h++)if(!(0>d+h||d+h>=b))for(var i=-1;1>=i;i++)0>e+i||e+i>=b||(0!=h||0!=i)&&g==a.isDark(d+h,e+i)&&f++;f>5&&(c+=3+f-5)}for(var d=0;b-1>d;d++)for(var e=0;b-1>e;e++){var j=0;a.isDark(d,e)&&j++,a.isDark(d+1,e)&&j++,a.isDark(d,e+1)&&j++,a.isDark(d+1,e+1)&&j++,(0==j||4==j)&&(c+=3)}for(var d=0;b>d;d++)for(var e=0;b-6>e;e++)a.isDark(d,e)&&!a.isDark(d,e+1)&&a.isDark(d,e+2)&&a.isDark(d,e+3)&&a.isDark(d,e+4)&&!a.isDark(d,e+5)&&a.isDark(d,e+6)&&(c+=40);for(var e=0;b>e;e++)for(var d=0;b-6>d;d++)a.isDark(d,e)&&!a.isDark(d+1,e)&&a.isDark(d+2,e)&&a.isDark(d+3,e)&&a.isDark(d+4,e)&&!a.isDark(d+5,e)&&a.isDark(d+6,e)&&(c+=40);for(var k=0,e=0;b>e;e++)for(var d=0;b>d;d++)a.isDark(d,e)&&k++;var l=Math.abs(100*k/b/b-50)/5;return c+=10*l}},g={glog:function(a){if(1>a)throw new Error("glog("+a+")");return g.LOG_TABLE[a]},gexp:function(a){for(;0>a;)a+=255;for(;a>=256;)a-=255;return g.EXP_TABLE[a]},EXP_TABLE:new Array(256),LOG_TABLE:new Array(256)},h=0;8>h;h++)g.EXP_TABLE[h]=1<<h;for(var h=8;256>h;h++)g.EXP_TABLE[h]=g.EXP_TABLE[h-4]^g.EXP_TABLE[h-5]^g.EXP_TABLE[h-6]^g.EXP_TABLE[h-8];for(var h=0;255>h;h++)g.LOG_TABLE[g.EXP_TABLE[h]]=h;i.prototype={get:function(a){return this.num[a]},getLength:function(){return this.num.length},multiply:function(a){for(var b=new Array(this.getLength()+a.getLength()-1),c=0;c<this.getLength();c++)for(var d=0;d<a.getLength();d++)b[c+d]^=g.gexp(g.glog(this.get(c))+g.glog(a.get(d)));return new i(b,0)},mod:function(a){if(this.getLength()-a.getLength()<0)return this;for(var b=g.glog(this.get(0))-g.glog(a.get(0)),c=new Array(this.getLength()),d=0;d<this.getLength();d++)c[d]=this.get(d);for(var d=0;d<a.getLength();d++)c[d]^=g.gexp(g.glog(a.get(d))+b);return new i(c,0).mod(a)}},j.RS_BLOCK_TABLE=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],j.getRSBlocks=function(a,b){var c=j.getRsBlockTable(a,b);if(void 0==c)throw new Error("bad rs block @ typeNumber:"+a+"/errorCorrectLevel:"+b);for(var d=c.length/3,e=[],f=0;d>f;f++)for(var g=c[3*f+0],h=c[3*f+1],i=c[3*f+2],k=0;g>k;k++)e.push(new j(h,i));return e},j.getRsBlockTable=function(a,b){switch(b){case d.L:return j.RS_BLOCK_TABLE[4*(a-1)+0];case d.M:return j.RS_BLOCK_TABLE[4*(a-1)+1];case d.Q:return j.RS_BLOCK_TABLE[4*(a-1)+2];case d.H:return j.RS_BLOCK_TABLE[4*(a-1)+3];default:return void 0}},k.prototype={get:function(a){var b=Math.floor(a/8);return 1==(1&this.buffer[b]>>>7-a%8)},put:function(a,b){for(var c=0;b>c;c++)this.putBit(1==(1&a>>>b-c-1))},getLengthInBits:function(){return this.length},putBit:function(a){var b=Math.floor(this.length/8);this.buffer.length<=b&&this.buffer.push(0),a&&(this.buffer[b]|=128>>>this.length%8),this.length++}};var l=[[17,14,11,7],[32,26,20,14],[53,42,32,24],[78,62,46,34],[106,84,60,44],[134,106,74,58],[154,122,86,64],[192,152,108,84],[230,180,130,98],[271,213,151,119],[321,251,177,137],[367,287,203,155],[425,331,241,177],[458,362,258,194],[520,412,292,220],[586,450,322,250],[644,504,364,280],[718,560,394,310],[792,624,442,338],[858,666,482,382],[929,711,509,403],[1003,779,565,439],[1091,857,611,461],[1171,911,661,511],[1273,997,715,535],[1367,1059,751,593],[1465,1125,805,625],[1528,1190,868,658],[1628,1264,908,698],[1732,1370,982,742],[1840,1452,1030,790],[1952,1538,1112,842],[2068,1628,1168,898],[2188,1722,1228,958],[2303,1809,1283,983],[2431,1911,1351,1051],[2563,1989,1423,1093],[2699,2099,1499,1139],[2809,2213,1579,1219],[2953,2331,1663,1273]],o=function(){var a=function(a,b){this._el=a,this._htOption=b};return a.prototype.draw=function(a){function g(a,b){var c=document.createElementNS("http://www.w3.org/2000/svg",a);for(var d in b)b.hasOwnProperty(d)&&c.setAttribute(d,b[d]);return c}var b=this._htOption,c=this._el,d=a.getModuleCount();Math.floor(b.width/d),Math.floor(b.height/d),this.clear();var h=g("svg",{viewBox:"0 0 "+String(d)+" "+String(d),width:"100%",height:"100%",fill:b.colorLight});h.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:xlink","http://www.w3.org/1999/xlink"),c.appendChild(h),h.appendChild(g("rect",{fill:b.colorDark,width:"1",height:"1",id:"template"}));for(var i=0;d>i;i++)for(var j=0;d>j;j++)if(a.isDark(i,j)){var k=g("use",{x:String(i),y:String(j)});k.setAttributeNS("http://www.w3.org/1999/xlink","href","#template"),h.appendChild(k)}},a.prototype.clear=function(){for(;this._el.hasChildNodes();)this._el.removeChild(this._el.lastChild)},a}(),p="svg"===document.documentElement.tagName.toLowerCase(),q=p?o:m()?function(){function a(){this._elImage.src=this._elCanvas.toDataURL("image/png"),this._elImage.style.display="block",this._elCanvas.style.display="none"}function d(a,b){var c=this;if(c._fFail=b,c._fSuccess=a,null===c._bSupportDataURI){var d=document.createElement("img"),e=function(){c._bSupportDataURI=!1,c._fFail&&_fFail.call(c)},f=function(){c._bSupportDataURI=!0,c._fSuccess&&c._fSuccess.call(c)};return d.onabort=e,d.onerror=e,d.onload=f,d.src="data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==",void 0}c._bSupportDataURI===!0&&c._fSuccess?c._fSuccess.call(c):c._bSupportDataURI===!1&&c._fFail&&c._fFail.call(c)}if(this._android&&this._android<=2.1){var b=1/window.devicePixelRatio,c=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(a,d,e,f,g,h,i,j){if("nodeName"in a&&/img/i.test(a.nodeName))for(var l=arguments.length-1;l>=1;l--)arguments[l]=arguments[l]*b;else"undefined"==typeof j&&(arguments[1]*=b,arguments[2]*=b,arguments[3]*=b,arguments[4]*=b);c.apply(this,arguments)}}var e=function(a,b){this._bIsPainted=!1,this._android=n(),this._htOption=b,this._elCanvas=document.createElement("canvas"),this._elCanvas.width=b.width,this._elCanvas.height=b.height,a.appendChild(this._elCanvas),this._el=a,this._oContext=this._elCanvas.getContext("2d"),this._bIsPainted=!1,this._elImage=document.createElement("img"),this._elImage.style.display="none",this._el.appendChild(this._elImage),this._bSupportDataURI=null};return e.prototype.draw=function(a){var b=this._elImage,c=this._oContext,d=this._htOption,e=a.getModuleCount(),f=d.width/e,g=d.height/e,h=Math.round(f),i=Math.round(g);b.style.display="none",this.clear();for(var j=0;e>j;j++)for(var k=0;e>k;k++){var l=a.isDark(j,k),m=k*f,n=j*g;c.strokeStyle=l?d.colorDark:d.colorLight,c.lineWidth=1,c.fillStyle=l?d.colorDark:d.colorLight,c.fillRect(m,n,f,g),c.strokeRect(Math.floor(m)+.5,Math.floor(n)+.5,h,i),c.strokeRect(Math.ceil(m)-.5,Math.ceil(n)-.5,h,i)}this._bIsPainted=!0},e.prototype.makeImage=function(){this._bIsPainted&&d.call(this,a)},e.prototype.isPainted=function(){return this._bIsPainted},e.prototype.clear=function(){this._oContext.clearRect(0,0,this._elCanvas.width,this._elCanvas.height),this._bIsPainted=!1},e.prototype.round=function(a){return a?Math.floor(1e3*a)/1e3:a},e}():function(){var a=function(a,b){this._el=a,this._htOption=b};return a.prototype.draw=function(a){for(var b=this._htOption,c=this._el,d=a.getModuleCount(),e=Math.floor(b.width/d),f=Math.floor(b.height/d),g=['<table style="border:0;border-collapse:collapse;">'],h=0;d>h;h++){g.push("<tr>");for(var i=0;d>i;i++)g.push('<td style="border:0;border-collapse:collapse;padding:0;margin:0;width:'+e+"px;height:"+f+"px;background-color:"+(a.isDark(h,i)?b.colorDark:b.colorLight)+';"></td>');g.push("</tr>")}g.push("</table>"),c.innerHTML=g.join("");var j=c.childNodes[0],k=(b.width-j.offsetWidth)/2,l=(b.height-j.offsetHeight)/2;k>0&&l>0&&(j.style.margin=l+"px "+k+"px")},a.prototype.clear=function(){this._el.innerHTML=""},a}();QRCode=function(a,b){if(this._htOption={width:256,height:256,typeNumber:4,colorDark:"#000000",colorLight:"#ffffff",correctLevel:d.H},"string"==typeof b&&(b={text:b}),b)for(var c in b)this._htOption[c]=b[c];"string"==typeof a&&(a=document.getElementById(a)),this._android=n(),this._el=a,this._oQRCode=null,this._oDrawing=new q(this._el,this._htOption),this._htOption.text&&this.makeCode(this._htOption.text)},QRCode.prototype.makeCode=function(a){this._oQRCode=new b(r(a,this._htOption.correctLevel),this._htOption.correctLevel),this._oQRCode.addData(a),this._oQRCode.make(),this._el.title=a,this._oDrawing.draw(this._oQRCode),this.makeImage()},QRCode.prototype.makeImage=function(){"function"==typeof this._oDrawing.makeImage&&(!this._android||this._android>=3)&&this._oDrawing.makeImage()},QRCode.prototype.clear=function(){this._oDrawing.clear()},QRCode.CorrectLevel=d}();</script>
 <script>const SITE = {
   brand: {
@@ -3743,13 +4307,17 @@ textarea.field {
 // Estrutura: { texts: { slogan, hoursDisplay, whatsapp, ... }, fields aninhados autorizados }
 (function () {
   // Logo padrao do topo: usa SITE.brand.logo; o admin pode sobrescrever via localStorage
-  const defaultLogo = SITE.brand.logo;
-  if (defaultLogo) {
+  function applyDefaultLogo() {
+    if (!SITE.brand.logo) return;
     const mark = document.getElementById("brandMark");
-    if (mark) {
-      mark.src = defaultLogo;
-      mark.onerror = function () { this.style.display = "none"; };
-    }
+    if (!mark) return;
+    mark.src = SITE.brand.logo;
+    mark.onerror = function () { this.style.display = "none"; };
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyDefaultLogo);
+  } else {
+    applyDefaultLogo();
   }
   try {
     const raw = localStorage.getItem("mng_admin_site");
@@ -6259,542 +6827,5 @@ let PRODUCTS = [
   if (document.readyState !== "loading") checkHash();
   else document.addEventListener("DOMContentLoaded", checkHash);
 })();</script>
-
-</head>
-<body>
-<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
-
-<!-- ============ HEADER ============ -->
-<header class="site-header" id="siteHeader">
-  <div class="container header-inner">
-    <a href="#inicio" class="brand" aria-label="Tenda Mangangá — Início">
-      <img id="brandMark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJtZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmOGMyNWMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTI4YTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBkPSJNMjQgMiBMNDQgMTMuMiBWMzQuOCBMMjQgNDYgTDQgMzQuOCBWMTMuMiBaIiBmaWxsPSJ1cmwoI21nKSIvPgogIDxwYXRoIGQ9Ik0yNCA1LjQgTDQxIDE1LjIgVjMyLjggTDI0IDQyLjYgTDcgMzIuOCBWMTUuMiBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjAxLDEyMiwyMCwwLjQ1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="40" height="40">
-      <span class="brand-name" id="brandName">Tenda Mangangá<span id="brandSub">Comidas regionais &amp; churrasco</span></span>
-    </a>
-    <nav class="nav-links" aria-label="Navegação principal">
-      <a href="#inicio" data-nav="inicio">Início</a>
-      <a href="#cardapio" data-nav="cardapio">Cardápio</a>
-      <a href="#localizacao" data-nav="localizacao">Localização</a>
-    </nav>
-    <div class="header-actions">
-      <button class="icon-btn" id="btnOpenQr" aria-label="Abrir QR Code" title="QR Code">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 3h7v7H3V3zm2 2v3h3V5H5zm7-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm12-2h2v2h-2v2h2v2h-2v2h4v-4h-9v2h2v-2h2v-2h-2v2h-2v-4h2v2h2v-2zm2 4h2v2h-2v-2z"/></svg>
-      </button>
-      <button class="icon-btn cart-btn" id="btnOpenCart" aria-label="Abrir carrinho">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-        <span class="cart-badge" id="cartBadge">0</span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<main>
-<!-- ============ HERO ============ -->
-<section class="hero" id="inicio">
-  <div class="hero-bg"></div>
-  <div class="container hero-inner">
-    <div class="hero-copy" data-reveal>
-      <span class="hero-chip">🔥 Comidas regionais · Churrasco · Frutos do mar</span>
-      <h1>Tenda <span class="grad">Mangangá</span></h1>
-      <p class="hero-sub">Comidas regionais, churrascos e frutos do mar com o sabor de casa.</p>
-      <p class="hero-trust">🔒 Peça de forma rápida, fácil e segura pelo nosso site.</p>
-      <div class="hero-actions">
-        <a href="#cardapio" class="btn btn-primary btn-lg">Ver cardápio</a>
-        <a href="#cardapio" class="btn btn-outline btn-lg" id="btnHeroOrder">Fazer pedido</a>
-      </div>
-      <div class="hero-perks">
-        <span class="perk">🥩 Carnes &amp; peixes selecionados</span>
-        <span class="perk">🛵 Entrega <b>45–60min</b></span>
-        <span class="perk">💳 Pix &amp; cartão</span>
-      </div>
-      <div class="stat-open" id="openStatusHero">
-        <span class="dot"></span><span id="openStatusHeroText">Carregando status...</span>
-      </div>
-    </div>
-    <div class="hero-stage" data-reveal style="--reveal-delay:.15s">
-      <div class="hero-glow" aria-hidden="true"></div>
-      <div class="hero-card hero-panel" aria-label="Destaques da casa — carrossel">
-        <div class="hp-progress" id="heroProgress" aria-hidden="true"></div>
-        <div class="hc-head">
-          <span class="hc-kicker">À la carte · Escolha do chef</span>
-          <h3 class="hc-title">Destaques da casa</h3>
-        </div>
-        <div class="hc-list" id="heroCardList"></div>
-        <div class="hp-nav">
-          <button type="button" class="hp-btn" id="heroPrev" aria-label="Destaque anterior">‹</button>
-          <div class="hp-dots" id="heroDots" role="tablist" aria-label="Indicadores dos destaques"></div>
-          <button type="button" class="hp-btn" id="heroNext" aria-label="Próximo destaque">›</button>
-        </div>
-        <a href="#cardapio" class="hc-cta">Ver cardápio completo <span class="hc-arrow">→</span></a>
-      </div>
-      <div class="hero-chips">
-        <a class="hero-chip" href="#cardapio" data-tab-go="cervejas-600ml">Cervejas</a>
-        <a class="hero-chip" href="#cardapio" data-tab-go="porcoes">Porções</a>
-        <a class="hero-chip" href="#cardapio" data-tab-go="refeicoes-churrasco">Churrasco</a>
-        <a class="hero-chip" href="#cardapio" data-tab-go="refeicoes-peixes">Peixes</a>
-        <a class="hero-chip" href="#cardapio" data-tab-go="pizzas-tradicionais">Pizzas</a>
-        <a class="hero-chip" href="#cardapio" data-tab-go="drinks">Drinks</a>
-        <a class="hero-chip" href="#cardapio" data-tab-go="sucos">Sucos</a>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-hint" aria-hidden="true">⌄</div>
-</section>
-
-<!-- ============ QR CODE ============ -->
-<section class="section qr-section" id="qrcode">
-  <div class="container">
-    <div class="qr-card" data-reveal>
-      <div>
-        <span class="kicker">Acesso rápido</span>
-        <h2>APONTE A CÂMERA E ACESSE NOSSO SITE</h2>
-        <p class="section-sub">Escaneie o QR Code e tenha acesso rápido ao nosso cardápio e faça seu pedido diretamente pelo nosso site.</p>
-        <div class="qr-steps">
-          <div class="qr-step"><b>1</b>Abra a câmera<br>do celular</div>
-          <div class="qr-step"><b>2</b>Escaneie<br>o QR Code</div>
-          <div class="qr-step"><b>3</b>Acesse e<br>faça seu pedido</div>
-        </div>
-        <div class="qr-actions">
-          <button class="btn btn-outline btn-sm" id="btnDownloadQr">⬇ Baixar QR Code</button>
-          <button class="btn btn-ghost btn-sm" id="btnShareQr">↗ Compartilhar link</button>
-          <button class="btn-link btn-sm" id="btnUseQr" style="align-self:center">Ver em tela cheia →</button>
-        </div>
-      </div>
-      <div class="qr-visual">
-        <div class="qr-box"><div class="qr-canvas" id="qrcodeBox"></div></div>
-        <span class="qr-caption">📲 aponte a câmera do seu celular</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CARDÁPIO ============ -->
-<section class="section" id="cardapio">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <span class="kicker">Delícias da casa</span>
-      <h2>Cardápio Digital</h2>
-      <p class="section-sub" style="margin-inline:auto">Escolha uma categoria, adicione tudo que quiser e finalize seu pedido em segundos.</p>
-    </div>
-    <div class="menu-notice" id="menuNotice" data-reveal></div>
-    <div class="menu-search" data-reveal>
-      <span class="search-ic">🔍</span>
-      <input id="menuSearch" type="search" placeholder="Buscar no cardápio — ex.: picanha, cerveja, suco, porção..." autocomplete="off" aria-label="Buscar no cardápio">
-      <button type="button" class="search-clear hidden" id="searchClear" aria-label="Limpar busca">✕</button>
-    </div>
-  </div>
-  <div class="container">
-    <div class="cat-cards" id="catCards" role="tablist" aria-label="Grupos do cardápio"></div>
-    <div class="sub-tabs hidden" id="subTabs" role="tablist" aria-label="Seções do grupo"></div>
-    <div class="product-grid" id="productGrid"></div>
-  </div>
-</section>
-
-<!-- ============ PROMOÇÕES ============ -->
-<section class="section alt" id="promocoes">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="kicker">Imperdíveis</span>
-      <h2>Promoções</h2>
-      <p class="section-sub">Ofertas especiais por tempo limitado. Aproveite antes que acabe!</p>
-    </div>
-    <div class="scroll-row" id="promoRow" data-reveal></div>
-  </div>
-</section>
-
-<!-- ============ FAVORITOS ============ -->
-<section class="section" id="favoritos">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="kicker">Os queridinhos</span>
-      <h2>Os favoritos dos nossos clientes ❤️</h2>
-      <p class="section-sub">Os pedidos que mais saem por aqui. Rolou uma dúvida? Comece por esses!</p>
-    </div>
-    <div class="scroll-row" id="favoriteRow" data-reveal></div>
-  </div>
-</section>
-
-<!-- ============ COMO PEDIR ============ -->
-<section class="section alt" id="comoPedir">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <span class="kicker">Simples assim</span>
-      <h2>Como fazer seu pedido</h2>
-    </div>
-    <div class="steps-grid">
-      <div class="step-card" data-reveal style="--reveal-delay:.05s">
-        <div class="step-num">1</div>
-        <div><h3>Escolha seus favoritos</h3><p>Navegue pelo nosso cardápio digital e adicione tudo o que te der vontade.</p></div>
-      </div>
-      <div class="step-card" data-reveal style="--reveal-delay:.15s">
-        <div class="step-num">2</div>
-        <div><h3>Revise o carrinho</h3><p>Confira itens, quantidades e o valor total antes de finalizar.</p></div>
-      </div>
-      <div class="step-card" data-reveal style="--reveal-delay:.25s">
-        <div class="step-num">3</div>
-        <div><h3>Receba em casa</h3><p>Seu pedido vai direto para o nosso WhatsApp e chega quentinho até você.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ AVALIAÇÕES ============ -->
-<section class="section" id="avaliacoes">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <span class="kicker">Na voz de quem provou</span>
-      <h2>O que nossos clientes dizem</h2>
-      <p class="section-sub" style="margin-inline:auto">⭐ 4,9 de nota média com base em avaliações reais</p>
-    </div>
-    <div class="review-grid" id="reviewGrid"></div>
-  </div>
-</section>
-
-<!-- ============ REDES SOCIAIS ============ -->
-<section class="section alt" id="redes">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <span class="kicker">Bora acompanhar</span>
-      <h2>Redes sociais</h2>
-      <p class="section-sub" style="margin-inline:auto">Fique por dentro de todas as novidades e promoções.</p>
-    </div>
-    <div class="social-grid" id="socialGrid"></div>
-  </div>
-</section>
-
-<!-- ============ LOCALIZAÇÃO ============ -->
-<section class="section" id="localizacao">
-  <div class="container">
-    <div class="section-head" data-reveal>
-      <span class="kicker">Venha nos visitar</span>
-      <h2>Onde estamos</h2>
-    </div>
-    <div class="location-grid">
-      <div class="loc-card" data-reveal>
-        <div class="loc-row">
-          <div class="loc-ic">📍</div>
-          <div><b>Endereço</b><span id="locAddress">Carregando...</span></div>
-        </div>
-        <div class="loc-row">
-          <div class="loc-ic">⏰</div>
-          <div><b>Horário de funcionamento</b><span id="locHours">Carregando...</span></div>
-        </div>
-        <div class="loc-row">
-          <div class="loc-ic">📸</div>
-          <div><b>Instagram</b><span><a id="locPhone" href="#" target="_blank" rel="noopener">Carregando...</a></span></div>
-        </div>
-        <div class="loc-row">
-          <div class="loc-ic">🛵</div>
-          <div><b>Zona de entrega</b><span id="locDelivery">Carregando...</span></div>
-        </div>
-        <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:10px">
-          <a href="#" id="btnDirections" target="_blank" rel="noopener" class="btn btn-primary">Como chegar</a>
-          <a href="#" data-social="instagram" class="btn btn-ghost">Seguir no Instagram</a>
-        </div>
-      </div>
-      <div class="hours-card" data-reveal style="--reveal-delay:.1s">
-        <div class="hours-status" id="openStatusHours">
-          <span class="dot"></span><span id="openStatusHoursText">Carregando status...</span>
-        </div>
-        <h3 style="margin-bottom:12px">Horário de funcionamento</h3>
-        <ul class="hours-list" id="hoursList"></ul>
-        <p class="co-note" id="hoursNote" style="margin-top:12px"></p>
-      </div>
-    </div>
-    <div class="map-wrap" style="margin-top:22px" data-reveal>
-      <iframe id="mapFrame" title="Mapa — Tenda Mangangá" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-  </div>
-</section>
-
-<!-- ============ INSTAGRAM ============ -->
-<section class="section alt" id="instagram">
-  <div class="container">
-    <div class="section-head center" data-reveal>
-      <span class="kicker">Fica de olho</span>
-      <h2>Siga a gente no Instagram</h2>
-      <p class="section-sub" style="margin-inline:auto">Novidades, promoções e aquela foto de dar água na boca todo dia.</p>
-    </div>
-    <div class="insta-grid" id="instaGrid" data-reveal></div>
-    <div class="instagram-cta" data-reveal>
-      <a href="#" data-social="instagram" class="btn btn-primary">Seguir no Instagram</a>
-    </div>
-  </div>
-</section>
-</main>
-
-<!-- ============ FOOTER ============ -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="#inicio" class="brand" aria-label="Tenda Mangangá">
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxkZWZzPgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJtZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNmOGMyNWMiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZTI4YTI2Ii8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBkPSJNMjQgMiBMNDQgMTMuMiBWMzQuOCBMMjQgNDYgTDQgMzQuOCBWMTMuMiBaIiBmaWxsPSJ1cmwoI21nKSIvPgogIDxwYXRoIGQ9Ik0yNCA1LjQgTDQxIDE1LjIgVjMyLjggTDI0IDQyLjYgTDcgMzIuOCBWMTUuMiBaIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjAxLDEyMiwyMCwwLjQ1KSIgc3Ryb2tlLXdpZHRoPSIxIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMSIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="40" height="40">
-      <span class="brand-name" id="brandName">Tenda Mangangá<span id="brandSub">Comidas regionais &amp; churrasco</span></span>
-        </a>
-        <p id="footerSlogan">Comidas regionais, churrascos e frutos do mar.</p>
-        <div class="footer-socials">
-          <a href="#" data-social="instagram" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 16 16" fill="#fff"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.417.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.942a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-1.234 3.627A2.874 2.874 0 1 0 8 11.376a2.874 2.874 0 0 0-1.234-5.749zm0 1.436A1.439 1.439 0 1 1 6.327 8a1.439 1.439 0 0 1 1.439-1.437zM11.99 3.9a.758.758 0 1 1-1.516 0 .758.758 0 0 1 1.516 0z"/></svg></a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Navegação</h4>
-        <ul>
-          <li><a href="#inicio">Início</a></li>
-          <li><a href="#cardapio">Cardápio</a></li>
-          <li><a href="#favoritos">Favoritos</a></li>
-          <li><a href="#localizacao">Localização</a></li>
-          <li><button class="btn-link" id="btnOpenQrFooter">QR Code</button></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contato</h4>
-        <ul>
-          <li><a href="#" data-social="instagram" class="insta-line" data-ig-handle>@tendamanganga</a></li>
-          <li><span id="footerAddress">Rua Professor Joca Vieira, 909 — Jóquei</span></li>
-          <li><span>Teresina — PI</span></li>
-          <li><a href="#" data-social="instagram">Seguir no Instagram</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Atendimento</h4>
-        <ul>
-          <li><span id="footerHours">Carregando horários...</span></li>
-          <li><span id="footerDelivery">Entrega na sua região</span></li>
-          <li><a href="#localizacao">Como chegar (mapa)</a></li>
-          <li><button class="btn-link" id="btnPrivacy">Política de privacidade</button></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Tenda Mangangá. Todos os direitos reservados.</span>
-      <span>Feito com 💛 • Peça direto pelo nosso site</span>
-      <a href="#admin" class="footer-admin-link" style="color:rgba(247,241,230,.75);font-size:12px;text-decoration:none;opacity:.85">⚙ Admin</a>
-    </div>
-  </div>
-</footer>
-
-<!-- ============ MENU MOBILE ============ -->
-<nav class="mobile-nav" aria-label="Navegação mobile">
-  <button data-mobile="inicio" class="active"><span class="nav-em">🏠</span>Início</button>
-  <button data-mobile="cardapio"><span class="nav-em">📋</span>Cardápio</button>
-  <button id="mobileCart"><span class="nav-em">🛒</span>Carrinho<i class="nav-cart-badge hidden" id="mobileCartBadge">0</i></button>
-  <button data-mobile="localizacao"><span class="nav-em">📍</span>Localização</button>
-  <button data-mobile="instagram"><span class="nav-em">📸</span>Instagram</button>
-</nav>
-
-<!-- ============ INSTAGRAM FLOAT ============ -->
-<a href="#" data-social="instagram" class="insta-fab" id="waFab" aria-label="Seguir no Instagram">
-  <span class="wa-pulse"></span>
-  <svg viewBox="0 0 16 16" fill="#fff"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.417.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.942a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm3.628 4.659a.96.96 0 1 1 0-1.92.96.96 0 0 1 0 1.92zM8 4.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z"/></svg>
-  <span>@mangangathe</span>
-</a>
-
-<!-- ============ CHATBOT ============ -->
-<button class="chat-fab" id="chatFab" aria-label="Mangangá Assistente">
-  💬<span class="online-dot"></span>
-</button>
-<section class="chat-panel" id="chatPanel" aria-label="Chat Mangangá Assistente">
-  <header class="chat-head">
-    <div class="chat-avatar">M</div>
-    <div><strong>Mangangá Assistente</strong><small><span class="dot"></span> Online agora</small></div>
-    <button class="chat-close" id="chatClose" aria-label="Fechar chat">✕</button>
-  </header>
-  <div class="chat-msgs" id="chatMessages"></div>
-  <div class="chat-chips" id="chatChips"></div>
-  <form class="chat-input-form" id="chatForm">
-    <input id="chatInput" type="text" placeholder="Digite sua mensagem..." autocomplete="off" aria-label="Mensagem">
-    <button type="submit" class="chat-send" aria-label="Enviar mensagem">➤</button>
-  </form>
-</section>
-
-<!-- ============ OVERLAY ============ -->
-<div class="overlay" id="overlay"></div>
-
-<!-- ============ CARRINHO ============ -->
-<aside class="drawer" id="cartDrawer" aria-label="Carrinho de compras">
-  <div class="drawer-head">
-    <div><strong>Seu carrinho</strong><div class="count-label" id="cartCountLabel"></div></div>
-    <button class="icon-btn" id="cartClose" aria-label="Fechar carrinho">✕</button>
-  </div>
-  <div class="drawer-body" id="cartBody"></div>
-  <footer class="drawer-foot" id="cartFoot">
-    <div class="drawer-total-row">
-      <span>Total <span class="delivery-note" id="cartDeliveryNote"></span></span>
-      <span id="cartTotal">R$ 0,00</span>
-    </div>
-    <div class="drawer-actions">
-      <button class="btn btn-ghost btn-sm" id="cartClear">Limpar</button>
-      <button class="btn btn-primary" id="btnCheckout">Finalizar pedido</button>
-    </div>
-  </footer>
-</aside>
-
-<!-- ============ CHECKOUT ============ -->
-<div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Finalizar pedido">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div><strong>Finalizar pedido</strong><div class="count-label">Quase lá! Só precisamos dos seus dados.</div></div>
-      <button class="icon-btn" id="coClose" aria-label="Fechar checkout">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="checkout-grid">
-        <form id="checkoutForm" novalidate>
-          <div class="field-group" style="margin-bottom:20px">
-            <span class="field-label">Como você quer receber?</span>
-            <div class="option-pills" id="deliveryPills">
-              <label class="option-pill"><input type="radio" name="delivery" value="entrega" checked><span>🛵 Entrega</span></label>
-              <label class="option-pill"><input type="radio" name="delivery" value="retirada"><span>🏪 Retirada no local</span></label>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-group">
-              <label class="field-label" for="coName">Nome</label>
-              <input class="field" id="coName" type="text" placeholder="Seu nome" required>
-            </div>
-            <div class="field-group">
-              <label class="field-label" for="coPhone">Telefone / WhatsApp</label>
-              <input class="field" id="coPhone" type="tel" placeholder="(11) 99999-9999" required>
-            </div>
-          </div>
-          <div class="field-group" id="coAddressGroup">
-            <label class="field-label" for="coStreet">Endereço</label>
-            <input class="field" id="coStreet" type="text" placeholder="Rua, avenida..." required>
-          </div>
-          <div class="field-row">
-            <div class="field-group" id="coNumberGroup">
-              <label class="field-label" for="coNumber">Número</label>
-              <input class="field" id="coNumber" type="text" placeholder="123" required>
-            </div>
-            <div class="field-group" id="coBairroGroup">
-              <label class="field-label" for="coBairro">Bairro</label>
-              <input class="field" id="coBairro" type="text" placeholder="Seu bairro" required>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-group">
-              <label class="field-label" for="coComplemento">Complemento</label>
-              <input class="field" id="coComplemento" type="text" placeholder="Apto, referência...">
-            </div>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="coNote">Observação do pedido</label>
-            <textarea class="field" id="coNote" placeholder="Sem cebola, mais molho, ponto da carne..."></textarea>
-          </div>
-          <div class="field-group" style="margin-bottom:20px; margin-top:18px">
-            <span class="field-label">Forma de pagamento</span>
-            <div class="option-pills" id="paymentPills">
-              <label class="option-pill"><input type="radio" name="payment" value="Pix" checked><span>Pix</span></label>
-              <label class="option-pill"><input type="radio" name="payment" value="Dinheiro"><span>Dinheiro</span></label>
-              <label class="option-pill"><input type="radio" name="payment" value="Cartão"><span>Cartão</span></label>
-              <label class="option-pill"><input type="radio" name="payment" value="Outro"><span>Outro</span></label>
-            </div>
-          </div>
-        </form>
-        <div class="co-summary">
-          <h4>Resumo do pedido <button type="button" id="coBackToCart">editar carrinho</button></h4>
-          <div class="co-items" id="coItems"></div>
-          <div class="co-row"><span>Subtotal</span> <b id="coSubtotal">R$ 0,00</b></div>
-          <div class="co-row"><span>Entrega</span> <b id="coDelivery">—</b></div>
-          <div class="co-row total"><span>Total</span> <b id="coTotal">R$ 0,00</b></div>
-          <p class="co-note" id="coFeeNote">* Preço da entrega calculado na confirmação do pedido.</p>
-          <button class="btn btn-primary btn-block co-submit" id="coSubmit">Confirmar pedido ✓</button>
-          <p class="co-note" style="text-align:center">Ao confirmar, seu pedido será enviado direto para o nosso WhatsApp 💬</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ MODAL QR ============ -->
-<div class="modal center" id="qrModal" role="dialog" aria-modal="true" aria-label="QR Code da Tenda Mangangá">
-  <div class="modal-box">
-    <div class="modal-head">
-      <strong>QR Code do site</strong>
-      <button class="icon-btn" id="qrModalClose" aria-label="Fechar">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="qr-modal-content">
-        <div class="qr-box"><div id="qrcodeModal"></div></div>
-        <p>Escaneie para acessar nosso site e fazer seu pedido.</p>
-        <div class="qr-modal-actions">
-          <button class="btn btn-primary btn-block" id="btnShareQrModal">↗ Compartilhar</button>
-          <button class="btn btn-ghost btn-block" id="btnDownloadQrModal">⬇ Baixar QR Code</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ MODAL PRIVACIDADE ============ -->
-<div class="modal center" id="privacyModal" role="dialog" aria-modal="true" aria-label="Política de privacidade">
-  <div class="modal-box">
-    <div class="modal-head">
-      <strong>Política de privacidade</strong>
-      <button class="icon-btn" id="privacyClose" aria-label="Fechar">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="privacy-content">
-        <p>Valorizamos sua privacidade. As informações fornecidas ao fazer um pedido — como nome, telefone e endereço de entrega — são utilizadas exclusivamente para processar e entregar o seu pedido.</p>
-        <p>Não compartilhamos seus dados com terceiros e não enviamos mensagens não solicitadas. Nossos canais de contato servem apenas para assuntos relacionados ao seu pedido.</p>
-        <p>Para dúvidas sobre seus dados, fale conosco pelo WhatsApp oficial da Tenda Mangangá.</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ TOASTS ============ -->
-<div class="toast-root" id="toastRoot"></div>
-
-<!-- QR Code library -->
-
-
-
-
-<!-- Config & data -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- App -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>
