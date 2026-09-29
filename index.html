@@ -3410,6 +3410,148 @@ textarea.field {
   width: 46px;
 }
 
+/* ---------- CARDÁPIOS EM GRUPOS ---------- */
+.cat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 4px 0 22px;
+}
+
+.cat-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px 14px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-family: var(--font-display);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  text-align: center;
+  overflow: hidden;
+}
+
+.cat-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--grad);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+
+.cat-card:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.cat-card.active {
+  border-color: transparent;
+  box-shadow: 0 12px 30px -12px rgba(231, 142, 47, 0.55);
+}
+
+.cat-card.active::before {
+  opacity: 1;
+}
+
+.cat-card .cc-emoji,
+.cat-card .cc-name,
+.cat-card .cc-count {
+  position: relative;
+  z-index: 1;
+}
+
+.cat-card .cc-emoji {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.cat-card .cc-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text);
+  transition: color 0.25s var(--ease);
+}
+
+.cat-card.active .cc-name {
+  color: #201607;
+}
+
+.cat-card .cc-count {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: color 0.25s var(--ease);
+}
+
+.cat-card.active .cc-count {
+  color: rgba(32, 22, 7, 0.72);
+}
+
+/* Subtítulos internos (seções do grupo) */
+.sub-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 0 18px;
+  margin-bottom: 6px;
+}
+
+.sub-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.sub-tab {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+
+.sub-tab:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+.sub-tab.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (max-width: 520px) {
+  .cat-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .cat-card {
+    padding: 16px 10px;
+  }
+
+  .cat-card .cc-emoji {
+    font-size: 26px;
+  }
+
+  .cat-card .cc-name {
+    font-size: 0.82rem;
+  }
+}
+
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -3567,17 +3709,14 @@ textarea.field {
     </div>
     <div class="menu-notice" id="menuNotice" data-reveal></div>
     <div class="menu-search" data-reveal>
-      <span class="search-ic">ðŸ”</span>
-      <input id="menuSearch" type="search" placeholder="Buscar no cardÃ¡pio â€” ex.: picanha, cerveja, suco, porÃ§Ã£o..." autocomplete="off" aria-label="Buscar no cardÃ¡pio">
-      <button type="button" class="search-clear hidden" id="searchClear" aria-label="Limpar busca">âœ•</button>
+      <span class="search-ic">🔍</span>
+      <input id="menuSearch" type="search" placeholder="Buscar no cardápio — ex.: picanha, cerveja, suco, porção..." autocomplete="off" aria-label="Buscar no cardápio">
+      <button type="button" class="search-clear hidden" id="searchClear" aria-label="Limpar busca">✕</button>
     </div>
   </div>
-  <div class="tabs-wrap">
-    <button type="button" class="tab-arrow" id="tabsPrev" aria-label="Categorias anteriores">â€¹</button>
-    <div class="tabs" id="menuTabs" role="tablist" aria-label="Categorias do cardÃ¡pio"></div>
-    <button type="button" class="tab-arrow" id="tabsNext" aria-label="PrÃ³ximas categorias">â€º</button>
-  </div>
   <div class="container">
+    <div class="cat-cards" id="catCards" role="tablist" aria-label="Grupos do cardápio"></div>
+    <div class="sub-tabs hidden" id="subTabs" role="tablist" aria-label="Seções do grupo"></div>
     <div class="product-grid" id="productGrid"></div>
   </div>
 </section>
@@ -4022,7 +4161,77 @@ textarea.field {
     instagramHandle: "@mangangathe"
   },
 
-  mapEmbedUrl: "https://www.google.com/maps?q=Rua+Professor+Joca+Vieira+909+Teresina&output=embed"
+  mapEmbedUrl: "https://www.google.com/maps?q=Rua+Professor+Joca+Vieira+909+Teresina&output=embed",
+
+  // Agrupamento do cardápio: junta as 24 seções em 6 cartões grandes.
+  // Cada grupo tem subtítulos com as seções que ele contém.
+  menuGroups: [
+    {
+      id: "g-entradas",
+      name: "Entradas e Porções",
+      emoji: "🥟",
+      subs: [
+        { name: "Entradas", cats: ["entradas"] },
+        { name: "Tira-gosto", cats: ["tira-gosto"] },
+        { name: "Porções", cats: ["porcoes"] }
+      ]
+    },
+    {
+      id: "g-pizzas",
+      name: "Pizzas",
+      emoji: "🍕",
+      subs: [
+        { name: "Tradicionais", cats: ["pizzas-tradicionais"] },
+        { name: "Especiais", cats: ["pizzas-especiais"] },
+        { name: "Premium", cats: ["pizza-premium"] },
+        { name: "Doces", cats: ["pizzas-doces"] }
+      ]
+    },
+    {
+      id: "g-refeicoes",
+      name: "Refeições",
+      emoji: "🍽️",
+      subs: [
+        { name: "Churrasco", cats: ["refeicoes-churrasco"] },
+        { name: "Peixes", cats: ["refeicoes-peixes"] },
+        { name: "Regionais", cats: ["refeicoes-regionais"] },
+        { name: "Aves", cats: ["refeicoes-aves"] },
+        { name: "Menu para dois", cats: ["menu-para-dois"] }
+      ]
+    },
+    {
+      id: "g-bebidas",
+      name: "Bebidas",
+      emoji: "🍹",
+      subs: [
+        { name: "Drinks", cats: ["drinks"] },
+        { name: "Cervejas", cats: ["cervejas-600ml", "cervejas-long-neck"] },
+        { name: "Vinhos e Espumantes", cats: ["vinhos-e-espumantes"] },
+        { name: "Sem álcool", cats: ["bebidas-sem-alcool"] },
+        { name: "Sucos", cats: ["sucos"] }
+      ]
+    },
+    {
+      id: "g-destilados",
+      name: "Destilados",
+      emoji: "🥃",
+      subs: [
+        { name: "Whisky", cats: ["whisky"] },
+        { name: "Licores", cats: ["licores"] },
+        { name: "Destilados", cats: ["destilados"] },
+        { name: "Aperitivos", cats: ["aperitivos"] },
+        { name: "Combos Whisky", cats: ["combos-whisky"] }
+      ]
+    },
+    {
+      id: "g-sobremesas",
+      name: "Sobremesas",
+      emoji: "🍮",
+      subs: [
+        { name: "Sobremesas", cats: ["sobremesas"] }
+      ]
+    }
+  ]
 };
 
 // ===== Overrides salvos pela Área Admin (localStorage) =====
@@ -5332,6 +5541,27 @@ let PRODUCTS = [
   }
 
   let activeTab = "featured";
+  let activeGroup = null;
+
+  const MENU_GROUPS = (SITE.menuGroups || []).filter((g) => g.subs && g.subs.length);
+
+  function catsOfGroup(g) {
+    return g.subs.reduce((a, s) => a.concat(s.cats || []), []);
+  }
+
+  function countIn(cats) {
+    return PRODUCTS.filter((p) => p.active !== false && cats.indexOf(p.cat) !== -1).length;
+  }
+
+  /* Índice: grupo -> seção, para os chips rápidos do hero */
+  const GROUP_OF_CAT = {};
+  MENU_GROUPS.forEach(function (g) {
+    g.subs.forEach(function (s) {
+      (s.cats || []).forEach(function (c) {
+        GROUP_OF_CAT[c] = g.id;
+      });
+    });
+  });
 
   const TABS = [{ id: "featured", name: "Mais pedidos", emoji: "⭐" }].concat(
     CATEGORIES.map((c) => ({ id: c.id, name: c.name, emoji: c.emoji }))
@@ -5340,15 +5570,41 @@ let PRODUCTS = [
   const INSTA_IMAGES = [];
 
   function renderTabs() {
-    const wrap = $("#menuTabs");
-    wrap.innerHTML = TABS.map(
-      (t) =>
-        `<button class="tab${t.id === activeTab ? " active" : ""}" data-tab="${t.id}" role="tab" aria-selected="${t.id === activeTab}"><span class="t-emoji">${t.emoji}</span>${t.name}</button>`
-    ).join("");
-    wrap.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-tab]");
+    const wrap = $("#catCards");
+    if (!wrap) return;
+    const items = [{ id: "featured", name: "Mais pedidos", emoji: "⭐", count: PRODUCTS.filter((p) => p.popular).length }].concat(
+      MENU_GROUPS.map(function (g) {
+        return { id: g.id, name: g.name, emoji: g.emoji, count: countIn(catsOfGroup(g)) };
+      })
+    );
+    if (!activeGroup) activeGroup = MENU_GROUPS.length ? MENU_GROUPS[0].id : "featured";
+
+    wrap.innerHTML = items
+      .map(
+        (t) =>
+          `<button class="cat-card${t.id === activeGroup ? " active" : ""}" data-group="${t.id}" role="tab" aria-selected="${t.id === activeGroup}">` +
+          `<span class="cc-emoji" aria-hidden="true">${t.emoji}</span>` +
+          `<span class="cc-name">${t.name}</span>` +
+          `<span class="cc-count">${t.count} ${t.count === 1 ? "prato" : "pratos"}</span>` +
+          `</button>`
+      )
+      .join("");
+
+    wrap.addEventListener("click", function (e) {
+      const btn = e.target.closest("[data-group]");
       if (!btn) return;
-      activeTab = btn.dataset.tab;
+      const gid = btn.dataset.group;
+      if (gid === "featured") {
+        activeGroup = "featured";
+        activeTab = "featured";
+      } else {
+        const g = MENU_GROUPS.find((x) => x.id === gid);
+        if (!g) return;
+        activeGroup = gid;
+        const cats = catsOfGroup(g);
+        activeTab = g.subs[0].cats[0];
+        if (cats.indexOf(activeTab) === -1) activeTab = g.subs[0].cats[0];
+      }
       const s = $("#menuSearch");
       if (s) s.value = "";
       const cl = $("#searchClear");
@@ -5356,21 +5612,75 @@ let PRODUCTS = [
       renderTabs();
       renderGrid();
     });
+
+    renderSubTabs();
+  }
+
+  function renderSubTabs() {
+    const wrap = $("#subTabs");
+    if (!wrap) return;
+    const g = MENU_GROUPS.find((x) => x.id === activeGroup);
+    if (!g) {
+      wrap.classList.add("hidden");
+      wrap.innerHTML = "";
+      return;
+    }
+    const subs = g.subs.filter((s) => countIn(s.cats) > 0);
+    if (subs.length <= 1) {
+      wrap.classList.add("hidden");
+      wrap.innerHTML = "";
+      return;
+    }
+    wrap.classList.remove("hidden");
+    wrap.innerHTML = subs
+      .map(function (s) {
+        const first = s.cats[0];
+        const on = s.cats.indexOf(activeTab) !== -1;
+        return `<button class="sub-tab${on ? " active" : ""}" data-sub="${first}" role="tab" aria-selected="${on}">${s.name} <small style="opacity:.6">${countIn(s.cats)}</small></button>`;
+      })
+      .join("");
+
+    wrap.onclick = function (e) {
+      const btn = e.target.closest("[data-sub]");
+      if (!btn) return;
+      activeTab = btn.dataset.sub;
+      const s = $("#menuSearch");
+      if (s) s.value = "";
+      const cl = $("#searchClear");
+      if (cl) cl.classList.add("hidden");
+      renderSubTabs();
+      renderGrid();
+    };
   }
 
   function productsForTab() {
-    if (activeTab === "featured") return PRODUCTS.filter((p) => p.popular);
-    return PRODUCTS.filter((p) => p.cat === activeTab);
+    const visible = PRODUCTS.filter((p) => p.active !== false);
+    if (activeTab === "featured") return visible.filter((p) => p.popular);
+    const g = MENU_GROUPS.find((x) => x.id === activeGroup);
+    const cats = g ? catsOfGroup(g) : [activeTab];
+    return visible.filter((p) => cats.indexOf(p.cat) !== -1);
   }
 
   function renderGrid() {
     const grid = $("#productGrid");
+    if (!grid) return;
     const list = productsForTab();
     if (!list.length) {
       grid.innerHTML = '<div class="product-empty"><p>Em breve teremos novidades nessa categoria! 😉</p></div>';
       return;
     }
-    grid.innerHTML = list.map(C.productCard).join("");
+    const g = MENU_GROUPS.find((x) => x.id === activeGroup);
+    const showSub = g && g.subs.filter((s) => countIn(s.cats) > 0).length > 1 && activeTab !== "featured";
+    const sub = g ? g.subs.find((s) => s.cats.indexOf(activeTab) !== -1) : null;
+
+    const head = showSub
+      ? `<div class="grid-subhead" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;margin:6px 0 2px">
+           <h3 style="font-family:var(--font-display);font-size:1.05rem;color:var(--text)">${sub.name}</h3>
+           <span style="color:var(--muted);font-size:.8rem">${list.length} ${list.length === 1 ? "prato" : "pratos"}</span>
+         </div>`
+      : "";
+
+    grid.innerHTML = head + list.map(C.productCard).join("");
   }
 
   function renderPromos() {
@@ -5474,8 +5784,10 @@ let PRODUCTS = [
       if (clear) clear.classList.remove("hidden");
       const qn = norm(q);
       const hits = PRODUCTS.filter((p) => {
+        if (p.active === false) return false;
         const cat = CATEGORIES.find((c) => c.id === p.cat);
-        return norm(p.name).includes(qn) || norm(p.description || "").includes(qn) || (cat && norm(cat.name).includes(qn));
+        const grp = MENU_GROUPS.find((g) => GROUP_OF_CAT[p.cat] === g.id);
+        return norm(p.name).includes(qn) || norm(p.desc || "").includes(qn) || (cat && norm(cat.name).includes(qn)) || (grp && norm(grp.name).includes(qn));
       });
       if (!hits.length) {
         grid.innerHTML =
@@ -5490,22 +5802,9 @@ let PRODUCTS = [
     if (clear) clear.addEventListener("click", () => { input.value = ""; apply(""); input.focus(); });
   }
 
-  /* ---------- setas das abas ---------- */
   function bindTabArrows() {
-    const wrap = $("#menuTabs");
-    const prev = $("#tabsPrev");
-    const next = $("#tabsNext");
-    if (!wrap || !prev || !next) return;
-    function updateArrows() {
-      const max = wrap.scrollWidth - wrap.clientWidth;
-      prev.disabled = wrap.scrollLeft <= 0;
-      next.disabled = max - wrap.scrollLeft <= 1;
-    }
-    prev.addEventListener("click", () => wrap.scrollBy({ left: -300, behavior: "smooth" }));
-    next.addEventListener("click", () => wrap.scrollBy({ left: 300, behavior: "smooth" }));
-    wrap.addEventListener("scroll", updateArrows, { passive: true });
-    window.addEventListener("resize", updateArrows);
-    setTimeout(updateArrows, 60);
+    const wrap = $("#subTabs");
+    if (!wrap) return;
   }
 
   /* ---------- chips rápidos do hero ---------- */
@@ -5513,9 +5812,17 @@ let PRODUCTS = [
     document.querySelectorAll("[data-tab-go]").forEach((chip) => {
       chip.addEventListener("click", (e) => {
         const go = chip.dataset.tabGo;
-        if (!go || !TABS.some((t) => t.id === go)) return;
+        if (!go) return;
         e.preventDefault();
-        activeTab = go;
+        if (go === "featured") {
+          activeGroup = "featured";
+          activeTab = "featured";
+        } else if (GROUP_OF_CAT[go]) {
+          activeGroup = GROUP_OF_CAT[go];
+          activeTab = go;
+        } else {
+          return;
+        }
         const s = $("#menuSearch");
         if (s) s.value = "";
         const cl = $("#searchClear");
