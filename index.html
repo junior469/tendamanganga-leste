@@ -3761,7 +3761,7 @@ textarea.field {
     <div class="footer-bottom">
       <span>© 2026 Tenda Mangangá. Todos os direitos reservados.</span>
       <span>Feito com 💛 • Peça direto pelo nosso site</span>
-      <a href="#admin" class="footer-admin-link" style="color:rgba(247,241,230,.35);font-size:12px;text-decoration:none">Admin</a>
+      <a href="#admin" class="footer-admin-link" style="color:rgba(247,241,230,.75);font-size:12px;text-decoration:none;opacity:.85">⚙ Admin</a>
     </div>
   </div>
 </footer>
@@ -5871,6 +5871,20 @@ let PRODUCTS = [
     "display:none;";
   document.body.appendChild(root);
 
+  // Botão flutuante para abrir a área admin
+  const fab = document.createElement("button");
+  fab.id = "adminFab";
+  fab.title = "Área Administrativa";
+  fab.setAttribute("aria-label", "Área Administrativa");
+  fab.innerHTML = "⚙";
+  fab.style.cssText =
+    "position:fixed;bottom:calc(var(--bottom-nav-h,68px) + 18px);left:16px;z-index:9998;" +
+    "width:46px;height:46px;border-radius:50%;border:1px solid rgba(242,179,62,.5);" +
+    "background:rgba(27,23,18,.9);color:#f2b33e;font-size:20px;cursor:pointer;" +
+    "display:none;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.5);";
+  document.body.appendChild(fab);
+  fab.addEventListener("click", function (e) { e.preventDefault(); open(); });
+
   let tab = "products";
   let searchTerm = "";
   let catFilter = "";
@@ -5906,6 +5920,7 @@ let PRODUCTS = [
   // ---------------- RENDER ----------------
   function open() {
     root.style.display = "block";
+    fab.style.display = "none";
     document.body.style.overflow = "hidden";
     if (sessionStorage.getItem(SESSION_PASS) === "1") render();
     else renderLogin();
@@ -5913,6 +5928,7 @@ let PRODUCTS = [
   }
   function close() {
     root.style.display = "none";
+    fab.style.display = "flex";
     document.body.style.overflow = "";
     if (location.hash === "#admin") history.replaceState(null, "", location.pathname + location.search);
   }
@@ -5968,13 +5984,18 @@ let PRODUCTS = [
 
   // ---------------- PRODUTOS ----------------
   function productRow(p) {
-    const c = allCategories().find((x) => x.id === p.cat);
+    const cats = allCategories();
+    const c = cats.find((x) => x.id === p.cat);
     return (
       '<div style="display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid rgba(255,255,255,.08);border-radius:16px;background:rgba(255,255,255,.03);margin-bottom:8px;flex-wrap:wrap">' +
       '<div style="width:52px;height:52px;border-radius:12px;overflow:hidden;flex:0 0 52px;background:#1b1712"><img src="' + es(p.img || "") + '" style="width:100%;height:100%;object-fit:cover" onerror="this.style.opacity=.15"></div>' +
       '<div style="flex:1;min-width:200px"><b style="font-size:14px">' + es(p.name) + "</b>" +
-      '<div style="color:#a89f8f;font-size:12px">' + es((c ? c.emoji + " " + c.name : p.cat)) + " · " + money(p.price) + (p.popular ? " · 🔥" : "") + (p.active === false ? " · <span style='color:#ff6b6b'>oculto</span>" : "") + "</div></div>" +
-      "<div style='display:flex;gap:8px;flex-wrap:wrap'>" +
+      '<div style="color:#a89f8f;font-size:12px">' + money(p.price) + (p.popular ? " · 🔥" : "") + (p.active === false ? " · <span style='color:#ff6b6b'>oculto</span>" : "") + "</div></div>" +
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">' +
+      "<label style='font-size:11px;color:#a89f8f'>Seção</label>" +
+      "<select onchange='window.__mngAdminMove(\"" + p.id + "\",this.value)' title='Mover para outra seção' style='padding:8px 10px;border-radius:10px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6;font-size:12.5px;max-width:180px'>" +
+      cats.map(function (x) { return "<option value='" + x.id + "'" + (p.cat === x.id ? " selected" : "") + ">" + x.emoji + " " + es(x.name) + "</option>"; }).join("") +
+      "</select>" +
       "<button onclick='window.__mngAdminEdit(\"" + p.id + "\")' style='background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e;padding:8px 14px;border-radius:11px;cursor:pointer;font-weight:600'>Editar</button>" +
       (p.active === false
         ? "<button onclick='window.__mngAdminToggle(\"" + p.id + "\")' style='background:rgba(62,207,142,.14);border:1px solid rgba(62,207,142,.4);color:#3ecf8e;padding:8px 14px;border-radius:11px;cursor:pointer;font-weight:600'>Mostrar</button>"
@@ -6103,6 +6124,15 @@ let PRODUCTS = [
     ov.products = ov.products || {};
     ov.products[id] = { ...(ov.products[id] || {}), active: p.active === false ? true : false };
     lsSet(LS_PRODUCTS, ov);
+    render();
+  }
+  function move(id, cat) {
+    const ov = lsGet(LS_PRODUCTS, {});
+    ov.products = ov.products || {};
+    ov.products[id] = { ...(ov.products[id] || {}), cat: cat };
+    lsSet(LS_PRODUCTS, ov);
+    const c = allCategories().find((x) => x.id === cat);
+    toast('"' + allProducts().find((x) => x.id === id).name + '" movido para ' + (c ? c.name : cat) + ' 📦');
     render();
   }
   function reset(id) {
@@ -6281,6 +6311,7 @@ let PRODUCTS = [
   window.__mngAdminNew = function () { renderEdit("c_" + Date.now()); };
   window.__mngAdminSave = save;
   window.__mngAdminToggle = toggle;
+  window.__mngAdminMove = move;
   window.__mngAdminReset = reset;
   window.__mngAdminCatSave = catSave;
   window.__mngAdminSaveTexts = saveTexts;
@@ -6306,6 +6337,7 @@ let PRODUCTS = [
   // ---------------- ENTRADA ----------------
   function checkHash() {
     if (location.hash === "#admin") open();
+    else fab.style.display = "flex";
   }
   window.addEventListener("hashchange", function () {
     if (location.hash === "#admin") open();
