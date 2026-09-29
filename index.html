@@ -1207,6 +1207,26 @@ h3 {
   scroll-snap-align: start;
 }
 
+/* favoritos: cartas menores, mostrando o inicio da proxima */
+#favoriteRow {
+  grid-auto-columns: min(60vw, 220px);
+  gap: 12px;
+}
+
+#favoriteRow .product-foot {
+  margin-top: 10px;
+}
+
+#favoriteRow .price {
+  font-size: 1.02rem;
+}
+
+#favoriteRow .btn-add-round {
+  width: 36px;
+  height: 36px;
+  font-size: 1.15rem;
+}
+
 .promo-card {
   position: relative;
   border-radius: var(--radius);
@@ -2867,6 +2887,10 @@ textarea.field {
 
   .scroll-row {
     grid-auto-columns: min(34vw, 360px);
+  }
+
+  #favoriteRow {
+    grid-auto-columns: min(24vw, 250px);
   }
 }
 
