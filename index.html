@@ -5928,7 +5928,6 @@ let PRODUCTS = [
       .map(
         (p, i) => `
       <div class="hc-item hc-slide${i === 0 ? " active" : ""}" data-hc-slide="${i}" ${i === 0 ? 'style="--hc-pos:0"' : `style="--hc-pos:${i}"`}>
-        <div class="hc-emoji" aria-hidden="true">${p.emoji || ""}</div>
         <div class="hc-main">
           <span class="hc-name">${p.name.replace(/"/g, "")}</span>
           <span class="hc-rule" aria-hidden="true"></span>
