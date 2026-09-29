@@ -30,7 +30,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
 <style>/* =========================================================
    MANGANGÁ LESTE — Design System
    Mobile-first · Dark premium gastronômico
@@ -58,8 +58,10 @@
   --radius: 20px;
   --radius-sm: 14px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --font-display: "Sora", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
+  /* Fontes de emoji no fim da pilha para evitar quadradinhos (tofu) */
+  --emoji-font: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "Twemoji Mozilla", "EmojiOne Color", "Android Emoji", sans-serif;
+  --font-display: "Sora", system-ui, var(--emoji-font);
+  --font-body: "Inter", system-ui, var(--emoji-font);
   --nav-h: 64px;
   --bottom-nav-h: 68px;
 }
@@ -3410,6 +3412,20 @@ textarea.field {
   width: 46px;
 }
 
+/* ---------- EMOJIS: fonte dedicada para nunca sair quadradinho ---------- */
+[class*="emoji"],
+.cc-emoji,
+.t-emoji,
+.hc-emoji,
+.nav-em,
+.product-emoji-fallback,
+.ce-emoji,
+.fav-dot,
+.footer-admin-link {
+  font-family: var(--emoji-font);
+  font-variant-emoji: emoji;
+}
+
 /* ---------- CARDÁPIOS EM GRUPOS ---------- */
 .cat-cards {
   display: grid;
@@ -6198,7 +6214,7 @@ let PRODUCTS = [
   root.id = "adminRoot";
   root.style.cssText =
     "position:fixed;inset:0;z-index:99999;overflow:auto;-webkit-overflow-scrolling:touch;" +
-    "background:#0f0d0b;font-family:var(--font-body,Inter),system-ui,sans-serif;color:#f7f1e6;" +
+    "background:#0f0d0b;font-family:var(--font-body,Inter),'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji',sans-serif;color:#f7f1e6;" +
     "display:none;";
   document.body.appendChild(root);
 
@@ -6212,6 +6228,7 @@ let PRODUCTS = [
     "position:fixed;bottom:calc(var(--bottom-nav-h,68px) + 18px);left:16px;z-index:9998;" +
     "width:46px;height:46px;border-radius:50%;border:1px solid rgba(242,179,62,.5);" +
     "background:rgba(27,23,18,.9);color:#f2b33e;font-size:20px;cursor:pointer;" +
+    "font-family:'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji',sans-serif;" +
     "display:none;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.5);";
   document.body.appendChild(fab);
   fab.addEventListener("click", function (e) { e.preventDefault(); open(); });
