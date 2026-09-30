@@ -448,6 +448,17 @@ h3 {
   gap: 8px;
 }
 
+.admin-fab {
+  color: var(--accent);
+  border-color: rgba(242, 179, 62, 0.4);
+}
+
+.admin-fab:hover {
+  color: #201607;
+  background: var(--grad);
+  border-color: transparent;
+}
+
 .cart-btn {
   position: relative;
   background: var(--grad);
@@ -2584,17 +2595,14 @@ textarea.field {
   z-index: 85;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  min-height: 52px;
-  padding: 0 18px 0 12px;
-  border-radius: 999px;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
   background: #25d366;
   color: #04240f;
-  font-family: var(--font-display);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
   box-shadow: 0 14px 34px -10px rgba(37, 211, 102, 0.55);
   transition: transform 0.25s var(--ease);
 }
@@ -2604,8 +2612,8 @@ textarea.field {
 }
 
 .wa-fab svg {
-  width: 24px;
-  height: 24px;
+  width: 27px;
+  height: 27px;
   flex-shrink: 0;
 }
 
@@ -2801,15 +2809,13 @@ textarea.field {
   }
 
   .insta-fab {
-    bottom: 22px;
+    bottom: 88px;
     left: 22px;
-    min-height: 54px;
   }
 
   .wa-fab {
     bottom: 22px;
-    left: 178px;
-    min-height: 54px;
+    left: 22px;
   }
 
   .toast-root {
@@ -3332,21 +3338,18 @@ textarea.field {
 .insta-fab {
   position: fixed;
   left: 14px;
-  bottom: calc(var(--bottom-nav-h) + 78px);
+  bottom: calc(var(--bottom-nav-h) + 84px);
   z-index: 85;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  min-height: 52px;
-  padding: 0 18px 0 12px;
-  border-radius: 999px;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
   background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   color: #fff;
-  font-family: var(--font-display);
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
   box-shadow: 0 14px 34px -10px rgba(188, 24, 136, 0.55);
   transition: transform 0.25s var(--ease);
 }
@@ -3354,8 +3357,8 @@ textarea.field {
   transform: translateY(-3px) scale(1.02);
 }
 .insta-fab svg {
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   flex-shrink: 0;
 }
 .insta-fab .wa-pulse {
@@ -3665,6 +3668,7 @@ textarea.field {
         <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
         <span class="cart-badge" id="cartBadge">0</span>
       </button>
+      <span id="adminFabSlot"></span>
     </div>
   </div>
 </header>
@@ -3967,8 +3971,7 @@ textarea.field {
 <!-- ============ INSTAGRAM FLOAT ============ -->
 <a href="#" data-social="instagram" class="insta-fab" id="instaFab" aria-label="Seguir no Instagram">
   <span class="wa-pulse" aria-hidden="true"></span>
-  <svg viewBox="0 0 16 16" fill="#fff"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.417.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.942a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm3.628 4.659a.96.96 0 1 1 0-1.92.96.96 0 0 1 0 1.92zM8 4.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z"/></svg>
-  <span>@mangangathe</span>
+  <svg viewBox="0 0 16 16" fill="#fff" aria-hidden="true" focusable="false"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.417.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.942a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm3.628 4.659a.96.96 0 1 1 0-1.92.96.96 0 0 1 0 1.92zM8 4.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z"/></svg>
 </a>
 
 <!-- ============ CHATBOT ============ -->
@@ -3996,7 +3999,6 @@ textarea.field {
     <path fill="currentColor" d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.75-.71 2-1.4.25-.69.25-1.28.17-1.4-.07-.13-.27-.2-.57-.35z"/>
     <path fill="currentColor" d="M12.04 2C6.6 2 2.2 6.4 2.2 11.84c0 1.74.46 3.44 1.32 4.94L2.1 22l5.35-1.4a9.83 9.83 0 0 0 4.59 1.16h.01c5.43 0 9.84-4.4 9.84-9.84C21.89 6.4 17.47 2 12.04 2zm0 17.94h-.01a8.2 8.2 0 0 1-4.17-1.14l-.3-.18-3.1.81.83-3.02-.2-.31a8.13 8.13 0 0 1-1.25-4.36c0-4.5 3.66-8.16 8.17-8.16 2.18 0 4.23.85 5.77 2.4a8.1 8.1 0 0 1 2.39 5.77c0 4.5-3.66 8.19-8.13 8.19z"/>
   </svg>
-  <span>WhatsApp</span>
 </button>
 
 <!-- ============ OVERLAY ============ -->
@@ -6346,19 +6348,18 @@ let PRODUCTS = [
     "display:none;";
   document.body.appendChild(root);
 
-  // Botão flutuante para abrir a área admin
+  // Botão de acesso rápido: fica no topo, ao lado do QR Code
   const fab = document.createElement("button");
   fab.id = "adminFab";
+  fab.className = "icon-btn admin-fab";
   fab.title = "Área Administrativa";
   fab.setAttribute("aria-label", "Área Administrativa");
-  fab.innerHTML = "⚙";
-  fab.style.cssText =
-    "position:fixed;bottom:calc(var(--bottom-nav-h,68px) + 18px);left:16px;z-index:9998;" +
-    "width:46px;height:46px;border-radius:50%;border:1px solid rgba(242,179,62,.5);" +
-    "background:rgba(27,23,18,.9);color:#f2b33e;font-size:20px;cursor:pointer;" +
-    "font-family:'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji',sans-serif;" +
-    "display:none;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.5);";
-  document.body.appendChild(fab);
+  fab.innerHTML =
+    '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false">' +
+    '<path d="M19.14 12.94a7.49 7.49 0 0 0 .05-.94 7.49 7.49 0 0 0-.05-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54a.49.49 0 0 0-.49-.42h-3.84a.49.49 0 0 0-.49.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.49.49 0 0 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.03.31-.05.63-.05.94s.02.63.05.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.42.49.42h3.84c.25 0 .44-.18.49-.42l.36-2.54c.59-.24 1.12-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.03-1.58zM12 15.6a3.6 3.6 0 1 1 0-7.2 3.6 3.6 0 0 1 0 7.2z"/>' +
+    "</svg>";
+  const slot = document.getElementById("adminFabSlot");
+  (slot || document.body).appendChild(fab);
   fab.addEventListener("click", function (e) { e.preventDefault(); open(); });
 
   let tab = "products";
