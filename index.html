@@ -5688,9 +5688,31 @@ let PRODUCTS = [
   function catsOfGroup(g) {
     return g.subs.reduce((a, s) => a.concat(s.cats || []), []);
   }
-
   function countIn(cats) {
     return PRODUCTS.filter((p) => p.active !== false && cats.indexOf(p.cat) !== -1).length;
+  }
+
+  /* Seções do "Mais pedidos": um grupo por aba, só com as que têm pratos populares */
+  function featuredGroups() {
+    return MENU_GROUPS.map(function (g) {
+      return { id: g.id, name: g.name, emoji: g.emoji, count: featuredIn(catsOfGroup(g)) };
+    }).filter((g) => g.count > 0);
+  }
+
+  function featuredIn(cats) {
+    return PRODUCTS.filter(
+      (p) => p.active !== false && p.popular && cats.indexOf(p.cat) !== -1
+    ).length;
+  }
+
+  function isFeaturedTab() {
+    return activeTab === "featured" || String(activeTab).indexOf("f:") === 0;
+  }
+
+  function catsOfFeaturedTab() {
+    if (String(activeTab).indexOf("f:") !== 0) return null;
+    const g = MENU_GROUPS.find((x) => x.id === activeTab.slice(2));
+    return g ? catsOfGroup(g) : null;
   }
 
   /* Índice: grupo -> seção, para os chips rápidos do hero */
@@ -5736,7 +5758,8 @@ let PRODUCTS = [
       const gid = btn.dataset.group;
       if (gid === "featured") {
         activeGroup = "featured";
-        activeTab = "featured";
+        const fg = featuredGroups();
+        activeTab = fg.length ? "f:" + fg[0].id : "featured";
       } else {
         const g = MENU_GROUPS.find((x) => x.id === gid);
         if (!g) return;
@@ -5759,6 +5782,28 @@ let PRODUCTS = [
   function renderSubTabs() {
     const wrap = $("#subTabs");
     if (!wrap) return;
+
+    // "Mais pedidos" tem abas próprias, uma por seção do cardápio
+    if (activeGroup === "featured") {
+      const subs = featuredGroups();
+      if (subs.length <= 1) {
+        wrap.classList.add("hidden");
+        wrap.innerHTML = "";
+        return;
+      }
+      wrap.classList.remove("hidden");
+      wrap.innerHTML = subs
+        .map(function (s) {
+          const on = activeTab === "f:" + s.id;
+          return (
+            `<button class="sub-tab${on ? " active" : ""}" data-sub="f:${s.id}" role="tab" aria-selected="${on}">` +
+            `<span aria-hidden="true">${s.emoji}</span> ${s.name} <small style="opacity:.6">${s.count}</small></button>`
+          );
+        })
+        .join("");
+      return;
+    }
+
     const g = MENU_GROUPS.find((x) => x.id === activeGroup);
     if (!g) {
       wrap.classList.add("hidden");
@@ -5795,7 +5840,11 @@ let PRODUCTS = [
 
   function productsForTab() {
     const visible = PRODUCTS.filter((p) => p.active !== false);
-    if (activeTab === "featured") return visible.filter((p) => p.popular);
+    if (isFeaturedTab()) {
+      const cats = catsOfFeaturedTab();
+      if (!cats) return visible.filter((p) => p.popular);
+      return visible.filter((p) => p.popular && cats.indexOf(p.cat) !== -1);
+    }
     const g = MENU_GROUPS.find((x) => x.id === activeGroup);
     if (!g) return visible.filter((p) => p.cat === activeTab);
     const sub = g.subs.find((s) => (s.cats || []).indexOf(activeTab) !== -1);
@@ -5813,12 +5862,16 @@ let PRODUCTS = [
       return;
     }
     const g = MENU_GROUPS.find((x) => x.id === activeGroup);
-    const showSub = g && g.subs.filter((s) => countIn(s.cats) > 0).length > 1 && activeTab !== "featured";
-    const sub = g ? g.subs.find((s) => s.cats.indexOf(activeTab) !== -1) : null;
+    const showSub = isFeaturedTab()
+      ? String(activeTab).indexOf("f:") === 0
+      : g && g.subs.filter((s) => countIn(s.cats) > 0).length > 1;
+    const fg = isFeaturedTab() ? MENU_GROUPS.find((x) => "f:" + x.id === activeTab) : null;
+    const sub = g && !isFeaturedTab() ? g.subs.find((s) => s.cats.indexOf(activeTab) !== -1) : null;
+    const subName = fg ? fg.name : sub ? sub.name : "";
 
     const head = showSub
       ? `<div class="grid-subhead" style="grid-column:1/-1;display:flex;align-items:baseline;gap:10px;margin:6px 0 2px">
-           <h3 style="font-family:var(--font-display);font-size:1.05rem;color:var(--text)">${sub.name}</h3>
+           <h3 style="font-family:var(--font-display);font-size:1.05rem;color:var(--text)">${fg ? fg.emoji + " " : ""}${subName}</h3>
            <span style="color:var(--muted);font-size:.8rem">${list.length} ${list.length === 1 ? "prato" : "pratos"}</span>
          </div>`
       : "";
@@ -5959,7 +6012,8 @@ let PRODUCTS = [
         e.preventDefault();
         if (go === "featured") {
           activeGroup = "featured";
-          activeTab = "featured";
+          const fg = featuredGroups();
+          activeTab = fg.length ? "f:" + fg[0].id : "featured";
         } else if (GROUP_OF_CAT[go]) {
           activeGroup = GROUP_OF_CAT[go];
           activeTab = go;
@@ -6281,8 +6335,16 @@ let PRODUCTS = [
     });
   }
 
+  /* Ao abrir o site, "Mais pedidos" já entra na primeira seção com pratos */
+  function selectInitialFeatured() {
+    if (activeGroup !== "featured" || activeTab !== "featured") return;
+    const fg = featuredGroups();
+    if (fg.length) activeTab = "f:" + fg[0].id;
+  }
+
   function init() {
     const steps = [
+      selectInitialFeatured,
       renderTabs,
       bindTabArrows,
       bindSearch,
