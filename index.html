@@ -4029,7 +4029,7 @@ textarea.field {
             </div>
             <div class="field-group">
               <label class="field-label" for="coPhone">Telefone / WhatsApp</label>
-              <input class="field" id="coPhone" type="tel" placeholder="(11) 99999-9999" required>
+              <input class="field" id="coPhone" type="tel" placeholder="(89) 99427-3729" required>
             </div>
           </div>
           <div class="field-group" id="coAddressGroup">
@@ -4199,8 +4199,8 @@ textarea.field {
   note: "Cobramos couvert artístico (Lei Nº 6.317/2013). Cobramos taxa de serviço (10%). Temos Play Kids nas duas unidades: Tenda Sul e Tenda Leste!",
 
   contact: {
-    whatsapp: "5511999999999",
-    phoneDisplay: "(11) 99999-9999",
+    whatsapp: "5588994273729",
+    phoneDisplay: "(89) 99427-3729",
     email: "contato@tendamanganga.com.br",
     whatsappMessage: "Olá! Vim pelo site da Tenda Mangangá e quero fazer um pedido."
   },
@@ -4228,16 +4228,16 @@ textarea.field {
   paymentMethods: ["Pix", "Dinheiro", "Cartão", "Outro"],
 
   hours: {
-    display: "Seg a Qui 17h às 23h · Sex e Sáb 17h à 00h · Dom 17h às 23h",
-    note: "Fechado às segundas-feiras",
+    display: "Seg e Qui 18h às 23h · Sex 18h à 00h · Sáb 11h à 00h · Dom 11h às 22h",
+    note: "Fechado às terças e quartas. Sábado e domingo com serviço a partir do meio-dia.",
     weekday: {
-      sun: { open: "17:00", close: "23:00" },
-      mon: null,
-      tue: { open: "17:00", close: "23:00" },
-      wed: { open: "17:00", close: "23:00" },
-      thu: { open: "17:00", close: "23:00" },
-      fri: { open: "17:00", close: "00:00" },
-      sat: { open: "17:00", close: "00:00" }
+      sun: { open: "11:00", close: "22:00" },
+      mon: { open: "18:00", close: "23:00" },
+      tue: null,
+      wed: null,
+      thu: { open: "18:00", close: "23:00" },
+      fri: { open: "18:00", close: "00:00" },
+      sat: { open: "11:00", close: "00:00" }
     },
     dayNames: ["dom", "seg", "ter", "qua", "qui", "sex", "sab"],
     fullNames: {
@@ -4664,7 +4664,7 @@ let PRODUCTS = [
     },
     {
       match: ["horário", "horario", "aberto", "fechado", "funciona", "abre", "fecha", "que horas", "domingo", "sábado", "sabado", "segunda"],
-      answer: "⏰ Nosso horário:\n[[hoursDisplay]]\n\n⚠️ Fechado às segundas-feiras.\n\n[[openStatus]]"
+      answer: "⏰ Nosso horário:\n[[hoursDisplay]]\n\n[[openStatus]]"
     },
     {
       match: ["couvert", "artístico", "artistico", "taxa", "serviço", "servico", "10%", "gorjeta", "cobrança extra", "cobranca extra"],
@@ -4797,6 +4797,13 @@ let PRODUCTS = [
     };
   }
 
+  function hourLabel(t) {
+    if (!t) return "";
+    var s = String(t);
+    if (/:00$/.test(s)) s = s.slice(0, -3);
+    return s.replace(":", "h") + "h";
+  }
+
   function nextOpenText() {
     const d = new Date();
     for (let i = 1; i <= 7; i++) {
@@ -4805,7 +4812,7 @@ let PRODUCTS = [
       const schedule = SITE.hours.weekday[todayKey(next)];
       if (schedule) {
         const name = SITE.hours.fullNames[todayKey(next)];
-        return "Abrimos " + name + " às " + schedule.open + ".";
+        return "Abrimos " + name + " às " + hourLabel(schedule.open) + ".";
       }
     }
     return "";
@@ -4820,7 +4827,8 @@ let PRODUCTS = [
     stars,
     scrollToSection,
     getOpenInfo,
-    nextOpenText
+    nextOpenText,
+    hourLabel
   };
 })();</script>
 <script>(function () {
@@ -5034,6 +5042,12 @@ let PRODUCTS = [
     </a>`;
   }
 
+  function hourLabel(t) {
+    if (!t) return "";
+    var s = String(t);
+    if (/:00$/.test(s)) s = s.slice(0, -3);
+    return s.replace(":", "h") + "h";
+  }
   function hoursList() {
     const wd = SITE.hours.weekday;
     const full = SITE.hours.fullNames;
@@ -5046,7 +5060,7 @@ let PRODUCTS = [
         if (!s) {
           return `<li data-reveal ${isToday ? 'class="today"' : ""}><span>${U.escapeHtml(full[k])}</span><span class="closed-day">Fechado</span></li>`;
         }
-        return `<li data-reveal ${isToday ? 'class="today"' : ""}><span>${U.escapeHtml(full[k])}</span><span>${U.escapeHtml(s.open)} às ${U.escapeHtml(s.close)}</span></li>`;
+        return `<li data-reveal ${isToday ? 'class="today"' : ""}><span>${U.escapeHtml(full[k])}</span><span>${U.escapeHtml(hourLabel(s.open))} às ${U.escapeHtml(hourLabel(s.close))}</span></li>`;
       })
       .join("");
   }
@@ -6066,7 +6080,7 @@ let PRODUCTS = [
 
     const isOpen = info.open;
     const label = isOpen ? "Estamos abertos agora 🟢" : "Estamos fechados no momento";
-    const detail = isOpen ? "Atendendo até " + info.schedule.close + "." : U.nextOpenText();
+    const detail = isOpen ? "Atendendo até " + U.hourLabel(info.schedule.close) + "." : U.nextOpenText();
 
     hero.classList.toggle("open", isOpen);
     hero.classList.toggle("closed", !isOpen);
