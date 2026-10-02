@@ -3462,10 +3462,41 @@ textarea.field {
 
 /* ---------- CARDÁPIOS EM GRUPOS ---------- */
 .cat-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 4px 0 22px;
+}
+
+.cat-group {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.cat-group-title {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cat-group-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.cat-group-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
-  margin: 4px 0 22px;
 }
 
 .cat-card {
@@ -4275,73 +4306,22 @@ textarea.field {
   mapEmbedUrl: "https://www.google.com/maps?q=Rua+Professor+Joca+Vieira+909+Teresina&output=embed",
 
   // Agrupamento do cardápio: junta as 24 seções em 6 cartões grandes.
-  // Cada grupo tem subtítulos com as seções que ele contém.
+  // Cardápio achatado: cada aba abre SÓ os pratos daquele tipo.
+  // "label" é o título da seção, usado só na tela para orientar o cliente.
   menuGroups: [
-    {
-      id: "g-entradas",
-      name: "Entradas e Porções",
-      emoji: "🥟",
-      subs: [
-        { name: "Entradas", cats: ["entradas"] },
-        { name: "Tira-gosto", cats: ["tira-gosto"] },
-        { name: "Porções", cats: ["porcoes"] }
-      ]
-    },
-    {
-      id: "g-pizzas",
-      name: "Pizzas",
-      emoji: "🍕",
-      subs: [
-        { name: "Tradicionais", cats: ["pizzas-tradicionais"] },
-        { name: "Especiais", cats: ["pizzas-especiais"] },
-        { name: "Premium", cats: ["pizza-premium"] },
-        { name: "Doces", cats: ["pizzas-doces"] }
-      ]
-    },
-    {
-      id: "g-refeicoes",
-      name: "Refeições",
-      emoji: "🍽️",
-      subs: [
-        { name: "Churrasco", cats: ["refeicoes-churrasco"] },
-        { name: "Peixes", cats: ["refeicoes-peixes"] },
-        { name: "Regionais", cats: ["refeicoes-regionais"] },
-        { name: "Aves", cats: ["refeicoes-aves"] },
-        { name: "Menu para dois", cats: ["menu-para-dois"] }
-      ]
-    },
-    {
-      id: "g-bebidas",
-      name: "Bebidas",
-      emoji: "🍹",
-      subs: [
-        { name: "Drinks", cats: ["drinks"] },
-        { name: "Cervejas", cats: ["cervejas-600ml", "cervejas-long-neck"] },
-        { name: "Vinhos e Espumantes", cats: ["vinhos-e-espumantes"] },
-        { name: "Sem álcool", cats: ["bebidas-sem-alcool"] },
-        { name: "Sucos", cats: ["sucos"] }
-      ]
-    },
-    {
-      id: "g-destilados",
-      name: "Destilados",
-      emoji: "🥃",
-      subs: [
-        { name: "Whisky", cats: ["whisky"] },
-        { name: "Licores", cats: ["licores"] },
-        { name: "Destilados", cats: ["destilados"] },
-        { name: "Aperitivos", cats: ["aperitivos"] },
-        { name: "Combos Whisky", cats: ["combos-whisky"] }
-      ]
-    },
-    {
-      id: "g-sobremesas",
-      name: "Sobremesas",
-      emoji: "🍮",
-      subs: [
-        { name: "Sobremesas", cats: ["sobremesas"] }
-      ]
-    }
+    { id: "g-entradas", name: "Entradas", emoji: "🥟", label: "Comece por aqui", subs: [{ name: "Entradas", cats: ["entradas"] }] },
+    { id: "g-tiragosto", name: "Tira Gosto", emoji: "🍢", label: "Para compartilhar", subs: [{ name: "Tira Gosto", cats: ["tira-gosto"] }] },
+    { id: "g-porcoes", name: "Porções", emoji: "🍛", label: "Acompanhamentos", subs: [{ name: "Porções", cats: ["porcoes"] }] },
+    { id: "g-pizzas", name: "Pizzas", emoji: "🍕", label: "Do nosso forno", subs: [{ name: "Pizzas", cats: ["pizzas-tradicionais", "pizzas-especiais", "pizza-premium", "pizzas-doces"] }] },
+    { id: "g-churrasco", name: "Churrasco", emoji: "🥩", label: "Refeições", subs: [{ name: "Churrasco", cats: ["refeicoes-churrasco"] }] },
+    { id: "g-peixes", name: "Peixes", emoji: "🐟", label: "Refeições", subs: [{ name: "Peixes", cats: ["refeicoes-peixes"] }] },
+    { id: "g-aves", name: "Aves", emoji: "🍗", label: "Refeições", subs: [{ name: "Aves", cats: ["refeicoes-aves"] }] },
+    { id: "g-regionais", name: "Regionais", emoji: "🍲", label: "Refeições", subs: [{ name: "Regionais", cats: ["refeicoes-regionais"] }] },
+    { id: "g-dois", name: "Menu para Dois", emoji: "👫", label: "Refeições", subs: [{ name: "Menu para dois", cats: ["menu-para-dois"] }] },
+    { id: "g-bebidas", name: "Bebidas", emoji: "🍹", label: "Bar", subs: [{ name: "Bebidas", cats: ["drinks", "cervejas-600ml", "cervejas-long-neck", "vinhos-e-espumantes", "bebidas-sem-alcool", "sucos"] }] },
+    { id: "g-destilados", name: "Destilados", emoji: "🥃", label: "Bar", subs: [{ name: "Destilados", cats: ["whisky", "licores", "destilados"] }] },
+    { id: "g-combos", name: "Combos Whisky", emoji: "🥃", label: "Bar", subs: [{ name: "Combos Whisky", cats: ["combos-whisky"] }] },
+    { id: "g-sobremesas", name: "Sobremesas", emoji: "🍮", label: "Para fechar", subs: [{ name: "Sobremesas", cats: ["sobremesas"] }] }
   ]
 };
 
@@ -5721,21 +5701,35 @@ let PRODUCTS = [
     if (!wrap) return;
     const items = [{ id: "featured", name: "Mais pedidos", emoji: "⭐", count: PRODUCTS.filter((p) => p.popular).length }].concat(
       MENU_GROUPS.map(function (g) {
-        return { id: g.id, name: g.name, emoji: g.emoji, count: countIn(catsOfGroup(g)) };
+        return { id: g.id, name: g.name, emoji: g.emoji, label: g.label, count: countIn(catsOfGroup(g)) };
       })
     );
-    if (!activeGroup) activeGroup = MENU_GROUPS.length ? MENU_GROUPS[0].id : "featured";
+    if (!activeGroup) {
+      activeGroup = MENU_GROUPS.length ? MENU_GROUPS[0].id : "featured";
+      const g0 = MENU_GROUPS[0];
+      activeTab = g0 ? g0.subs[0].cats[0] : "featured";
+    }
 
-    wrap.innerHTML = items
-      .map(
-        (t) =>
-          `<button class="cat-card${t.id === activeGroup ? " active" : ""}" data-group="${t.id}" role="tab" aria-selected="${t.id === activeGroup}">` +
-          `<span class="cc-emoji" aria-hidden="true">${t.emoji}</span>` +
-          `<span class="cc-name">${t.name}</span>` +
-          `<span class="cc-count">${t.count} ${t.count === 1 ? "prato" : "pratos"}</span>` +
-          `</button>`
-      )
-      .join("");
+    // agrupa as abas por seção ("Refeições", "Bar"...) com um título visual
+    let html = "";
+    let lastLabel = null;
+    items.forEach(function (t) {
+      const rot = t.label || "";
+      if (rot !== lastLabel) {
+        if (lastLabel !== null) html += "</div>";
+        html += (lastLabel !== null ? "" : "") + `<div class="cat-group">` +
+          (rot ? `<span class="cat-group-title">${rot}</span>` : "") + `<div class="cat-group-row">`;
+        lastLabel = rot;
+      }
+      html +=
+        `<button class="cat-card${t.id === activeGroup ? " active" : ""}" data-group="${t.id}" role="tab" aria-selected="${t.id === activeGroup}">` +
+        `<span class="cc-emoji" aria-hidden="true">${t.emoji}</span>` +
+        `<span class="cc-name">${t.name}</span>` +
+        `<span class="cc-count">${t.count} ${t.count === 1 ? "prato" : "pratos"}</span>` +
+        `</button>`;
+    });
+    if (lastLabel !== null) html += "</div></div>";
+    wrap.innerHTML = html;
 
     wrap.addEventListener("click", function (e) {
       const btn = e.target.closest("[data-group]");
