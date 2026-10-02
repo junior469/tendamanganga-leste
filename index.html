@@ -6442,13 +6442,52 @@ let PRODUCTS = [
       localStorage.setItem(key, JSON.stringify(val));
       return true;
     } catch (e) {
-      toast("Armazenamento cheio! Use fotos menores ou apague algumas. ⚠️");
+      var cheio = e && (e.name === "QuotaExceededError" || e.name === "NS_ERROR_DOM_QUOTA_REACHED" || e.code === 22 || e.code === 1014);
+      toast(
+        cheio
+          ? "Sem espaço no navegador! Use “Reduzir fotos” para liberar espaço."
+          : "Não consegui salvar. Tente novamente.",
+        "error"
+      );
       return false;
     }
   }
 
+  /* ---------- medidor de armazenamento ---------- */
+  var LS_LIMITE = 5 * 1024 * 1024; // limite típico de 5 MB por site
+  function lsUso() {
+    var total = 0;
+    var n = 0;
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (!k || k.indexOf("mng_admin_") !== 0) continue;
+        total += (localStorage.getItem(k) || "").length * 2; // UTF-16
+        n++;
+      }
+    } catch (e) {}
+    return { bytes: total, limite: LS_LIMITE, pct: Math.min(100, (total / LS_LIMITE) * 100), chaves: n };
+  }
+  function usoLabel() {
+    var u = lsUso();
+    var cor = u.pct > 88 ? "#ff6b6b" : u.pct > 70 ? "#f2b33e" : "#3ecf8e";
+    var mb = (u.bytes / 1024 / 1024).toFixed(2);
+    return (
+      "<div style='display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);margin-bottom:14px'>" +
+      "<span style='font-size:11.5px;color:#a89f8f;white-space:nowrap'>📦 Armazenamento</span>" +
+      "<div style='flex:1;min-width:140px;height:8px;border-radius:99px;background:#1b1712;overflow:hidden;border:1px solid rgba(255,255,255,.08)'>" +
+      "<div style='width:" + u.pct.toFixed(1) + "%;height:100%;background:" + cor + ";transition:width .25s'></div></div>" +
+      "<b style='font-size:11.5px;color:" + cor + ";white-space:nowrap'>" + mb + " MB / 5 MB (" + u.pct.toFixed(0) + "%)</b>" +
+      (u.pct > 88
+        ? "<button onclick='window.__mngAdminShrink()' style='background:rgba(255,107,107,.16);border:1px solid rgba(255,107,107,.45);color:#ff6b6b;padding:8px 13px;border-radius:11px;cursor:pointer;font-weight:700;font-size:11.5px'>🔽 Reduzir fotos</button>"
+        : "") +
+      "</div>"
+    );
+  }
+
   // redimensiona e recomprime a imagem antes de guardar no localStorage
-  function shrinkImage(file, maxW, quality) {
+  // maxW maior do que o necessario desperdica espaco: o card tem no maximo ~220px
+  function shrinkImage(file, maxW, quality, alvoBytes) {
     return new Promise(function (resolve, reject) {
       if (!file || !/^image\//.test(file.type)) return reject(new Error("Arquivo não é uma imagem"));
       var reader = new FileReader();
@@ -6460,20 +6499,40 @@ let PRODUCTS = [
           var w = img.naturalWidth || img.width;
           var h = img.naturalHeight || img.height;
           if (!w || !h) return reject(new Error("Imagem sem dimensões"));
-          var scale = Math.min(1, maxW / Math.max(w, h));
-          var cw = Math.max(1, Math.round(w * scale));
-          var ch = Math.max(1, Math.round(h * scale));
-          var cv = document.createElement("canvas");
-          cv.width = cw;
-          cv.height = ch;
-          var ctx = cv.getContext("2d");
-          ctx.fillStyle = "#000";
-          ctx.fillRect(0, 0, cw, ch);
-          ctx.drawImage(img, 0, 0, cw, ch);
-          var out;
-          try { out = cv.toDataURL("image/jpeg", quality); } catch (e) { return reject(e); }
-          if (!out || out.indexOf("data:image/jpeg") !== 0) return reject(new Error("Não consegui converter a imagem"));
-          resolve(out);
+
+          // alvo em bytes do arquivo final (base64 = 4/3 do binario)
+          var teto = alvoBytes ? alvoBytes * 0.72 : Infinity;
+          var lado = Math.min(maxW, Math.max(w, h));
+          var melhor = null;
+
+          function tenta(tam, q) {
+            var s = Math.min(1, tam / Math.max(w, h));
+            var cw = Math.max(1, Math.round(w * s));
+            var ch = Math.max(1, Math.round(h * s));
+            var cv = document.createElement("canvas");
+            cv.width = cw;
+            cv.height = ch;
+            var ctx = cv.getContext("2d");
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, cw, ch);
+            ctx.drawImage(img, 0, 0, cw, ch);
+            var out;
+            try { out = cv.toDataURL("image/jpeg", q); } catch (e) { return false; }
+            if (!out || out.indexOf("data:image/jpeg") !== 0) return false;
+            var bytes = (out.length * 3) / 4;
+            if (!melhor || bytes < melhor.bytes) melhor = { data: out, bytes: bytes, w: cw, h: ch };
+            return bytes <= teto;
+          }
+
+          // 1a tentativa ja no tamanho e qualidade pedidos; depois vai reduzindo os dois
+          var fatoresQ = [1, 0.92, 0.84, 0.76, 0.68, 0.6, 0.52];
+          var fatoresL = [1, 1, 0.9, 0.82, 0.74, 0.66, 0.58];
+          var coube = false;
+          for (var i = 0; i < fatoresQ.length && !coube; i++) {
+            coube = tenta(Math.max(280, lado * fatoresL[i]), Math.max(0.4, quality * fatoresQ[i]));
+          }
+          if (!melhor) return reject(new Error("Não consegui converter a imagem"));
+          resolve(melhor.data);
         };
         img.src = ev.target.result;
       };
@@ -6602,6 +6661,7 @@ let PRODUCTS = [
     });
     const cats = allCategories();
     return (
+      usoLabel() +
       "<div style='display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:16px'>" +
       "<input placeholder='🔎 Buscar prato...' value='" + es(searchTerm) + "' oninput='window.__mngAdminSearch(this.value)' style='flex:1;min-width:180px;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6'>" +
       "<select onchange='window.__mngAdminCat(this.value)' style='padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.14);background:#1b1712;color:#f7f1e6'>" +
@@ -6991,7 +7051,7 @@ let PRODUCTS = [
     var pv = $("#mngLogoPrev");
     var old = pv ? pv.src : "";
     if (pv) pv.style.opacity = 0.4;
-    shrinkImage(file, 512, 0.85)
+    shrinkImage(file, 320, 0.82, 24 * 1024)
       .then(function (dataUrl) {
         logoSel.value = dataUrl;
         var inp = $("#mngLogoInput");
@@ -7021,17 +7081,21 @@ let PRODUCTS = [
     if (info) info.textContent = "A foto é diminuída e comprimida automaticamente antes de salvar.";
     updatePrev();
   };
+  var FOTO_MAX_PX = 560; // card tem no maximo ~220px; 560 ja cobre celular retina
+  var FOTO_QUALIDADE = 0.6;
+  var FOTO_ALVO_KB = 34; // teto por foto, para caberem muitas no navegador
+
   window.__mngAdminImgUpload = function (el) {
     var file = el.files && el.files[0];
     if (!file) return;
     var info = $("#mngAdminImgInfo");
     if (info) info.textContent = "Processando " + file.name + "...";
-    shrinkImage(file, 900, 0.72)
+    shrinkImage(file, FOTO_MAX_PX, FOTO_QUALIDADE, FOTO_ALVO_KB * 1024)
       .then(function (dataUrl) {
         imgSel.value = dataUrl;
         var inp = $("#mngAdminNewImg");
         if (inp) inp.value = "(foto enviada do dispositivo)";
-        if (info) info.textContent = "Foto carregada (" + kbLabel(dataUrl) + "). Clique em Salvar prato 💾";
+        if (info) info.textContent = "Foto pronta (" + kbLabel(dataUrl) + "). Clique em Salvar prato 💾";
         updatePrev();
         toast("Foto carregada do dispositivo! 📸");
       })
@@ -7045,6 +7109,52 @@ let PRODUCTS = [
     const body = root.querySelector("#mngAdminBody");
     if (body && tab === "products") body.innerHTML = productsTpl();
   }
+
+  /* ---------- reduz fotos ja salvas para liberar espaco ---------- */
+  function dataUrlToFile(dataUrl, nome) {
+    return fetch(dataUrl)
+      .then(function (r) { return r.blob(); })
+      .then(function (b) { return new File([b], nome || "foto.jpg", { type: b.type || "image/jpeg" }); });
+  }
+
+  window.__mngAdminShrink = function () {
+    var ov = lsGet(LS_PRODUCTS, {});
+    var prods = ov.products || {};
+    var alvos = Object.keys(prods).filter(function (id) {
+      var img = prods[id] && prods[id].img;
+      return img && img.indexOf("data:image/") === 0 && img.length > FOTO_ALVO_KB * 1024 * 1.37;
+    });
+    if (!alvos.length) {
+      toast("Suas fotos já estão pequenas ✅", "success");
+      return;
+    }
+    toast("Reduzindo " + alvos.length + " foto(s)... ⏳");
+
+    var i = 0;
+    var antes = lsUso().bytes;
+    function proxima() {
+      if (i >= alvos.length) {
+        var depois = lsUso().bytes;
+        var liberou = Math.max(0, Math.round((antes - depois) / 1024));
+        toast("Pronto! Liberou " + liberou + " KB de espaço 💾", "success");
+        render();
+        return;
+      }
+      var id = alvos[i++];
+      var img = prods[id].img;
+      dataUrlToFile(img, id + ".jpg")
+        .then(function (f) { return shrinkImage(f, FOTO_MAX_PX, FOTO_QUALIDADE, FOTO_ALVO_KB * 1024); })
+        .then(function (nova) {
+          if (nova.length < img.length) {
+            prods[id].img = nova;
+            if (!lsSet(LS_PRODUCTS, ov)) return; // sem espaco: para aqui
+          }
+          proxima();
+        })
+        .catch(function () { proxima(); });
+    }
+    proxima();
+  };
 
   // ---------------- ENTRADA ----------------
   function checkHash() {
