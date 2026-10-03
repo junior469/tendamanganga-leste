@@ -4069,7 +4069,7 @@ textarea.field {
             </div>
             <div class="field-group">
               <label class="field-label" for="coPhone">Telefone / WhatsApp</label>
-              <input class="field" id="coPhone" type="tel" placeholder="(89) 99427-3729" required>
+              <input class="field" id="coPhone" type="tel" placeholder="(86) 9427-3729" required>
             </div>
           </div>
           <div class="field-group" id="coAddressGroup">
@@ -4239,8 +4239,8 @@ textarea.field {
   note: "Cobramos couvert artístico (Lei Nº 6.317/2013). Cobramos taxa de serviço (10%). Temos Play Kids nas duas unidades: Tenda Sul e Tenda Leste!",
 
   contact: {
-    whatsapp: "5589994273729",
-    phoneDisplay: "(89) 99427-3729",
+    whatsapp: "558694273729",
+    phoneDisplay: "(86) 9427-3729",
     email: "contato@tendamanganga.com.br",
     whatsappMessage: "Olá! Vim pelo site da Tenda Mangangá e quero fazer um pedido."
   },
@@ -4319,7 +4319,7 @@ textarea.field {
 // ===== Overrides salvos pela Área Admin (localStorage) =====
 // Estrutura: { texts: { slogan, hoursDisplay, whatsapp, ... }, fields aninhados autorizados }
 (function () {
-  // (89) 99427-3729 a partir de 5588994273729
+  // (86) 9427-3729 a partir de 558694273729
   function formatarTelefone(brl) {
     const d = String(brl || "").replace(/\D/g, "");
     const n = d.length > 11 ? d.slice(2) : d;
@@ -4377,7 +4377,7 @@ textarea.field {
       const bairroVirouEstado = typeof a.district === "string" && /^[A-Z]{2}$/.test(a.district.trim());
       if (streetComNumero || numberQuebrado || bairroQuebrado || bairroVirouEstado) texts.address = {};
     }
-    // (c) whatsapp: o admin aceitou "(89) 99427-3729" com parenteses/espaços e
+    // (c) whatsapp: o admin aceitou "(86) 9427-3729" com parenteses/espaços e
     //     quebrava o link. Agora soAceita digitos e sempre deriva o telefone
     //     exibido a partir deles, para nunca divergir do link.
     if (typeof texts.contact === "object" && texts.contact) {
@@ -6967,8 +6967,7 @@ let PRODUCTS = [
     ov.texts.brandName = get("brandName");
     ov.texts.brandSub = get("brandSub");
     ov.texts.logoSrc = logoSel.value || "";
-    ov.texts.contact = Object.assign(ov.texts.contact || {}, {
-      // so digitos no whatsapp: "(89) 99427-3729" quebrava o link
+    // so digitos no whatsapp: "(86) 94273-729" quebrava o link
     const waRaw = (get("whatsapp") || "").replace(/\D/g, "");
     const waOk = /^55\d{10,11}$/.test(waRaw) ? waRaw : (/^\d{10,11}$/.test(waRaw) ? "55" + waRaw : (SITE.contact.whatsapp || ""));
     ov.texts.contact = Object.assign(ov.texts.contact || {}, {
