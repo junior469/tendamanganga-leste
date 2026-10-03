@@ -3462,59 +3462,34 @@ textarea.field {
 
 /* ---------- CARDÁPIOS EM GRUPOS ---------- */
 .cat-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin: 4px 0 22px;
-}
-
-.cat-group {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.cat-group-title {
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.cat-group-title::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--line);
-}
-
-.cat-group-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: 7px;
+  margin: 4px 0 18px;
+}
+
+/* "Mais pedidos" fica destacado no comeco da lista */
+.cat-card.cat-star {
+  border-color: rgba(242, 179, 62, 0.45);
+  background: rgba(242, 179, 62, 0.09);
 }
 
 .cat-card {
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 20px 14px;
-  border-radius: var(--radius);
+  gap: 7px;
+  padding: 9px 11px;
+  border-radius: 999px;
   background: var(--surface);
   border: 1px solid var(--line);
   font-family: var(--font-display);
   cursor: pointer;
-  transition: all 0.25s var(--ease);
-  text-align: center;
+  transition: all 0.2s var(--ease);
+  text-align: left;
   overflow: hidden;
+  min-height: 42px;
 }
 
 .cat-card::before {
@@ -3523,18 +3498,18 @@ textarea.field {
   inset: 0;
   background: var(--grad);
   opacity: 0;
-  transition: opacity 0.25s var(--ease);
+  transition: opacity 0.2s var(--ease);
 }
 
 .cat-card:hover {
   border-color: var(--line-strong);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
 .cat-card.active {
   border-color: transparent;
-  box-shadow: 0 12px 30px -12px rgba(231, 142, 47, 0.55);
+  box-shadow: 0 10px 24px -12px rgba(231, 142, 47, 0.6);
 }
 
 .cat-card.active::before {
@@ -3549,15 +3524,20 @@ textarea.field {
 }
 
 .cat-card .cc-emoji {
-  font-size: 30px;
+  font-size: 17px;
   line-height: 1;
+  flex: 0 0 auto;
 }
 
 .cat-card .cc-name {
-  font-size: 0.92rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: var(--text);
-  transition: color 0.25s var(--ease);
+  transition: color 0.2s var(--ease);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .cat-card.active .cc-name {
@@ -3565,14 +3545,20 @@ textarea.field {
 }
 
 .cat-card .cc-count {
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.62rem;
+  font-weight: 700;
   color: var(--muted);
-  transition: color 0.25s var(--ease);
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  transition: color 0.2s var(--ease);
+  flex: 0 0 auto;
 }
 
 .cat-card.active .cc-count {
-  color: rgba(32, 22, 7, 0.72);
+  color: rgba(32, 22, 7, 0.78);
+  background: rgba(32, 22, 7, 0.1);
 }
 
 /* Subtítulos internos (seções do grupo) */
@@ -3684,7 +3670,7 @@ textarea.field {
   <div class="container header-inner">
     <a href="#inicio" class="brand" aria-label="Tenda Mangangá — Início">
       <img id="brandMark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxjaXJjbGUgY3g9IjI0IiBjeT0iMjQiIHI9IjIzIiBmaWxsPSIjZjhjMjVjIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="52" height="52">
-      <span class="brand-name" id="brandName">Tenda Mangangá<span id="brandSub">Comidas regionais &amp; churrasco</span></span>
+      <span class="brand-name">Tenda Mangangá<span class="brand-sub">Comidas regionais &amp; churrasco</span></span>
     </a>
     <nav class="nav-links" aria-label="Navegação principal">
       <a href="#inicio" data-nav="inicio">Início</a>
@@ -3946,7 +3932,7 @@ textarea.field {
       <div class="footer-brand">
         <a href="#inicio" class="brand" aria-label="Tenda Mangangá">
           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxjaXJjbGUgY3g9IjI0IiBjeT0iMjQiIHI9IjIzIiBmaWxsPSIjZjhjMjVjIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="52" height="52">
-      <span class="brand-name" id="brandName">Tenda Mangangá<span id="brandSub">Comidas regionais &amp; churrasco</span></span>
+      <span class="brand-name">Tenda Mangangá<span class="brand-sub">Comidas regionais &amp; churrasco</span></span>
         </a>
         <p id="footerSlogan">Comidas regionais, churrascos e frutos do mar.</p>
         <div class="footer-socials">
@@ -4328,13 +4314,13 @@ textarea.field {
 // ===== Overrides salvos pela Área Admin (localStorage) =====
 // Estrutura: { texts: { slogan, hoursDisplay, whatsapp, ... }, fields aninhados autorizados }
 (function () {
-  // Logo padrao do topo: usa SITE.brand.logo; o admin pode sobrescrever via localStorage
+  // Logo padrao: usa SITE.brand.logo no topo E no rodape; o admin sobrescreve via localStorage
   function applyDefaultLogo() {
     if (!SITE.brand.logo) return;
-    const mark = document.getElementById("brandMark");
-    if (!mark) return;
-    mark.src = SITE.brand.logo;
-    mark.onerror = function () { this.style.display = "none"; };
+    document.querySelectorAll(".brand-mark").forEach(function (mark) {
+      mark.src = SITE.brand.logo;
+      mark.onerror = function () { this.style.display = "none"; };
+    });
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", applyDefaultLogo);
@@ -4360,26 +4346,29 @@ textarea.field {
 
     if (ov.tabTitle && typeof ov.tabTitle === "string") document.title = ov.tabTitle;
 
-    // Logo do topo (faixa do cabeçalho)
-    const bn = document.getElementById("brandName");
-    if (bn) {
-      if (typeof texts.brandName === "string" && texts.brandName) bn.firstChild.nodeValue = texts.brandName;
+    // Logo e nome: valem para o topo E para o rodape (abaixo do mapa)
+    const bns = document.querySelectorAll(".brand-name");
+    if (bns.length) {
+      if (typeof texts.brandName === "string" && texts.brandName) {
+        bns.forEach(function (el) { if (el.firstChild) el.firstChild.nodeValue = texts.brandName; });
+      }
       if (typeof texts.brandSub === "string" && texts.brandSub) {
-        let sub = document.getElementById("brandSub");
-        if (!sub) {
-          sub = document.createElement("span");
-          sub.id = "brandSub";
-          bn.appendChild(sub);
-        }
-        sub.textContent = texts.brandSub;
+        bns.forEach(function (el) {
+          let sub = el.querySelector(".brand-sub");
+          if (!sub) {
+            sub = document.createElement("span");
+            sub.className = "brand-sub";
+            el.appendChild(sub);
+          }
+          sub.textContent = texts.brandSub;
+        });
       }
     }
     if (typeof texts.logoSrc === "string" && texts.logoSrc) {
-      const lg = document.getElementById("brandMark");
-      if (lg) {
-        lg.src = texts.logoSrc;
-        lg.onerror = function () { this.style.display = "none"; };
-      }
+      document.querySelectorAll(".brand-mark").forEach(function (img) {
+        img.src = texts.logoSrc;
+        img.onerror = function () { this.style.display = "none"; };
+      });
     }
   } catch (e) { /* ignora */ }
 })();</script>
@@ -5701,7 +5690,7 @@ let PRODUCTS = [
     if (!wrap) return;
     const items = [{ id: "featured", name: "Mais pedidos", emoji: "⭐", count: PRODUCTS.filter((p) => p.popular).length }].concat(
       MENU_GROUPS.map(function (g) {
-        return { id: g.id, name: g.name, emoji: g.emoji, label: g.label, count: countIn(catsOfGroup(g)) };
+        return { id: g.id, name: g.name, emoji: g.emoji, count: countIn(catsOfGroup(g)) };
       })
     );
     if (!activeGroup) {
@@ -5710,26 +5699,19 @@ let PRODUCTS = [
       activeTab = g0 ? g0.subs[0].cats[0] : "featured";
     }
 
-    // agrupa as abas por seção ("Refeições", "Bar"...) com um título visual
-    let html = "";
-    let lastLabel = null;
-    items.forEach(function (t) {
-      const rot = t.label || "";
-      if (rot !== lastLabel) {
-        if (lastLabel !== null) html += "</div>";
-        html += (lastLabel !== null ? "" : "") + `<div class="cat-group">` +
-          (rot ? `<span class="cat-group-title">${rot}</span>` : "") + `<div class="cat-group-row">`;
-        lastLabel = rot;
-      }
-      html +=
-        `<button class="cat-card${t.id === activeGroup ? " active" : ""}" data-group="${t.id}" role="tab" aria-selected="${t.id === activeGroup}">` +
-        `<span class="cc-emoji" aria-hidden="true">${t.emoji}</span>` +
-        `<span class="cc-name">${t.name}</span>` +
-        `<span class="cc-count">${t.count} ${t.count === 1 ? "prato" : "pratos"}</span>` +
-        `</button>`;
-    });
-    if (lastLabel !== null) html += "</div></div>";
-    wrap.innerHTML = html;
+    // uma grade unica e alinhada: o cliente ve todas as abas de uma vez
+    wrap.innerHTML = items
+      .map(function (t) {
+        return (
+          `<button class="cat-card${t.id === activeGroup ? " active" : ""}${t.id === "featured" ? " cat-star" : ""}" ` +
+          `data-group="${t.id}" role="tab" aria-selected="${t.id === activeGroup}" title="${t.name}">` +
+          `<span class="cc-emoji" aria-hidden="true">${t.emoji}</span>` +
+          `<span class="cc-name">${t.name}</span>` +
+          `<span class="cc-count">${t.count}</span>` +
+          `</button>`
+        );
+      })
+      .join("");
 
     wrap.addEventListener("click", function (e) {
       const btn = e.target.closest("[data-group]");
