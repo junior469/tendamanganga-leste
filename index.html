@@ -3882,6 +3882,10 @@ textarea.field {
           <div><b>Horário de funcionamento</b><span id="locHours">Carregando...</span></div>
         </div>
         <div class="loc-row">
+          <div class="loc-ic">💬</div>
+          <div><b>WhatsApp</b><span><a id="locWhats" href="#" target="_blank" rel="noopener">Carregando...</a></span></div>
+        </div>
+        <div class="loc-row">
           <div class="loc-ic">📸</div>
           <div><b>Instagram</b><span><a id="locPhone" href="#" target="_blank" rel="noopener">Carregando...</a></span></div>
         </div>
@@ -3890,7 +3894,8 @@ textarea.field {
           <div><b>Zona de entrega</b><span id="locDelivery">Carregando...</span></div>
         </div>
         <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:10px">
-          <a href="#" id="btnDirections" target="_blank" rel="noopener" class="btn btn-primary">Como chegar</a>
+          <a href="#" id="btnWhats" class="btn btn-primary">💬 Falar no WhatsApp</a>
+          <a href="#" id="btnDirections" target="_blank" rel="noopener" class="btn btn-ghost">Como chegar</a>
           <a href="#" data-social="instagram" class="btn btn-ghost">Seguir no Instagram</a>
         </div>
       </div>
@@ -4334,6 +4339,17 @@ textarea.field {
     if (!ov || typeof ov !== "object") return;
 
     const texts = ov.texts || {};
+
+    // ---- versao 2 do texto salvo ----
+    // O Admin antigo separava o endereco errado e gravava um horario que brigava
+    // com o real. Como nao dava para arrumar esses campos ja salvos, eles sao
+    // descartados uma vez e o site volta a usar os valores oficiais.
+    if (!ov.__v || ov.__v < 2) {
+      if (texts.hours) delete texts.hours;
+      if (texts.address) delete texts.address;
+      ov.__v = 2;
+      try { localStorage.setItem("mng_admin_site", JSON.stringify(ov)); } catch (e) { /* ignora */ }
+    }
 
     // ---- conserta sobrescritas antigas/bugadas salvas no navegador ----
     // (a) horario: a versao antiga da observacao dizia "a partir do meio-dia",
@@ -6152,6 +6168,16 @@ let PRODUCTS = [
     $("#locAddress").textContent =
       SITE.address.street + ", " + SITE.address.number + (SITE.address.complement ? " - " + SITE.address.complement : "") + " — " + SITE.address.district;
     $("#locHours").textContent = SITE.hours.display;
+    // WhatsApp na secao do mapa (antes so tinha Instagram aqui)
+    const waHref = U.whatsappLink(SITE.contact.whatsapp, SITE.contact.whatsappMessage);
+    const waTxt = SITE.contact.phoneDisplay || SITE.contact.whatsapp;
+    const locWhats = $("#locWhats");
+    if (locWhats) {
+      locWhats.textContent = waTxt;
+      locWhats.href = waHref;
+    }
+    const btnWhats = $("#btnWhats");
+    if (btnWhats) btnWhats.href = waHref;
     $("#locPhone").textContent = SITE.social.instagramHandle || "Instagram";
     $("#locPhone").href = SITE.social.instagram || "#";
     $("#locDelivery").textContent = SITE.delivery.note + " · " + SITE.delivery.estimate + " normalmente.";
