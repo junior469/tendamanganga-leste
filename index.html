@@ -4239,7 +4239,7 @@ textarea.field {
   note: "Cobramos couvert artístico (Lei Nº 6.317/2013). Cobramos taxa de serviço (10%). Temos Play Kids nas duas unidades: Tenda Sul e Tenda Leste!",
 
   contact: {
-    whatsapp: "5588994273729",
+    whatsapp: "5589994273729",
     phoneDisplay: "(89) 99427-3729",
     email: "contato@tendamanganga.com.br",
     whatsappMessage: "Olá! Vim pelo site da Tenda Mangangá e quero fazer um pedido."
@@ -4319,6 +4319,14 @@ textarea.field {
 // ===== Overrides salvos pela Área Admin (localStorage) =====
 // Estrutura: { texts: { slogan, hoursDisplay, whatsapp, ... }, fields aninhados autorizados }
 (function () {
+  // (89) 99427-3729 a partir de 5588994273729
+  function formatarTelefone(brl) {
+    const d = String(brl || "").replace(/\D/g, "");
+    const n = d.length > 11 ? d.slice(2) : d;
+    if (n.length === 11) return "(" + n.slice(0, 2) + ") " + n.slice(2, 7) + "-" + n.slice(7);
+    if (n.length === 10) return "(" + n.slice(0, 2) + ") " + n.slice(2, 6) + "-" + n.slice(6);
+    return d;
+  }
   // Logo padrao: usa SITE.brand.logo no topo E no rodape; o admin sobrescreve via localStorage
   function applyDefaultLogo() {
     if (!SITE.brand.logo) return;
@@ -4369,6 +4377,18 @@ textarea.field {
       const bairroVirouEstado = typeof a.district === "string" && /^[A-Z]{2}$/.test(a.district.trim());
       if (streetComNumero || numberQuebrado || bairroQuebrado || bairroVirouEstado) texts.address = {};
     }
+    // (c) whatsapp: o admin aceitou "(89) 99427-3729" com parenteses/espaços e
+    //     quebrava o link. Agora soAceita digitos e sempre deriva o telefone
+    //     exibido a partir deles, para nunca divergir do link.
+    if (typeof texts.contact === "object" && texts.contact) {
+      if (typeof texts.contact.whatsapp === "string" && texts.contact.whatsapp) {
+        const d = texts.contact.whatsapp.replace(/\D/g, "");
+        if (/^55\d{10,11}$/.test(d)) texts.contact.whatsapp = d;
+        else if (/^\d{10,11}$/.test(d)) texts.contact.whatsapp = "55" + d;
+        else delete texts.contact.whatsapp;
+      }
+      delete texts.contact.phoneDisplay;
+    }
     // ---- fim da correcao ----
     if (typeof texts.brand === "object") Object.assign(SITE.brand, texts.brand);
     if (typeof texts.contact === "object") Object.assign(SITE.contact, texts.contact);
@@ -4379,6 +4399,9 @@ textarea.field {
     }
     if (typeof texts.note === "string") SITE.note = texts.note;
     if (typeof texts.address === "object") Object.assign(SITE.address, texts.address);
+
+    // o telefone mostrado sempre bate com o link do WhatsApp
+    SITE.contact.phoneDisplay = formatarTelefone(SITE.contact.whatsapp);
 
     if (ov.tabTitle && typeof ov.tabTitle === "string") document.title = ov.tabTitle;
 
@@ -4737,7 +4760,8 @@ let PRODUCTS = [
   }
 
   function whatsappLink(phone, message) {
-    return "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+    const d = String(phone || "").replace(/\D/g, "") || SITE.contact.whatsapp;
+    return "https://wa.me/" + d + "?text=" + encodeURIComponent(message);
   }
 
   function openWhatsApp({ phone, message, silent }) {
@@ -6944,8 +6968,13 @@ let PRODUCTS = [
     ov.texts.brandSub = get("brandSub");
     ov.texts.logoSrc = logoSel.value || "";
     ov.texts.contact = Object.assign(ov.texts.contact || {}, {
-      whatsapp: get("whatsapp"), phoneDisplay: get("phoneDisplay"), whatsappMessage: get("whatsappMessage")
+      // so digitos no whatsapp: "(89) 99427-3729" quebrava o link
+    const waRaw = (get("whatsapp") || "").replace(/\D/g, "");
+    const waOk = /^55\d{10,11}$/.test(waRaw) ? waRaw : (/^\d{10,11}$/.test(waRaw) ? "55" + waRaw : (SITE.contact.whatsapp || ""));
+    ov.texts.contact = Object.assign(ov.texts.contact || {}, {
+      whatsapp: waOk, whatsappMessage: get("whatsappMessage")
     });
+    delete ov.texts.contact.phoneDisplay;
     ov.texts.hours = Object.assign(ov.texts.hours || {}, { display: get("hours") || undefined, note: get("hoursNote") || undefined });
     ov.texts.delivery = Object.assign(ov.texts.delivery || {}, {
       fee: parseFloat(get("fee")) || ov.texts.delivery?.fee, freeAbove: parseFloat(get("freeAbove")) || ov.texts.delivery?.freeAbove, estimate: get("estimate")
