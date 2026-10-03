@@ -4334,6 +4334,26 @@ textarea.field {
     if (!ov || typeof ov !== "object") return;
 
     const texts = ov.texts || {};
+
+    // ---- conserta sobrescritas antigas/bugadas salvas no navegador ----
+    // (a) horario: a versao antiga da observacao dizia "a partir do meio-dia",
+    //     o que brigava com o horario real de sabado/domingo (11h).
+    if (typeof texts.hours === "object" && texts.hours && typeof texts.hours.note === "string" && /meio[-\s]?dia/i.test(texts.hours.note)) {
+      delete texts.hours.note;
+      delete texts.hours.display;
+      if (!Object.keys(texts.hours).length) delete texts.hours;
+    }
+    // (b) endereco: ao salvar, o admin separava por " - " e embaralhava
+    //     rua/numero/bairro/cidade. Ex.: street virava "Rua X, 909".
+    if (typeof texts.address === "object" && texts.address) {
+      const a = texts.address;
+      const streetComNumero = typeof a.street === "string" && /,\s*\d+/.test(a.street);
+      const numberQuebrado = typeof a.number === "string" && (/[,-]/.test(a.number) || /\s-\s/.test(a.number));
+      const bairroQuebrado = typeof a.district === "string" && /[,-]/.test(a.district);
+      const bairroVirouEstado = typeof a.district === "string" && /^[A-Z]{2}$/.test(a.district.trim());
+      if (streetComNumero || numberQuebrado || bairroQuebrado || bairroVirouEstado) texts.address = {};
+    }
+    // ---- fim da correcao ----
     if (typeof texts.brand === "object") Object.assign(SITE.brand, texts.brand);
     if (typeof texts.contact === "object") Object.assign(SITE.contact, texts.contact);
     if (typeof texts.delivery === "object") Object.assign(SITE.delivery, texts.delivery);
@@ -6905,8 +6925,24 @@ let PRODUCTS = [
       fee: parseFloat(get("fee")) || ov.texts.delivery?.fee, freeAbove: parseFloat(get("freeAbove")) || ov.texts.delivery?.freeAbove, estimate: get("estimate")
     });
     ov.texts.note = get("note");
-    const addr = get("address").split(" - ");
-    ov.texts.address = Object.assign(ov.texts.address || {}, { street: addr[0] || "", number: addr[1] || "", district: addr[2] || "", city: addr[3] || "" });
+    // Endereco vem como: "Rua, 909 - Bairro, Cidade - UF"
+    // Antes separava so por " - " e misturava os campos (rua virava "Rua, 909").
+    const bruto = (get("address") || "").trim();
+    const pedacos = bruto.split(/\s+-\s+/);
+    if (pedacos.length >= 2) {
+      const p0 = pedacos[0].split(",").map((s) => s.trim());
+      const p1 = pedacos[1].split(",").map((s) => s.trim());
+      const novo = {
+        street: p0.slice(0, -1).join(", ").trim(),
+        number: (p0[p0.length - 1] || "").trim(),
+        district: (p1[0] || "").trim(),
+        city: p1.slice(1).join(", ").trim(),
+        state: (pedacos[2] || "").trim()
+      };
+      if (novo.street && novo.number) ov.texts.address = Object.assign(ov.texts.address || {}, novo);
+    } else if (bruto) {
+      ov.texts.address = Object.assign(ov.texts.address || {}, { street: bruto });
+    }
     lsSet(LS_SITE, ov);
     toast("Textos salvos! 💾");
     render();
