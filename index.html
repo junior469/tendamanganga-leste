@@ -4776,7 +4776,9 @@ let PRODUCTS = [
     return "https://wa.me/" + d + "?text=" + encodeURIComponent(message);
   }
 
-  function openWhatsApp({ phone, message, silent }) {
+  // sem argumento padrao, clicar no botao verde quebrava com
+  // "nao da para desestruturar 'phone' de undefined"
+  function openWhatsApp({ phone, message, silent } = {}) {
     const p = phone || SITE.contact.whatsapp;
     const m = message || SITE.contact.whatsappMessage;
     window.open(whatsappLink(p, m), "_blank", "noopener,noreferrer");
