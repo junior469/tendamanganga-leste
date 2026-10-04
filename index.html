@@ -393,27 +393,32 @@ h3 {
 
 .brand {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
+  align-items: center;
+  gap: 10px;
 }
 
 .brand-mark {
+  width: 52px;
   height: 52px;
-  width: auto;
-  max-width: 210px;
-  object-fit: contain;
-  object-position: left center;
   flex-shrink: 0;
 }
 
-.brand-sub {
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.02rem;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name span {
   font-size: 0.56rem;
   font-weight: 600;
   letter-spacing: 0.24em;
   color: var(--accent);
   text-transform: uppercase;
-  line-height: 1;
 }
 
 .nav-links {
@@ -3661,8 +3666,8 @@ textarea.field {
 <header class="site-header" id="siteHeader">
   <div class="container header-inner">
     <a href="#inicio" class="brand" aria-label="Tenda Mangangá — Início">
-      <img id="brandMark" src="assets/photos/logo-nova.jpg" alt="Logo Tenda Mangangá" class="brand-mark" width="156" height="52">
-      <span class="brand-sub">Comidas regionais &amp; churrasco</span>
+      <img id="brandMark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxjaXJjbGUgY3g9IjI0IiBjeT0iMjQiIHI9IjIzIiBmaWxsPSIjZjhjMjVjIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="52" height="52">
+      <span class="brand-name">Tenda Mangangá<span class="brand-sub">Comidas regionais &amp; churrasco</span></span>
     </a>
     <nav class="nav-links" aria-label="Navegação principal">
       <a href="#inicio" data-nav="inicio">Início</a>
@@ -3928,8 +3933,8 @@ textarea.field {
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#inicio" class="brand" aria-label="Tenda Mangangá">
-          <img src="assets/photos/logo-nova.jpg" alt="Logo Tenda Mangangá" class="brand-mark" width="156" height="52">
-        <span class="brand-sub">Comidas regionais &amp; churrasco</span>
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxjaXJjbGUgY3g9IjI0IiBjeT0iMjQiIHI9IjIzIiBmaWxsPSIjZjhjMjVjIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="52" height="52">
+        <span class="brand-name">Tenda Mangangá<span class="brand-sub">Comidas regionais &amp; churrasco</span></span>
         </a>
         <p id="footerSlogan">Comidas regionais, churrascos e frutos do mar.</p>
         <div class="footer-socials">
@@ -4215,7 +4220,7 @@ textarea.field {
     heroHighlight: "Comidas regionais, churrascos e frutos do mar com o sabor de casa.",
     heroTrust: "Peça de forma rápida, fácil e segura pelo nosso site.",
     headerSub: "Comidas regionais & churrasco",
-    logo: "assets/photos/logo-nova.jpg",
+    logo: "",
     unit: "Leste"
   },
 
@@ -4419,16 +4424,23 @@ let arrumou = false;
 
     if (ov.tabTitle && typeof ov.tabTitle === "string") document.title = ov.tabTitle;
 
-    // Logo e tagline: valem para o topo E para o rodape (abaixo do mapa)
-    // O nome ja vem pronto dentro da imagem da logo, entao aqui so o
-    // subtipo precisa ser atualizado.
-    document.querySelectorAll(".brand-name").forEach(function (el) {
-      if (el.firstChild) el.firstChild.nodeValue = texts.brandName;
-    });
-    if (typeof texts.brandSub === "string" && texts.brandSub) {
-      document.querySelectorAll(".brand-sub").forEach(function (el) {
-        el.textContent = texts.brandSub;
-      });
+    // Logo e nome: valem para o topo E para o rodape (abaixo do mapa)
+    const bns = document.querySelectorAll(".brand-name");
+    if (bns.length) {
+      if (typeof texts.brandName === "string" && texts.brandName) {
+        bns.forEach(function (el) { if (el.firstChild) el.firstChild.nodeValue = texts.brandName; });
+      }
+      if (typeof texts.brandSub === "string" && texts.brandSub) {
+        bns.forEach(function (el) {
+          let sub = el.querySelector(".brand-sub");
+          if (!sub) {
+            sub = document.createElement("span");
+            sub.className = "brand-sub";
+            el.appendChild(sub);
+          }
+          sub.textContent = texts.brandSub;
+        });
+      }
     }
     if (typeof texts.logoSrc === "string" && texts.logoSrc) {
       document.querySelectorAll(".brand-mark").forEach(function (img) {
