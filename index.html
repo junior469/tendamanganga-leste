@@ -393,32 +393,27 @@ h3 {
 
 .brand {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
 }
 
 .brand-mark {
-  width: 52px;
   height: 52px;
+  width: auto;
+  max-width: 210px;
+  object-fit: contain;
+  object-position: left center;
   flex-shrink: 0;
 }
 
-.brand-name {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.02rem;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-name span {
+.brand-sub {
   font-size: 0.56rem;
   font-weight: 600;
   letter-spacing: 0.24em;
   color: var(--accent);
   text-transform: uppercase;
+  line-height: 1;
 }
 
 .nav-links {
@@ -3666,8 +3661,8 @@ textarea.field {
 <header class="site-header" id="siteHeader">
   <div class="container header-inner">
     <a href="#inicio" class="brand" aria-label="Tenda Mangangá — Início">
-      <img id="brandMark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxjaXJjbGUgY3g9IjI0IiBjeT0iMjQiIHI9IjIzIiBmaWxsPSIjZjhjMjVjIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="52" height="52">
-      <span class="brand-name">Tenda Mangangá<span class="brand-sub">Comidas regionais &amp; churrasco</span></span>
+      <img id="brandMark" src="assets/photos/logo-nova.jpg" alt="Logo Tenda Mangangá" class="brand-mark" width="156" height="52">
+      <span class="brand-sub">Comidas regionais &amp; churrasco</span>
     </a>
     <nav class="nav-links" aria-label="Navegação principal">
       <a href="#inicio" data-nav="inicio">Início</a>
@@ -3933,8 +3928,8 @@ textarea.field {
     <div class="footer-grid">
       <div class="footer-brand">
         <a href="#inicio" class="brand" aria-label="Tenda Mangangá">
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OCA0OCIgcm9sZT0iaW1nIiBhcmlhLWxhYmVsPSJNYW5nYW5nw6EgTGVzdGUiPgogIDxjaXJjbGUgY3g9IjI0IiBjeT0iMjQiIHI9IjIzIiBmaWxsPSIjZjhjMjVjIi8+CiAgPHRleHQgeD0iMjQiIHk9IjMyLjUiIGZvbnQtZmFtaWx5PSJTb3JhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjgwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzIwMTYwNyI+TTwvdGV4dD4KPC9zdmc+" alt="Logo Tenda Mangangá" class="brand-mark" width="52" height="52">
-      <span class="brand-name">Tenda Mangangá<span class="brand-sub">Comidas regionais &amp; churrasco</span></span>
+          <img src="assets/photos/logo-nova.jpg" alt="Logo Tenda Mangangá" class="brand-mark" width="156" height="52">
+        <span class="brand-sub">Comidas regionais &amp; churrasco</span>
         </a>
         <p id="footerSlogan">Comidas regionais, churrascos e frutos do mar.</p>
         <div class="footer-socials">
@@ -4220,7 +4215,7 @@ textarea.field {
     heroHighlight: "Comidas regionais, churrascos e frutos do mar com o sabor de casa.",
     heroTrust: "Peça de forma rápida, fácil e segura pelo nosso site.",
     headerSub: "Comidas regionais & churrasco",
-    logo: "",
+    logo: "assets/photos/logo-nova.jpg",
     unit: "Leste"
   },
 
@@ -4366,6 +4361,13 @@ let arrumou = false;
       ov.__v = 3;
       arrumou = true;
     }
+    // versao 4: a logo antiga (hexagonal) ficava salva no navegador e
+    // sobrescrevia a logo nova em todas as visitas. Descarta esse override.
+    if (ov.__v < 4) {
+      if (texts.logoSrc) delete texts.logoSrc;
+      ov.__v = 4;
+      arrumou = true;
+    }
     // grava para nao repetir a limpeza em cada visita
     if (arrumou) {
       try { localStorage.setItem("mng_admin_site", JSON.stringify(ov)); } catch (e) { /* ignora */ }
@@ -4417,23 +4419,16 @@ let arrumou = false;
 
     if (ov.tabTitle && typeof ov.tabTitle === "string") document.title = ov.tabTitle;
 
-    // Logo e nome: valem para o topo E para o rodape (abaixo do mapa)
-    const bns = document.querySelectorAll(".brand-name");
-    if (bns.length) {
-      if (typeof texts.brandName === "string" && texts.brandName) {
-        bns.forEach(function (el) { if (el.firstChild) el.firstChild.nodeValue = texts.brandName; });
-      }
-      if (typeof texts.brandSub === "string" && texts.brandSub) {
-        bns.forEach(function (el) {
-          let sub = el.querySelector(".brand-sub");
-          if (!sub) {
-            sub = document.createElement("span");
-            sub.className = "brand-sub";
-            el.appendChild(sub);
-          }
-          sub.textContent = texts.brandSub;
-        });
-      }
+    // Logo e tagline: valem para o topo E para o rodape (abaixo do mapa)
+    // O nome ja vem pronto dentro da imagem da logo, entao aqui so o
+    // subtipo precisa ser atualizado.
+    document.querySelectorAll(".brand-name").forEach(function (el) {
+      if (el.firstChild) el.firstChild.nodeValue = texts.brandName;
+    });
+    if (typeof texts.brandSub === "string" && texts.brandSub) {
+      document.querySelectorAll(".brand-sub").forEach(function (el) {
+        el.textContent = texts.brandSub;
+      });
     }
     if (typeof texts.logoSrc === "string" && texts.logoSrc) {
       document.querySelectorAll(".brand-mark").forEach(function (img) {
@@ -4510,8 +4505,8 @@ let PRODUCTS = [
   { id: "p35", cat: "pizzas-tradicionais", name: "CALABRESA G", desc: "Molho de tomate defumado, muçarela, calabresa fatiada, cebola roxa e orégano.8 fatias.", price: 54.99, img: "assets/photos/pizza-calabresa.jpg", emoji: "🍕" },
   { id: "p36", cat: "pizzas-tradicionais", name: "CAIPIRA P", desc: "Molho de tomate defumado, muçarela, frango desfiado, milho, azeite de oliva e orégano. 4 fatias.", price: 24.90, img: "assets/photos/pizza-frango.jpg", emoji: "🍕" },
   { id: "p37", cat: "pizzas-tradicionais", name: "CAIPIRA G", desc: "Molho de tomate defumado, muçarela, frango desfiado, milho, azeite de oliva e orégano. 8 fatias.", price: 49.90, img: "assets/photos/pizza-frango.jpg", emoji: "🍕" },
-  { id: "p38", cat: "pizzas-tradicionais", name: "BORDA SIMPLES G", desc: "Opções: Catupiry / Chocolate (Escolha 1 sabor da sua borda)", price: 14.90, img: "assets/photos/pizza-mucarela.jpg", emoji: "🍕" },
-  { id: "p39", cat: "pizzas-tradicionais", name: "BORDA TRANCADA PREMIUM G", desc: "Opções: Catupiry / Chocolate (Escolha 1 sabor da sua borda)", price: 16.90, img: "assets/photos/pizza-mucarela.jpg", emoji: "🍕" },
+  { id: "p38", cat: "pizzas-tradicionais", name: "BORDA SIMPLES G", desc: "Opções: Catupiry / Chocolate (Escolha 1 sabor da sua borda)", price: 14.90, emoji: "🍕" },
+  { id: "p39", cat: "pizzas-tradicionais", name: "BORDA TRANCADA PREMIUM G", desc: "Opções: Catupiry / Chocolate (Escolha 1 sabor da sua borda)", price: 16.90, emoji: "🍕" },
   { id: "p40", cat: "pizzas-especiais", name: "CALABRESA ESPECIAL P", desc: "Molho de tomate defumado, muçarela, calabresa fatiada, bacon, catupiry, cebola roxa e orégano. 4 fatias.", price: 34.99, img: "assets/photos/pizza-calabresa.jpg", emoji: "🍕" },
   { id: "p41", cat: "pizzas-especiais", name: "CALABRESA ESPECIAL G", desc: "Molho de tomate defumado, muçarela, calabresa fatiada, catupiry, cebola roxa e orégano. 8 fatias.", price: 59.90, img: "assets/photos/pizza-calabresa.jpg", emoji: "🍕" },
   { id: "p42", cat: "pizzas-especiais", name: "PORTUGUESA P", desc: "Molho de tomate defumado, muçarela, presunto, cebola roxa, ovos e orégano. 4 fatias.", price: 34.90, img: "assets/photos/pizza-portuguesa.jpg", emoji: "🍕" },
@@ -4522,7 +4517,7 @@ let PRODUCTS = [
   { id: "p47", cat: "pizzas-especiais", name: "FRANGO CATUPIRY G", desc: "Molho de tomate defumado, muçarela, frango desfiado, catupiry, milho e orégano. 8 fatias.", price: 59.90, img: "assets/photos/pizza-frango.jpg", emoji: "🍕" },
   { id: "p48", cat: "pizzas-especiais", name: "NORDESTINA P", desc: "Molho de tomate defumado, muçarela, carne de sol, cebola roxa, rodelas de banana e orégano. 4 fatias.", price: 34.90, img: "assets/photos/pizza-especial.jpg", emoji: "🍕" },
   { id: "p49", cat: "pizzas-especiais", name: "NORDESTINA G", desc: "Molho de tomate defumado, muçarela, carne de sol, cebola roxa, rodelas de banana e orégano. 8 fatias.", price: 61.90, img: "assets/photos/pizza-especial.jpg", emoji: "🍕" },
-  { id: "p50", cat: "pizzas-especiais", name: "BORDA SIMPLES G", desc: "Opções: Catupiry / Chocolate (Escolha 1 sabor da sua borda)", price: 14.90, img: "assets/photos/pizza-mucarela.jpg", emoji: "🍕" },
+  { id: "p50", cat: "pizzas-especiais", name: "BORDA SIMPLES G", desc: "Opções: Catupiry / Chocolate (Escolha 1 sabor da sua borda)", price: 14.90, emoji: "🍕" },
   { id: "p51", cat: "pizza-premium", name: "PAÇOCA DE CARNE DE SOL G", desc: "Molho de tomate defumado, muçarela, paçoca de carne de sol feita no pilão, cebola roxa, cubos de queijo coalho, geleia de abacaxi com pimenta e orégano - Com borda de mussarela e geleia de abacaxi picante. 8 fatias.", price: 79.90, img: "assets/photos/pizza-especial.jpg", emoji: "🍕" },
   { id: "p52", cat: "pizza-premium", name: "PICANHA COM BORDA DE PÃO DE ALHO G", desc: "Molho de tomate defumado, muçarela, picanha trinchada, cebola e orégano (Borda de Pão de Alho). 8 fatias.", price: 79.90, img: "assets/photos/pizza-especial.jpg", emoji: "🍕" },
   { id: "p53", cat: "pizza-premium", name: "AL MAR G", desc: "Molho de tomate defumado, muçarela, camarão selado, catupiry, mix de azeitonas e orégano - Com borda. 8 fatias.", price: 79.90, img: "assets/photos/pizza-camarao.jpg", emoji: "🍕" },
@@ -4533,7 +4528,7 @@ let PRODUCTS = [
   { id: "p58", cat: "pizzas-doces", name: "MORANGUINHO G", desc: "Chocolate branco e chocolate meio amargo com morangos fatiados. 8 fatias", price: 59.90, img: "assets/photos/pizza-doce.jpg", emoji: "🍫" },
   { id: "p59", cat: "pizzas-doces", name: "ROMEU E JULIETA P", desc: "Queijo coalho, goiabada cremosa e creme de leite. 4 fatiadas", price: 29.90, img: "assets/photos/pizza-doce.jpg", emoji: "🍫" },
   { id: "p60", cat: "pizzas-doces", name: "ROMEU E JULIETA G", desc: "Queijo coalho, goiabada cremosa e creme de leite. 8 fatiadas", price: 54.90, img: "assets/photos/pizza-doce.jpg", emoji: "🍫" },
-  { id: "p61", cat: "pizzas-doces", name: "BORDA SIMPLES G", desc: "Opções: Catupiry / Chocolate (Escolha 1 sabor da sua borda)", price: 14.90, img: "assets/photos/pizza-mucarela.jpg", emoji: "🍫" },
+  { id: "p61", cat: "pizzas-doces", name: "BORDA SIMPLES G", desc: "Opções: Catupiry / Chocolate (Escolha 1 sabor da sua borda)", price: 14.90, emoji: "🍫" },
   { id: "p62", cat: "tira-gosto", name: "Tábua Mangangá", desc: "200 g de alcatra bovina, 200 g de filé de frango, 200 g de linguiça toscana de pernil suíno acompanhados de batatas fritas, azeitonas, ovos de codorna, salada e molho rosê. Serve até 4 pessoas.", price: 89.99, img: "assets/photos/tabua.jpg", emoji: "🍢", popular: true },
   { id: "p63", cat: "tira-gosto", name: "Tábua Piauiense", desc: "200 g de Carneiro, 200 g de Carne de sol de alcatra bovina, 200 g de manjubinhas, 200 g de Torresmo acompanhados de macaxeira frita, salada e molho rosê. Serve até 4 pessoas.", price: 89.90, img: "assets/photos/tabua.jpg", emoji: "🍢" },
   { id: "p64", cat: "tira-gosto", name: "Tábua Nordestina", desc: "200 g de Carne de sol de alcatra bovina, 200 g de Coração de frango, 200 g de Língua, 200 g de Torresmo, acompanhados de macaxeira frita, salada e molho rosê. Serve até 4 pessoas.", price: 89.90, img: "assets/photos/tabua.jpg", emoji: "🍢" },
