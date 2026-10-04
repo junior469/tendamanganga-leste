@@ -3643,18 +3643,15 @@ textarea.field {
   "name": "Tenda Mangangá",
   "servesCuisine": "Comidas regionais, Churrascos, Frutos do Mar e Pizzas",
   "priceRange": "$",
-  "telephone": "+55-11-99999-9999",
-  "image": "https://tendamanganga-leste.netlify.app/assets/og-image.png",
-  "url": "https://tendamanganga-leste.netlify.app/",
+  "telephone": "+55-86-94273-729",
+  "url": "https://junior469.github.io/tendamanganga-leste/",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Rua das Palmeiras, 1234",
-    "addressLocality": "São Paulo",
-    "addressRegion": "SP",
-    "postalCode": "08450-000",
+    "streetAddress": "Rua Professor Joca Vieira, 909",
+    "addressLocality": "Teresina",
+    "addressRegion": "PI",
     "addressCountry": "BR"
   },
-  "geo": { "@type": "GeoCoordinates", "latitude": -23.5558, "longitude": -46.6396 },
   "openingHoursSpecification": [
     { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday","Sunday"], "opens": "17:00", "closes": "23:00" },
     { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "17:00", "closes": "00:00" }
@@ -4352,10 +4349,25 @@ textarea.field {
     // O Admin antigo separava o endereco errado e gravava um horario que brigava
     // com o real. Como nao dava para arrumar esses campos ja salvos, eles sao
     // descartados uma vez e o site volta a usar os valores oficiais.
+let arrumou = false;
     if (!ov.__v || ov.__v < 2) {
       if (texts.hours) delete texts.hours;
       if (texts.address) delete texts.address;
       ov.__v = 2;
+      arrumou = true;
+    }
+    // versao 3: o whatsapp salvo antes apontava para o DDD errado (88).
+    // Descarta so o numero; a mensagem automatica continua a sua.
+    if (ov.__v < 3) {
+      if (texts.contact) {
+        delete texts.contact.whatsapp;
+        delete texts.contact.phoneDisplay;
+      }
+      ov.__v = 3;
+      arrumou = true;
+    }
+    // grava para nao repetir a limpeza em cada visita
+    if (arrumou) {
       try { localStorage.setItem("mng_admin_site", JSON.stringify(ov)); } catch (e) { /* ignora */ }
     }
 
