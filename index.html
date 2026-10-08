@@ -5577,6 +5577,20 @@ let PRODUCTS = [
     return $("#" + name).value.trim();
   }
 
+  // Numera os pedidos do dia (1, 2, 3...) para a cozinha identificar o ticket.
+  function proximoNumeroPedido() {
+    try {
+      const hoje = new Date().toLocaleDateString("pt-BR");
+      let d = JSON.parse(localStorage.getItem("mng_pedido_seq") || "null");
+      if (!d || d.dia !== hoje) d = { dia: hoje, n: 0 };
+      d.n += 1;
+      localStorage.setItem("mng_pedido_seq", JSON.stringify(d));
+      return d.n;
+    } catch (e) {
+      return (Math.floor(Date.now() / 1000) % 1000);
+    }
+  }
+
   function buildOrderMessage() {
     const name = field("coName");
     const phone = field("coPhone");
@@ -5590,7 +5604,11 @@ let PRODUCTS = [
 
     const lines = [];
 
+    const agora = new Date();
+    const hora = agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+
     lines.push("🍔 *NOVO PEDIDO — TENDA MANGANGÁ*");
+    lines.push("🧾 Pedido *Nº " + proximoNumeroPedido() + "*   🕒 " + hora);
     lines.push("━━━━━━━━━━━━━━");
     lines.push("👤 *Cliente:* " + name);
     lines.push("📱 *Telefone:* " + phone);
@@ -5611,7 +5629,6 @@ let PRODUCTS = [
 
     lines.push("");
     lines.push("📝 *Observações:* " + note);
-    if (delivery === "entrega") lines.push("📍 *Endereço:* " + street + ", " + number + " — " + bairro);
     lines.push("💳 *Pagamento:* " + payment);
 
     const subtotal = MG.cart.subtotal();
