@@ -6714,17 +6714,32 @@ let PRODUCTS = [
   }
 
   // ---------------- LOGIN ----------------
+  let passBuf = "";
   function renderLogin() {
+    passBuf = "";
+    const teclas = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "OK"];
     root.innerHTML =
-      "<div style='max-width:400px;margin:80px auto;padding:24px;border:1px solid rgba(255,255,255,.1);border-radius:20px;text-align:center'>" +
+      "<div style='max-width:400px;margin:56px auto;padding:24px;border:1px solid rgba(255,255,255,.1);border-radius:20px;text-align:center'>" +
       "<div style='font-size:52px'>🔐</div>" +
       "<h2 style='font-family:var(--font-display,Sora),system-ui;margin:10px 0 4px'>Área Administrativa</h2>" +
-      "<p style='color:#a89f8f;font-size:13.5px'>Acesso exclusivo do restaurante.<br><small>Senha padrão: <b>123</b></small></p>" +
-      "<input id='mngAdminPass' type='password' placeholder='Senha' style='width:100%;padding:14px;margin:14px 0;border-radius:12px;border:1.5px solid rgba(255,255,255,.18);background:#1b1712;color:#f7f1e6;font-size:15px' onkeydown='if(event.key===\"Enter\")window.__mngAdminLogin()'>" +
-      "<button onclick='window.__mngAdminLogin()' style='width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,#f8c25c,#e78e2f);color:#1a1408;font-weight:800;cursor:pointer;font-size:15px'>Entrar →</button>" +
+      "<p style='color:#a89f8f;font-size:13.5px'>Toque nos números para digitar a senha.<br><small>Senha padrão: <b>123</b></small></p>" +
+      "<input id='mngAdminPass' type='password' inputmode='numeric' autocomplete='new-password' autocapitalize='off' spellcheck='false' placeholder='Senha' " +
+      "style='width:100%;padding:14px;margin:12px 0;border-radius:12px;border:1.5px solid rgba(255,255,255,.18);background:#1b1712;color:#f7f1e6;font-size:18px;letter-spacing:5px;text-align:center;box-sizing:border-box' " +
+      "oninput='window.__mngKeySync(this.value)' onkeydown='if(event.key===\"Enter\")window.__mngAdminLogin()'>" +
+      "<div style='display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px'>" +
+      teclas
+        .map(function (k) {
+          const acao = k === "⌫" ? "window.__mngKeyDel()" : k === "OK" ? "window.__mngAdminLogin()" : "window.__mngKey('" + k + "')";
+          const cor = k === "OK"
+            ? "background:linear-gradient(135deg,#f8c25c,#e78e2f);color:#1a1408;border:none"
+            : "background:#1b1712;color:#f7f1e6;border:1.5px solid rgba(255,255,255,.16)";
+          return "<button type='button' onclick=\"" + acao + "\" style='padding:16px;border-radius:12px;font-size:19px;font-weight:700;cursor:pointer;" + cor + "'>" + k + "</button>";
+        })
+        .join("") +
+      "</div>" +
       "</div>";
     const i = $("#mngAdminPass");
-    if (i) setTimeout(() => i.focus(), 50);
+    if (i) setTimeout(function () { try { i.focus(); } catch (e) {} }, 60);
   }
   function login() {
     const v = $("#mngAdminPass");
@@ -7143,6 +7158,19 @@ let PRODUCTS = [
 
   // ---------------- EXPOR PARA O GLOBAL ----------------
   window.__mngAdminLogin = login;
+  window.__mngKey = function (c) {
+    passBuf += String(c);
+    const i = $("#mngAdminPass");
+    if (i) i.value = passBuf;
+  };
+  window.__mngKeyDel = function () {
+    passBuf = passBuf.slice(0, -1);
+    const i = $("#mngAdminPass");
+    if (i) i.value = passBuf;
+  };
+  window.__mngKeySync = function (v) {
+    passBuf = String(v || "");
+  };
   window.__mngAdminLogout = function () { sessionStorage.removeItem(SESSION_PASS); renderLogin(); };
   window.__mngAdminClose = close;
   window.__mngAdminTab = function (t) { tab = t; render(); };
