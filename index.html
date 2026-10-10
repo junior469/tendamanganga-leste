@@ -401,12 +401,12 @@ h3 {
    manda no Admin fica dentro, encaixada sem distorcer. Antes o circulo era a
    propria imagem, entao trocar a logo no Admin espremia tudo em 52x52. */
 .brand-mark {
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   flex-shrink: 0;
   border-radius: 50%;
   background: #fff;
-  border: 3px solid var(--accent);
+  border: 4px solid var(--accent);
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
@@ -425,7 +425,7 @@ h3 {
 .brand-name {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.02rem;
+  font-size: 1.16rem;
   line-height: 1.05;
   letter-spacing: -0.01em;
   display: flex;
@@ -433,11 +433,22 @@ h3 {
 }
 
 .brand-name span {
-  font-size: 0.56rem;
-  font-weight: 600;
-  letter-spacing: 0.24em;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
   color: var(--accent);
   text-transform: uppercase;
+}
+
+@media (max-width: 560px) {
+  .brand-mark {
+    width: 54px;
+    height: 54px;
+    border-width: 3px;
+  }
+  .brand-name {
+    font-size: 1.04rem;
+  }
 }
 
 .nav-links {
@@ -2089,15 +2100,6 @@ h3 {
   margin-bottom: 14px;
 }
 
-.drawer-total-row .delivery-note {
-  display: block;
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 0.74rem;
-  color: var(--muted);
-  margin-top: 2px;
-}
-
 .drawer-actions {
   display: flex;
   gap: 10px;
@@ -3686,7 +3688,7 @@ textarea.field {
   <div class="container header-inner">
     <a href="#inicio" class="brand" aria-label="Tenda Mangangá — Início">
       <span class="brand-mark"><img class="brand-logo" src="assets/logo-emblema.jpg" alt="Logo Tenda Mangangá"></span>
-      <span class="brand-name">Tenda Mangangá<span class="brand-sub">Comidas regionais &amp; churrasco</span></span>
+        <span class="brand-name">Tenda Mangangá<span class="brand-sub">Leste</span></span>
     </a>
     <nav class="nav-links" aria-label="Navegação principal">
       <a href="#inicio" data-nav="inicio">Início</a>
@@ -3722,7 +3724,7 @@ textarea.field {
       </div>
       <div class="hero-perks">
         <span class="perk">🥩 Carnes &amp; peixes selecionados</span>
-        <span class="perk">🛵 Entrega <b>45–60min</b></span>
+        <span class="perk">🍽️ Consumo <b>no restaurante</b></span>
         <span class="perk">💳 Pix &amp; cartão</span>
       </div>
       <div class="stat-open" id="openStatusHero">
@@ -3905,10 +3907,6 @@ textarea.field {
           <div class="loc-ic">📸</div>
           <div><b>Instagram</b><span><a id="locPhone" href="#" target="_blank" rel="noopener">Carregando...</a></span></div>
         </div>
-        <div class="loc-row">
-          <div class="loc-ic">🛵</div>
-          <div><b>Zona de entrega</b><span id="locDelivery">Carregando...</span></div>
-        </div>
         <div style="margin-top:20px; display:flex; flex-wrap:wrap; gap:10px">
           <a href="#" id="btnWhats" class="btn btn-primary">💬 Falar no WhatsApp</a>
           <a href="#" id="btnDirections" target="_blank" rel="noopener" class="btn btn-ghost">Como chegar</a>
@@ -3953,7 +3951,7 @@ textarea.field {
       <div class="footer-brand">
         <a href="#inicio" class="brand" aria-label="Tenda Mangangá">
           <span class="brand-mark"><img class="brand-logo" src="assets/logo-emblema.jpg" alt="Logo Tenda Mangangá"></span>
-        <span class="brand-name">Tenda Mangangá<span class="brand-sub">Comidas regionais &amp; churrasco</span></span>
+      <span class="brand-name">Tenda Mangangá<span class="brand-sub">Leste</span></span>
         </a>
         <p id="footerSlogan">Comidas regionais, churrascos e frutos do mar.</p>
         <div class="footer-socials">
@@ -3983,7 +3981,7 @@ textarea.field {
         <h4>Atendimento</h4>
         <ul>
           <li><span id="footerHours">Carregando horários...</span></li>
-          <li><span id="footerDelivery">Entrega na sua região</span></li>
+          <li><span>Consumo no restaurante</span></li>
           <li><a href="#localizacao">Como chegar (mapa)</a></li>
           <li><button class="btn-link" id="btnPrivacy">Política de privacidade</button></li>
         </ul>
@@ -4051,7 +4049,7 @@ textarea.field {
   <div class="drawer-body" id="cartBody"></div>
   <footer class="drawer-foot" id="cartFoot">
     <div class="drawer-total-row">
-      <span>Total <span class="delivery-note" id="cartDeliveryNote"></span></span>
+      <span>Total</span>
       <span id="cartTotal">R$ 0,00</span>
     </div>
     <div class="drawer-actions">
@@ -4071,13 +4069,7 @@ textarea.field {
     <div class="modal-body">
       <div class="checkout-grid">
         <form id="checkoutForm" novalidate>
-          <div class="field-group" style="margin-bottom:20px">
-            <span class="field-label">Como você quer receber?</span>
-            <div class="option-pills" id="deliveryPills">
-              <label class="option-pill"><input type="radio" name="delivery" value="entrega" checked><span>🛵 Entrega</span></label>
-              <label class="option-pill"><input type="radio" name="delivery" value="retirada"><span>🏪 Retirada no local</span></label>
-            </div>
-          </div>
+          <p class="co-note" style="margin:0 0 18px">🍽️ Este pedido é para <b>consumo no restaurante</b>.</p>
           <div class="field-row">
             <div class="field-group">
               <label class="field-label" for="coName">Nome</label>
@@ -4086,26 +4078,6 @@ textarea.field {
             <div class="field-group">
               <label class="field-label" for="coPhone">Telefone / WhatsApp</label>
               <input class="field" id="coPhone" type="tel" placeholder="(86) 9427-3729" required>
-            </div>
-          </div>
-          <div class="field-group" id="coAddressGroup">
-            <label class="field-label" for="coStreet">Endereço</label>
-            <input class="field" id="coStreet" type="text" placeholder="Rua, avenida..." required>
-          </div>
-          <div class="field-row">
-            <div class="field-group" id="coNumberGroup">
-              <label class="field-label" for="coNumber">Número</label>
-              <input class="field" id="coNumber" type="text" placeholder="123" required>
-            </div>
-            <div class="field-group" id="coBairroGroup">
-              <label class="field-label" for="coBairro">Bairro</label>
-              <input class="field" id="coBairro" type="text" placeholder="Seu bairro" required>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-group">
-              <label class="field-label" for="coComplemento">Complemento</label>
-              <input class="field" id="coComplemento" type="text" placeholder="Apto, referência...">
             </div>
           </div>
           <div class="field-group">
@@ -4126,9 +4098,8 @@ textarea.field {
           <h4>Resumo do pedido <button type="button" id="coBackToCart">editar carrinho</button></h4>
           <div class="co-items" id="coItems"></div>
           <div class="co-row"><span>Subtotal</span> <b id="coSubtotal">R$ 0,00</b></div>
-          <div class="co-row"><span>Entrega</span> <b id="coDelivery">—</b></div>
           <div class="co-row total"><span>Total</span> <b id="coTotal">R$ 0,00</b></div>
-          <p class="co-note" id="coFeeNote">* Preço da entrega calculado na confirmação do pedido.</p>
+          <p class="co-note" id="coFeeNote">* Valor total do pedido para consumo no restaurante.</p>
           <button class="btn btn-primary btn-block co-submit" id="coSubmit">Confirmar pedido ✓</button>
           <p class="co-note" style="text-align:center">Ao confirmar, seu pedido será enviado direto para o nosso WhatsApp 💬</p>
         </div>
@@ -4166,7 +4137,7 @@ textarea.field {
     </div>
     <div class="modal-body">
       <div class="privacy-content">
-        <p>Valorizamos sua privacidade. As informações fornecidas ao fazer um pedido — como nome, telefone e endereço de entrega — são utilizadas exclusivamente para processar e entregar o seu pedido.</p>
+        <p>Valorizamos sua privacidade. As informações fornecidas ao fazer um pedido — como nome e telefone — são utilizadas exclusivamente para identificar e preparar o seu pedido.</p>
         <p>Não compartilhamos seus dados com terceiros e não enviamos mensagens não solicitadas. Nossos canais de contato servem apenas para assuntos relacionados ao seu pedido.</p>
         <p>Para dúvidas sobre seus dados, fale conosco pelo WhatsApp oficial da Tenda Mangangá.</p>
       </div>
@@ -4238,7 +4209,7 @@ textarea.field {
     heroTitle: "TENDA MANGANGÁ",
     heroHighlight: "Comidas regionais, churrascos e frutos do mar com o sabor de casa.",
     heroTrust: "Peça de forma rápida, fácil e segura pelo nosso site.",
-    headerSub: "Comidas regionais & churrasco",
+    headerSub: "Leste",
     logo: "",
     unit: "Leste"
   },
@@ -4247,7 +4218,7 @@ textarea.field {
 
   seo: {
     title: "Cardápio Tenda Mangangá | Comidas regionais, churrascos e frutos do mar",
-    description: "Confira o cardápio da Tenda Mangangá, faça seu pedido online e receba comidas regionais, churrascos e frutos do mar no conforto de casa.",
+    description: "Confira o cardápio da Tenda Mangangá e venha saborear comidas regionais, churrascos e frutos do mar na nossa unidade Leste, em Teresina.",
     locale: "pt_BR",
     language: "pt-BR"
   },
@@ -4273,12 +4244,13 @@ textarea.field {
     mapsLink: "https://www.google.com/maps/search/?api=1&query=Tenda+Manganga+Leste+Teresina"
   },
 
+  // Nao fazemos entrega: o atendimento e somente no restaurante.
   delivery: {
-    fee: 6,
-    freeAbove: 80,
-    estimate: "45 a 60 minutos",
-    note: "Entregas para a região e proximidades.",
-    minOrder: 15
+    fee: 0,
+    freeAbove: 0,
+    estimate: "",
+    note: "",
+    minOrder: 0
   },
 
   paymentMethods: ["Pix", "Dinheiro", "Cartão", "Outro"],
@@ -4741,8 +4713,8 @@ let PRODUCTS = [
       answer: "⭐ Nossos campeões de pedido:\n\n🥟 Queijo coalho com melaço\n🦐 Camarão crocante\n🍢 Tábua Mangangá (serve 4)\n🥩 Carne de sol de filé do Mangangá\n🍕 Picanha com borda de pão de alho\n👫 Filé à parmegiana\n\nTodos aparecem em \"Mais pedidos\" no cardápio! 👉 [Ver cardápio]"
     },
     {
-      match: ["pedido", "pedir", "entrega", "comprar", "carrinho", "pedir agora", "finalizar", "montar"],
-      answer: "🛒 Fazer pedido é rapidinho:\n\n1️⃣ Escolha seus produtos no cardápio\n2️⃣ Adicione ao carrinho (o botão +)\n3️⃣ Finalize e o pedido vai direto para nosso WhatsApp\n\nEntrega com taxa de R$ [[fee]] ou frete grátis acima de R$ [[freeAbove]]. Vamos lá? 👇"
+      match: ["pedido", "pedir", "comprar", "carrinho", "pedir agora", "finalizar", "montar"],
+      answer: "🛒 Fazer pedido é rapidinho:\n\n1️⃣ Escolha seus produtos no cardápio\n2️⃣ Adicione ao carrinho (o botão +)\n3️⃣ Finalize e o pedido vai direto para nosso WhatsApp\n\n🍽️ O pedido é para consumo no restaurante. Vamos lá? 👇"
     },
     {
       match: ["localização", "localizacao", "onde fica", "endereço", "endereco", "chegar", "maps", "mapa", "unidade", "leste"],
@@ -4769,8 +4741,8 @@ let PRODUCTS = [
       answer: "💳 Aceitamos:\n\n💠 Pix\n💵 Dinheiro\n💳 Cartão de crédito e débito\n🧾 Outros\n\nNa finalização do pedido você escolhe a melhor opção. 😉"
     },
     {
-      match: ["frete", "entrega", "taxa de entrega", "grátis", "gratis", "tempo de entrega", "demora", "quando chega", "prazo"],
-      answer: "🛵 Entregamos para a região e proximidades!\n\n💰 Taxa: R$ [[fee]]\n🎁 Frete grátis: pedidos acima de R$ [[freeAbove]]\n⏱️ Tempo médio: [[estimate]]\n\n📦 Valor mínimo do pedido: R$ [[minOrder]]"
+      match: ["frete", "entrega", "taxa de entrega", "delivery", "motoboy", "iFood", "ifood", "tempo de entrega", "demora", "quando chega", "prazo"],
+      answer: "🍽️ Trabalhamos só com consumo no restaurante — não fazemos entrega. Venha nos visitar na unidade [[unit]] e aproveite no local! 😉"
     },
     {
       match: ["promoção", "promocao", "promo", "desconto", "oferta", "cupom", "economia", "barato"],
@@ -4789,7 +4761,7 @@ let PRODUCTS = [
       answer: "Olá! 😄 Que bom ter você por aqui! Posso te ajudar com o cardápio, pedidos, horários, endereço ou recomendações. É só escolher uma opção abaixo! 👇"
     }
   ],
-  fallback: "Desculpe, não entendi! 😅 Tente perguntar sobre:\n\n📋 Cardápio e destaque\n🛒 Como fazer pedido\n📍 Endereço e localização\n⏰ Horários\n💳 Pagamento e entrega\n📸 Instagram\n\nOu fale com a gente: [[instagramHandle]] 💛"
+  fallback: "Desculpe, não entendi! 😅 Tente perguntar sobre:\n\n📋 Cardápio e destaque\n🛒 Como fazer pedido\n📍 Endereço e localização\n⏰ Horários\n💳 Pagamento\n📸 Instagram\n\nOu fale com a gente: [[instagramHandle]] 💛"
 };</script>
 <script>(function () {
   const MG = (window.MG = window.MG || {});
@@ -5337,11 +5309,7 @@ let PRODUCTS = [
       instagramHandle: SITE.social.instagramHandle || "",
       instagram: SITE.social.instagram || "",
       whatsapp: SITE.social.whatsapp,
-      whatsappDisplay: SITE.contact.phoneDisplay || "",
-      fee: "6,00",
-      freeAbove: "80,00",
-      minOrder: SITE.delivery.minOrder || "15,00",
-      estimate: SITE.delivery.estimate
+      whatsappDisplay: SITE.contact.phoneDisplay || ""
     };
     return text.replace(/\[\[(\w+)\]\]/g, (m, key) => tokenMap[key] || "");
   }
@@ -5478,20 +5446,6 @@ let PRODUCTS = [
     document.body.classList.toggle("locked", on);
   }
 
-  function currentDeliveryType() {
-    const checked = document.querySelector('input[name="delivery"]:checked');
-    return checked ? checked.value : "entrega";
-  }
-
-  function deliveryFeeText() {
-    const isDelivery = currentDeliveryType() === "entrega";
-    if (!isDelivery) return { fee: 0, label: "Grátis (retirada)", note: "Busque seu pedido no balcão e economize na entrega." };
-    if (MG.cart.subtotal() >= SITE.delivery.freeAbove) {
-      return { fee: 0, label: "Grátis 🎉", note: "Frete grátis para pedidos acima de " + U.money(SITE.delivery.freeAbove) + "." };
-    }
-    return { fee: SITE.delivery.fee, label: U.money(SITE.delivery.fee), note: "Frete grátis acima de " + U.money(SITE.delivery.freeAbove) + "." };
-  }
-
   function renderCart() {
     const items = MG.cart.items;
     const count = MG.cart.count();
@@ -5523,12 +5477,6 @@ let PRODUCTS = [
     inCart.innerHTML = items.map(C.cartItemLine).join("");
 
     $("#cartTotal").textContent = U.money(subtotal);
-
-    const note =
-      subtotal >= SITE.delivery.freeAbove
-        ? "Frete grátis nesta faixa 🎉"
-        : "Entrega: " + U.money(SITE.delivery.fee) + " · grátis acima de " + U.money(SITE.delivery.freeAbove);
-    $("#cartDeliveryNote").textContent = note;
   }
 
   function openCart() {
@@ -5567,10 +5515,7 @@ let PRODUCTS = [
     $("#coItems").innerHTML = MG.cart.items.map(C.coSummaryItem).join("");
     const subtotal = MG.cart.subtotal();
     $("#coSubtotal").textContent = U.money(subtotal);
-    const d = deliveryFeeText();
-    $("#coDelivery").textContent = d.label;
-    $("#coTotal").textContent = U.money(subtotal + d.fee);
-    $("#coFeeNote").textContent = d.note;
+    $("#coTotal").textContent = U.money(subtotal);
   }
 
   function field(name) {
@@ -5594,11 +5539,6 @@ let PRODUCTS = [
   function buildOrderMessage() {
     const name = field("coName");
     const phone = field("coPhone");
-    const delivery = currentDeliveryType();
-    const street = field("coStreet");
-    const number = field("coNumber");
-    const bairro = field("coBairro");
-    const complemento = field("coComplemento");
     const note = field("coNote") || "—";
     const payment = document.querySelector('input[name="payment"]:checked').value;
 
@@ -5612,13 +5552,7 @@ let PRODUCTS = [
     lines.push("━━━━━━━━━━━━━━");
     lines.push("👤 *Cliente:* " + name);
     lines.push("📱 *Telefone:* " + phone);
-
-    if (delivery === "retirada") {
-      lines.push("🏪 *Retirada no local*");
-    } else {
-      lines.push("🛵 *Entrega no endereço:*");
-      lines.push("📍 " + street + ", " + number + " — " + bairro + (complemento ? " (" + complemento + ")" : ""));
-    }
+    lines.push("🍽️ *Consumo no restaurante*");
 
     lines.push("");
     lines.push("🧾 *PEDIDO:*");
@@ -5632,11 +5566,9 @@ let PRODUCTS = [
     lines.push("💳 *Pagamento:* " + payment);
 
     const subtotal = MG.cart.subtotal();
-    const d = deliveryFeeText();
     lines.push("");
     lines.push("🛒 *Subtotal:* " + U.money(subtotal));
-    lines.push("🛵 *Entrega:* " + (d.fee ? U.money(d.fee) : "Grátis"));
-    lines.push("💰 *TOTAL: " + U.money(subtotal + d.fee) + "*");
+    lines.push("💰 *TOTAL: " + U.money(subtotal) + "*");
     lines.push("");
     lines.push("_Pedido enviado pelo site Tenda Mangangá_");
 
@@ -5648,18 +5580,9 @@ let PRODUCTS = [
 
     const name = field("coName");
     const phone = field("coPhone");
-    const delivery = currentDeliveryType();
-    const street = field("coStreet");
-    const number = field("coNumber");
-    const bairro = field("coBairro");
 
     if (!name) return flagged($("#coName"));
     if (!phone) return flagged($("#coPhone"));
-    if (delivery === "entrega") {
-      if (!street) return flagged($("#coStreet"));
-      if (!number) return flagged($("#coNumber"));
-      if (!bairro) return flagged($("#coBairro"));
-    }
 
     const message = buildOrderMessage();
     U.openWhatsApp({ message, silent: true });
@@ -6274,7 +6197,6 @@ let PRODUCTS = [
     if (btnWhats) btnWhats.href = waHref;
     $("#locPhone").textContent = SITE.social.instagramHandle || "Instagram";
     $("#locPhone").href = SITE.social.instagram || "#";
-    $("#locDelivery").textContent = SITE.delivery.note + " · " + SITE.delivery.estimate + " normalmente.";
     $("#btnDirections").href = SITE.address.mapsLink;
     $("#mapFrame").src = SITE.mapEmbedUrl;
     $("#hoursList").innerHTML = C.hoursList();
@@ -6285,7 +6207,6 @@ let PRODUCTS = [
     $("#footerSlogan").textContent = SITE.brand.slogan;
     $("#footerAddress").textContent = SITE.address.street + ", " + SITE.address.number + " — " + SITE.address.district;
     $("#footerHours").textContent = SITE.hours.display;
-    $("#footerDelivery").textContent = SITE.delivery.note;
     const ig = document.querySelector("[data-ig-handle]");
     if (ig) ig.textContent = SITE.social.instagramHandle || "Instagram";
   }
@@ -6994,9 +6915,6 @@ let PRODUCTS = [
       whatsappMessage: SITE.contact.whatsappMessage || "",
       hours: SITE.hours.display || "",
       hoursNote: SITE.hours.note || "",
-      fee: SITE.delivery.fee ?? "",
-      freeAbove: SITE.delivery.freeAbove ?? "",
-      estimate: SITE.delivery.estimate || "",
       address: SITE.address.street + ", " + SITE.address.number + " - " + SITE.address.district + ", " + SITE.address.city + " - " + SITE.address.state
     };
     const f = (id, label, val, extra) =>
@@ -7021,11 +6939,6 @@ let PRODUCTS = [
       "<div style='display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:-4px 0 14px;padding:10px 12px;border:1px dashed rgba(242,179,62,.4);border-radius:12px'>" +
       "<span style='font-size:12px;color:#a89f8f;flex:1;min-width:180px'>Se o horário do site estiver diferente do que você salvou aqui, provavelmente há uma versão antiga guardada neste navegador.</span>" +
       "<button onclick='window.__mngAdminResetHours()' style='background:transparent;border:1px solid rgba(242,179,62,.5);color:#f2b33e;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;font-size:12.5px;white-space:nowrap'>↺ Usar horário atual do site</button>" +
-      "</div>" +
-      "<div style='display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px'>" +
-      f("fee", "Taxa de entrega (R$)", t.fee, "type='number' step='0.01'") +
-      f("freeAbove", "Entrega grátis acima de (R$)", t.freeAbove, "type='number' step='0.01'") +
-      f("estimate", "Tempo estimado de entrega", t.estimate) +
       "</div>" +
       f("address", "Endereço completo", t.address) +
       "<button onclick='window.__mngAdminSaveTexts()' style='background:linear-gradient(135deg,#f8c25c,#e78e2f);border:none;color:#1a1408;padding:13px 22px;border-radius:12px;cursor:pointer;font-weight:800;margin-top:8px'>💾 Salvar textos</button>" +
@@ -7064,9 +6977,6 @@ let PRODUCTS = [
     });
     delete ov.texts.contact.phoneDisplay;
     ov.texts.hours = Object.assign(ov.texts.hours || {}, { display: get("hours") || undefined, note: get("hoursNote") || undefined });
-    ov.texts.delivery = Object.assign(ov.texts.delivery || {}, {
-      fee: parseFloat(get("fee")) || ov.texts.delivery?.fee, freeAbove: parseFloat(get("freeAbove")) || ov.texts.delivery?.freeAbove, estimate: get("estimate")
-    });
     ov.texts.note = get("note");
     // Endereco vem como: "Rua, 909 - Bairro, Cidade - UF"
     // Antes separava so por " - " e misturava os campos (rua virava "Rua, 909").
