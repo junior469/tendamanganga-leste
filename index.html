@@ -7291,5 +7291,24 @@ let PRODUCTS = [
   if (document.readyState !== "loading") checkHash();
   else document.addEventListener("DOMContentLoaded", checkHash);
 })();</script>
+
+<!-- Auto-atualização: força o navegador a pegar a versão nova quando o site é publicado de novo -->
+<script>
+(function () {
+  var BUILD = "1792036165975";
+  try { window.__MNG_BUILD = BUILD; } catch (e) {}
+  try {
+    fetch("version.txt?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.text() : ""; })
+      .then(function (v) {
+        v = (v || "").trim();
+        if (v && v !== BUILD) {
+          location.replace(location.pathname + "?u=" + encodeURIComponent(v));
+        }
+      })
+      .catch(function () {});
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
