@@ -31,7 +31,7 @@
 <!-- Versao do site + recuperacao de dados do painel Admin salvos no navegador -->
 <script>
 (function () {
-  var BUILD = "1792107851578";
+  var BUILD = "1792109430156";
   try { window.__MNG_BUILD = BUILD; } catch (e) {}
   try {
     // Se as alteracoes do painel Admin tiverem sido apagadas por engano,
@@ -7070,29 +7070,33 @@ let PRODUCTS = [
   function exportTpl() {
     const ovP = lsGet(LS_PRODUCTS, {});
     const ovS = lsGet(LS_SITE, {});
-    const hasP = Object.keys(ovP.products || {}).length || Object.keys(ovP.categories || {}).length;
-    const hasS = Object.keys(ovS).length;
+    const nProd = Object.keys(ovP.products || {}).length;
+    const nCat = Object.keys(ovP.categories || {}).length;
+    const nSite = Object.keys(ovS || {}).length;
+    const temAlgo = nProd + nCat + nSite > 0;
     const json = JSON.stringify({ products: ovP, site: ovS }, null, 2);
-    const dl = (name, content, type) => {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([content], { type: type || "application/json" }));
-      a.download = name;
-      a.click();
-      URL.revokeObjectURL(a.href);
-    };
+    const bak = lsGet("mng_admin_backup", null);
+    const temBackup = !!(bak && bak.products && bak.products !== "null");
+    const bm = "border:none;border-radius:12px;cursor:pointer;font-weight:800;padding:13px 20px;font-size:14px";
     return (
       "<div style='max-width:760px'>" +
       "<h3 style='font-family:var(--font-display,Sora)'>📤 Publicar alterações</h3>" +
-      "<p style='color:#a89f8f;font-size:13.5px;line-height:1.7'>As alterações do painel ficam salvas <b>neste navegador</b>. Para levá-las ao site publicado (GitHub Pages), baixe o arquivo abaixo e me envie, ou cole o conteúdo — assim eu atualizo o repositório.</p>" +
-      "<p style='color:#a89f8f;font-size:12.5px;line-height:1.7;background:rgba(242,179,62,.08);border-left:3px solid #f2b33e;padding:10px 12px;border-radius:0 10px 10px 0'>📸 Fotos enviadas pelo painel também vão dentro deste arquivo. Cada foto ocupa cerca de 80–150 KB do armazenamento do navegador (limite de ~5 MB), então da para colocar algumas dezenas de fotos novas.</p>" +
-      "<div style='display:flex;gap:10px;flex-wrap:wrap;margin:14px 0'>" +
-      "<button onclick='window.__mngAdminDownload(&quot;manganga-admin.json&quot;)' " + (hasP || hasS ? "" : "disabled style='opacity:.4'") + " style='background:linear-gradient(135deg,#f8c25c,#e78e2f);border:none;color:#1a1408;padding:13px 20px;border-radius:12px;cursor:pointer;font-weight:800'>⬇️ Baixar arquivo .json</button>" +
-      "<button onclick='window.__mngAdminCopy()' " + (hasP || hasS ? "" : "disabled style='opacity:.4'") + " style='background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e;padding:13px 20px;border-radius:12px;cursor:pointer;font-weight:700'>📋 Copiar tudo</button>" +
-      (hasP || hasS ? "<button onclick='window.__mngAdminClear()' style='background:transparent;border:1px solid rgba(255,107,107,.5);color:#ff6b6b;padding:13px 20px;border-radius:12px;cursor:pointer;font-weight:700'>🗑️ Zerar alterações</button>" : "") +
-      "</div>" +
-      (hasP || hasS
-        ? "<textarea id='mngExportTa' readonly rows='14' style='width:100%;padding:14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:#14110d;color:#a89f8f;font-family:Consolas,monospace;font-size:12.5px;box-sizing:border-box'>" + es(json) + "</textarea>"
-        : "<div style='text-align:center;padding:30px;border:1px dashed rgba(255,255,255,.14);border-radius:14px;color:#a89f8f;font-size:13.5px'>Você ainda não fez nenhuma alteração. Edite pratos, categorias ou textos e volte aqui.</div>") +
+      "<p style='color:#a89f8f;font-size:13.5px;line-height:1.7'>Suas alterações ficam salvas <b>somente neste navegador</b>. Para elas aparecerem no site que todos veem, <b>copie o texto abaixo e cole no chat</b> (ou baixe o arquivo .json e me envie).</p>" +
+      (temAlgo
+        ? "<p style='color:#3ecf8e;font-size:13.5px;font-weight:700'>✅ Encontrei: " + nProd + " prato(s), " + nCat + " categoria(s) e " + nSite + " texto(s) alterado(s).</p>" +
+          "<div style='display:flex;gap:10px;flex-wrap:wrap;margin:14px 0'>" +
+          "<button onclick=\"window.__mngAdminDownload('manganga-admin.json')\" style='" + bm + ";background:linear-gradient(135deg,#f8c25c,#e78e2f);color:#1a1408'>⬇️ Baixar .json</button>" +
+          "<button onclick='window.__mngAdminCopy()' style='" + bm + ";background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e'>📋 Copiar tudo</button>" +
+          "<button onclick='window.__mngAdminSelectAll()' style='" + bm + ";background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#f7f1e6'>🔤 Selecionar texto</button>" +
+          "<button onclick='window.__mngAdminClear()' style='" + bm + ";background:transparent;border:1px solid rgba(255,107,107,.5);color:#ff6b6b'>🗑️ Zerar</button>" +
+          "</div>" +
+          "<p style='color:#a89f8f;font-size:12.5px;line-height:1.6'>💡 Se o “Copiar” não funcionar no celular: toque em <b>🔤 Selecionar texto</b>, depois <b>segure</b> sobre o texto e escolha <b>Copiar</b>.</p>" +
+          "<textarea id='mngExportTa' readonly rows='12' onclick='this.select()' style='width:100%;padding:14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.12);background:#14110d;color:#cbbf9f;font-family:Consolas,monospace;font-size:12px;box-sizing:border-box'>" + es(json) + "</textarea>"
+        : "<p style='color:#f2b33e;font-size:13.5px;font-weight:700'>⚠️ Nenhuma alteração encontrada neste navegador.</p>" +
+          (temBackup
+            ? "<p style='color:#a89f8f;font-size:13px'>Mas achei um backup das suas alterações. Toque para recuperar:</p>" +
+              "<button onclick='window.__mngAdminRestore()' style='" + bm + ";background:linear-gradient(135deg,#f8c25c,#e78e2f);color:#1a1408'>♻️ Recuperar do backup</button>"
+            : "<p style='color:#a89f8f;font-size:13px'>Se você editou <b>em outro aparelho</b> (celular), abra o Admin por lá e exporte por lá. As edições não vêm de um aparelho para o outro sozinhas.</p>")) +
       "</div>"
     );
   }
@@ -7110,8 +7114,35 @@ let PRODUCTS = [
   function copy() {
     const ta = $("#mngExportTa");
     if (!ta) return;
+    const text = ta.value || "";
+    const ok = function () { toast("Copiado! 📋 Agora cole no chat."); };
+    const fallback = function () {
+      try { ta.focus(); ta.select(); document.execCommand("copy"); ok(); }
+      catch (e) { toast("Não copiou. Toque em 'Selecionar texto' e copie manualmente.", "error"); }
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(ok).catch(fallback);
+      } else { fallback(); }
+    } catch (e) { fallback(); }
+  }
+  function selectAll() {
+    const ta = $("#mngExportTa");
+    if (!ta) return;
+    ta.focus();
     ta.select();
-    try { document.execCommand("copy"); toast("Copiado! 📋"); } catch (e) { toast("Falha ao copiar"); }
+    try { ta.setSelectionRange(0, (ta.value || "").length); } catch (e) {}
+    toast("Texto selecionado — segure e escolha Copiar.");
+  }
+  function restore() {
+    const bak = lsGet("mng_admin_backup", null);
+    if (!bak || !bak.products || bak.products === "null") { toast("Backup vazio.", "error"); return; }
+    try {
+      localStorage.setItem(LS_PRODUCTS, bak.products);
+      if (bak.site) localStorage.setItem(LS_SITE, bak.site);
+      toast("Alterações recuperadas! ♻️");
+      setTimeout(function () { location.reload(); }, 700);
+    } catch (e) { toast("Não deu para recuperar.", "error"); }
   }
   function clearAll() {
     localStorage.removeItem(LS_PRODUCTS);
@@ -7162,6 +7193,8 @@ let PRODUCTS = [
   window.__mngAdminResetHours = resetHours;
   window.__mngAdminDownload = download;
   window.__mngAdminCopy = copy;
+  window.__mngAdminSelectAll = selectAll;
+  window.__mngAdminRestore = restore;
   window.__mngAdminClear = clearAll;
   window.__mngLogoPick = function (f) {
     logoSel.value = "assets/photos/" + f;
