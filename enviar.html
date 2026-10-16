@@ -10,12 +10,9 @@
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; padding: 22px; }
   .wrap { max-width: 620px; margin: 0 auto; }
   h1 { font-size: 21px; margin: 0 0 6px; }
-  .sub { color: #a89f8f; font-size: 14px; line-height: 1.6; margin-bottom: 18px; }
-  .box { background: #1d1913; border: 1.5px solid rgba(255,255,255,.1); border-radius: 16px; padding: 20px; }
+  .box { background: #1d1913; border: 1.5px solid rgba(255,255,255,.1); border-radius: 16px; padding: 20px; margin-top: 14px; }
   .status { font-size: 16px; line-height: 1.6; }
-  .ok { color: #3ecf8e; }
-  .warn { color: #f2b33e; }
-  .err { color: #ff6b6b; }
+  .ok { color: #3ecf8e; } .warn { color: #f2b33e; } .err { color: #ff6b6b; }
   .big { font-size: 46px; text-align: center; margin: 6px 0 10px; }
   .count { background: #14110d; border: 2px solid rgba(62,207,142,.5); border-radius: 14px;
     padding: 16px; text-align: center; color: #8be0b0; font-size: 17px; font-weight: 800; margin: 14px 0; }
@@ -31,12 +28,11 @@
 <body>
 <div class="wrap">
   <h1>📲 Enviar minhas alterações</h1>
-  <div class="sub">Esta página pega os pratos que você editou <b>neste celular</b> e envia direto para o site. Você não precisa copiar nem colar nada.</div>
   <div class="box">
     <div id="status" class="status"><span class="spinner"></span>Lendo suas alterações…</div>
     <div id="content"></div>
   </div>
-  <div class="hint">Dica: use o <b>mesmo celular e mesmo navegador</b> onde você editou o painel.</div>
+  <div class="hint">Use o <b>mesmo celular e mesmo navegador</b> onde você editou o painel.</div>
 </div>
 <script>
 (function () {
@@ -45,78 +41,70 @@
   var contentEl = document.getElementById("content");
 
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function parsel(s, d) { try { return JSON.parse(s); } catch (e) { return d; } }
+
+  function send(obj) {
+    var body = JSON.stringify(obj);
+    try { fetch(ENDPOINT, { method: "POST", mode: "cors", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: body, keepalive: true }); } catch (e) {}
+    try { fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: body }); } catch (e) {}
+  }
 
   var ovP = get("mng_admin_overrides");
   var ovS = get("mng_admin_site");
   var bak = get("mng_admin_backup");
-
   var pObj = parsel(ovP, {});
   var sObj = parsel(ovS, {});
   var nProd = Object.keys(pObj.products || {}).length;
   var nCat = Object.keys(pObj.categories || {}).length;
   var nSite = Object.keys(sObj || {}).length;
   var temAlgo = nProd + nCat + nSite > 0;
-
   var bObj = parsel(bak, null);
   var temBackup = !!(bObj && bObj.products && bObj.products !== "null");
+
+  var diag = {
+    app: "mng-leste", ts: Date.now(), url: location.href, ua: navigator.userAgent,
+    nProd: nProd, nCat: nCat, nSite: nSite, temBackup: temBackup,
+    hasOv: !!ovP, hasSite: !!ovS, hasBak: !!bak,
+    keys: (function () { var a = []; try { for (var i = 0; i < localStorage.length; i++) a.push(localStorage.key(i)); } catch (e) {} return a; })()
+  };
+
+  if (temAlgo) {
+    diag.event = "data";
+    diag.products = pObj;
+    diag.site = sObj;
+  } else {
+    diag.event = "empty";
+  }
+  send(diag);
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
   if (!temAlgo) {
     statusEl.className = "status warn";
     statusEl.innerHTML = "⚠️ Não encontrei alterações neste aparelho.";
-    if (temBackup) {
-      contentEl.innerHTML =
-        "<p style='color:#a89f8f;font-size:13px'>Mas achei um backup. Toque para recuperar e depois <b>recarregue esta página</b>.</p>" +
-        "<button id='btnBak'>♻️ Recuperar do backup</button>";
-      document.getElementById("btnBak").onclick = function () {
-        try {
-          var b = parsel(bak, {});
-          localStorage.setItem("mng_admin_overrides", b.products);
-          if (b.site) localStorage.setItem("mng_admin_site", b.site);
-          statusEl.className = "status ok";
-          statusEl.innerHTML = "♻️ Recuperado! Recarregando…";
-          setTimeout(function () { location.reload(); }, 800);
-        } catch (e) { alert("Não deu para recuperar."); }
-      };
-    } else {
-      contentEl.innerHTML = "<p style='color:#a89f8f;font-size:13px'>As edições não estão neste navegador. Abra este link no <b>mesmo celular e navegador</b> onde você editou o painel Admin.</p>";
-    }
+    contentEl.innerHTML = temBackup
+      ? "<p style='color:#a89f8f;font-size:13px'>Mas achei um backup. Toque para recuperar e depois recarregue.</p><button id='btnBak'>♻️ Recuperar do backup</button>"
+      : "<p style='color:#a89f8f;font-size:13px'>As edições não estão neste navegador. Abra este link no <b>mesmo celular e navegador</b> onde editou o painel.</p>" +
+        "<p style='color:#6f6a60;font-size:12px;word-break:break-all'>Diagnóstico enviado. Chaves locais: " + esc(diag.keys.join(", ") || "(nenhuma)") + "</p>";
+    var bb = document.getElementById("btnBak");
+    if (bb) bb.onclick = function () {
+      try {
+        var b = parsel(bak, {});
+        localStorage.setItem("mng_admin_overrides", b.products);
+        if (b.site) localStorage.setItem("mng_admin_site", b.site);
+        statusEl.className = "status ok";
+        statusEl.innerHTML = "♻️ Recuperado! Recarregando…";
+        setTimeout(function () { location.reload(); }, 900);
+      } catch (e) { alert("Não deu para recuperar."); }
+    };
     return;
   }
 
   statusEl.className = "status ok";
-  statusEl.innerHTML = "<span class='spinner'></span>Encontrei suas alterações. Enviando…";
-
-  var payload = JSON.stringify({ app: "mng-leste", ts: Date.now(), products: pObj, site: sObj });
-
-  fetch(ENDPOINT, {
-    method: "POST",
-    mode: "cors",
-    headers: { "Content-Type": "text/plain;charset=UTF-8" },
-    body: payload
-  })
-    .then(function () { ok(); })
-    .catch(function () {
-      // tenta de novo em modo simples (sem CORS)
-      return fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=UTF-8" }, body: payload })
-        .then(function () { ok(); })
-        .catch(function (e) { fail(e); });
-    });
-
-  function ok() {
-    statusEl.className = "status ok";
-    statusEl.innerHTML = "✅ Tudo certo!<div class='big'>🎉</div>Suas alterações foram enviadas.";
-    contentEl.innerHTML =
-      "<div class='count'>" + nProd + " prato(s) · " + nCat + " categoria(s) · " + nSite + " texto(s)</div>" +
-      "<div style='color:#a89f8f;font-size:14px;line-height:1.6'>Pode fechar esta página. Volte para o computador e avise que já enviou.</div>";
-  }
-  function fail(e) {
-    statusEl.className = "status err";
-    statusEl.innerHTML = "❌ Não consegui enviar. Verifique a internet do celular.";
-    contentEl.innerHTML = "<button class='ghost' id='btnAgain'>🔄 Tentar de novo</button>";
-    document.getElementById("btnAgain").onclick = function () { location.reload(); };
-  }
+  statusEl.innerHTML = "✅ Tudo certo!<div class='big'>🎉</div>Suas alterações foram enviadas.";
+  contentEl.innerHTML =
+    "<div class='count'>" + nProd + " prato(s) · " + nCat + " categoria(s) · " + nSite + " texto(s)</div>" +
+    "<div style='color:#a89f8f;font-size:14px;line-height:1.6'>Pode fechar esta página. Volte ao computador e escreva <b>enviei</b>.</div>";
 })();
 </script>
 </body>
