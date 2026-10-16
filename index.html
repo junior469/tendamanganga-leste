@@ -31,7 +31,7 @@
 <!-- Versao do site + recuperacao de dados do painel Admin salvos no navegador -->
 <script>
 (function () {
-  var BUILD = "1792110428569";
+  var BUILD = "1792117729492";
   try { window.__MNG_BUILD = BUILD; } catch (e) {}
   try {
     // Se as alteracoes do painel Admin tiverem sido apagadas por engano,
@@ -7084,7 +7084,13 @@ let PRODUCTS = [
       "<p style='color:#a89f8f;font-size:13.5px;line-height:1.7'>Suas alterações ficam salvas <b>somente neste navegador</b>. Para elas aparecerem no site que todos veem, <b>copie o texto abaixo e cole no chat</b> (ou baixe o arquivo .json e me envie).</p>" +
       (temAlgo
         ? "<p style='color:#3ecf8e;font-size:13.5px;font-weight:700'>✅ Encontrei: " + nProd + " prato(s), " + nCat + " categoria(s) e " + nSite + " texto(s) alterado(s).</p>" +
-          "<div style='display:flex;gap:10px;flex-wrap:wrap;margin:14px 0'>" +
+          "<div style='background:rgba(62,207,142,.08);border:1px solid rgba(62,207,142,.3);border-radius:14px;padding:14px;margin:6px 0 14px'>" +
+          "<div style='color:#8be0b0;font-weight:800;font-size:14px;margin-bottom:8px'>⚡ Opção que funciona no celular (não precisa colar):</div>" +
+          "<button onclick='window.__mngAdminCloud()' style='" + bm + ";background:linear-gradient(135deg,#8be0b0,#3ecf8e);color:#0d1a12'>☁️ Enviar e gerar código</button>" +
+          "<div id='mngCloudBox' style='margin-top:12px;color:#cbbf9f;font-size:13px'></div>" +
+          "</div>" +
+          "<p style='color:#a89f8f;font-size:12.5px;margin-bottom:6px'>Outras opções:</p>" +
+          "<div style='display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 14px'>" +
           "<button onclick=\"window.__mngAdminDownload('manganga-admin.json')\" style='" + bm + ";background:linear-gradient(135deg,#f8c25c,#e78e2f);color:#1a1408'>⬇️ Baixar .json</button>" +
           "<button onclick='window.__mngAdminCopy()' style='" + bm + ";background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e'>📋 Copiar tudo</button>" +
           "<button onclick='window.__mngAdminSelectAll()' style='" + bm + ";background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#f7f1e6'>🔤 Selecionar texto</button>" +
@@ -7166,6 +7172,41 @@ let PRODUCTS = [
       toast("Este navegador não compartilha. Use 'Baixar .json'.", "error");
     } catch (e) { toast("Não deu para compartilhar. Use 'Baixar .json'.", "error"); }
   }
+  function cloud() {
+    const box = $("#mngCloudBox");
+    const ovP = lsGet(LS_PRODUCTS, {});
+    const ovS = lsGet(LS_SITE, {});
+    const json = JSON.stringify({ products: ovP, site: ovS }, null, 2);
+    if (box) box.innerHTML = "<span style='color:#f2b33e'>Enviando… aguarde alguns segundos ⏳</span>";
+    const body = "content=" + encodeURIComponent(json) + "&format=url&expiry_days=30";
+    fetch("https://dpaste.com/api/v2/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: body
+    })
+      .then(function (r) { return r.text(); })
+      .then(function (txt) {
+        const url = (txt || "").trim().replace(/\s+/g, "");
+        const code = url.replace(/^.*\//, "");
+        if (!code || code.length < 3) throw new Error("resposta inesperada");
+        window.__mngLastCode = code;
+        if (box) {
+          box.innerHTML =
+            "<div style='color:#3ecf8e;font-weight:800;font-size:15px'>✅ Enviado com sucesso!</div>" +
+            "<div style='margin:10px 0'>Digite este código no chat do computador:</div>" +
+            "<div style='background:#14110d;border:1.5px solid rgba(62,207,142,.5);border-radius:12px;padding:16px;text-align:center'>" +
+            "<div style='font-size:26px;font-weight:900;letter-spacing:3px;color:#8be0b0;font-family:Consolas,monospace'>" + es(code) + "</div>" +
+            "</div>" +
+            "<div style='margin-top:8px;color:#a89f8f;font-size:12px'>Código: <b>" + es(code) + "</b> (também pode mandar o link abaixo)</div>" +
+            "<div style='word-break:break-all;color:#a89f8f;font-size:12px'>" + es(url) + "</div>";
+        }
+        toast("Enviado! Código: " + code);
+      })
+      .catch(function (e) {
+        if (box) box.innerHTML = "<span style='color:#ff6b6b'>Falhou: " + es(String(e && e.message ? e.message : e)) + ". Use '⬇️ Baixar .json'.</span>";
+        toast("Não consegui enviar. Use 'Baixar .json'.", "error");
+      });
+  }
   function clearAll() {
     localStorage.removeItem(LS_PRODUCTS);
     localStorage.removeItem(LS_SITE);
@@ -7218,6 +7259,7 @@ let PRODUCTS = [
   window.__mngAdminSelectAll = selectAll;
   window.__mngAdminRestore = restore;
   window.__mngAdminShare = share;
+  window.__mngAdminCloud = cloud;
   window.__mngAdminClear = clearAll;
   window.__mngLogoPick = function (f) {
     logoSel.value = "assets/photos/" + f;
