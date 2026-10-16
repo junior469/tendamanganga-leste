@@ -31,7 +31,7 @@
 <!-- Versao do site + recuperacao de dados do painel Admin salvos no navegador -->
 <script>
 (function () {
-  var BUILD = "1792109430156";
+  var BUILD = "1792110428569";
   try { window.__MNG_BUILD = BUILD; } catch (e) {}
   try {
     // Se as alteracoes do painel Admin tiverem sido apagadas por engano,
@@ -7088,6 +7088,7 @@ let PRODUCTS = [
           "<button onclick=\"window.__mngAdminDownload('manganga-admin.json')\" style='" + bm + ";background:linear-gradient(135deg,#f8c25c,#e78e2f);color:#1a1408'>⬇️ Baixar .json</button>" +
           "<button onclick='window.__mngAdminCopy()' style='" + bm + ";background:rgba(242,179,62,.14);border:1px solid rgba(242,179,62,.4);color:#f2b33e'>📋 Copiar tudo</button>" +
           "<button onclick='window.__mngAdminSelectAll()' style='" + bm + ";background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);color:#f7f1e6'>🔤 Selecionar texto</button>" +
+          "<button onclick='window.__mngAdminShare()' style='" + bm + ";background:linear-gradient(135deg,#8be0b0,#3ecf8e);color:#0d1a12'>📲 Compartilhar</button>" +
           "<button onclick='window.__mngAdminClear()' style='" + bm + ";background:transparent;border:1px solid rgba(255,107,107,.5);color:#ff6b6b'>🗑️ Zerar</button>" +
           "</div>" +
           "<p style='color:#a89f8f;font-size:12.5px;line-height:1.6'>💡 Se o “Copiar” não funcionar no celular: toque em <b>🔤 Selecionar texto</b>, depois <b>segure</b> sobre o texto e escolha <b>Copiar</b>.</p>" +
@@ -7144,6 +7145,27 @@ let PRODUCTS = [
       setTimeout(function () { location.reload(); }, 700);
     } catch (e) { toast("Não deu para recuperar.", "error"); }
   }
+  function share() {
+    const json = JSON.stringify({ products: lsGet(LS_PRODUCTS, {}), site: lsGet(LS_SITE, {}) }, null, 2);
+    try {
+      if (navigator.canShare && window.File) {
+        const file = new File([json], "manganga-admin.json", { type: "application/json" });
+        if (navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], title: "Tábuas Mangangá — alterações" })
+            .then(function () { toast("Enviado! 📲"); })
+            .catch(function () {});
+          return;
+        }
+      }
+      if (navigator.share) {
+        navigator.share({ title: "Tábuas Mangangá — alterações", text: json })
+          .then(function () { toast("Enviado! 📲"); })
+          .catch(function () {});
+        return;
+      }
+      toast("Este navegador não compartilha. Use 'Baixar .json'.", "error");
+    } catch (e) { toast("Não deu para compartilhar. Use 'Baixar .json'.", "error"); }
+  }
   function clearAll() {
     localStorage.removeItem(LS_PRODUCTS);
     localStorage.removeItem(LS_SITE);
@@ -7195,6 +7217,7 @@ let PRODUCTS = [
   window.__mngAdminCopy = copy;
   window.__mngAdminSelectAll = selectAll;
   window.__mngAdminRestore = restore;
+  window.__mngAdminShare = share;
   window.__mngAdminClear = clearAll;
   window.__mngLogoPick = function (f) {
     logoSel.value = "assets/photos/" + f;
